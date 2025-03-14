@@ -7,6 +7,8 @@ db.sqlite3
 media
 static
 project/local_settings.py
+/migrations
+migrations
 
 # Backup files # 
 *.bak 

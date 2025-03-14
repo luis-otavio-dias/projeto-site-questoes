@@ -90,6 +90,10 @@ DATABASES = {
         "PASSWORD": os.getenv("MYSQL_PASSWORD", "change-me"),
         "HOST": os.getenv("MYSQL_HOST", "change-me"),
         "PORT": os.getenv("MYSQL_PORT", "change-me"),
+        "OPTIONS": {
+            "charset": "utf8mb4",
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
