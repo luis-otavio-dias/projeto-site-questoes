@@ -9,23 +9,21 @@ class Theme(models.Model):
         return f"{self.name}"
 
 
-class Answer(models.Model):
-    question = models.ForeignKey(
-        "Question",
-        on_delete=models.CASCADE,
-        default=None,
-    )
-    options = models.CharField(max_length=1, default=None)
-    text = models.CharField(max_length=250, default=None)
-    # correct = models.CharField(max_length=1, blank=False)
-
-
 class Question(models.Model):
-    class Meta:
-        verbose_name = "Question"
-        verbose_name_plural = "Questions"
-
-    statement = models.TextField(blank=False)
-    # alternatives = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    stem = models.TextField(blank=False)
     correct_answer = models.CharField(max_length=1)
     theme = models.ForeignKey(Theme, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return f"{self.stem}"
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE, related_name="answer_options"
+    )
+    option = models.CharField(max_length=1)
+    option_text = models.TextField(max_length=250)
+
+    def __str__(self):
+        return f"{self.option} {self.option_text}"

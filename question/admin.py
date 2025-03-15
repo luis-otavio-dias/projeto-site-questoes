@@ -5,6 +5,7 @@ from question.models import Question, Theme, Answer
 # Register your models here.
 class AnswerLinkInLine(admin.TabularInline):
     model = Answer
+    extra = 4
 
 
 @admin.register(Theme)
@@ -14,5 +15,12 @@ class ThemeAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("statement", "correct_answer", "theme")
+    list_display = ("id", "stem", "correct_answer", "theme")
+    list_display_links = ("id", "stem")
+    delete_confirmation_template = (
+        "id",
+        "stem",
+        "correct_answer",
+        "theme",
+    )
     inlines = (AnswerLinkInLine,)
