@@ -1,20 +1,25 @@
 {% extends "global/base.html" %}
 
-{% block content %}
+{% block posts %}
   {% for question in questions %}
-    <div>
-      <h1>
-        {{ question.theme }}
-      </h1>
+    <div class="post">
+      
+      <p>
+        {{ question.id }}
+      </p>
+
       <h2>
-        {{ question }}
+        <a href="{% url "question:question" question.id %}">
+          {{ question }}
+        </a>
       </h2>
+
       {% for answer_option in question.answer_options.all %}
-        <h3>
-            {{ answer_option }}
-        </h3>
+        <p>
+            <b>{{ answer_option }}</b>
+        </p>
       {% endfor %}
+
     </div>
   {% endfor %}
-
-{% endblock content %}
+{% endblock posts %}

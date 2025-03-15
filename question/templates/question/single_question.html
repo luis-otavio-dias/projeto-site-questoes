@@ -1,1 +1,25 @@
 {% extends "global/base.html" %}
+
+{% block posts %}
+
+  <article class="post single-post">
+    <div>
+      
+      <p>
+        {{ single_question.theme }}
+      </p>
+
+      <h2>
+        {{ single_question }}
+      </h2>
+
+      {% for answer_option in single_question.answer_options.all %}
+        <p>
+            <b>{{ answer_option }}</b>
+        </p>
+      {% endfor %}
+
+    </div>
+  </article>
+
+{% endblock posts %}
