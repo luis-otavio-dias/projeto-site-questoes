@@ -1,0 +1,16 @@
+{% extends "global/base.html" %}
+
+{% block single_post %}
+
+<div class="post-box">
+  <h1>
+    {{ question }}
+  </h1>
+  <p>
+    {{ message }}
+  </p>
+  <a href="{% url "question:question" question.id %}">
+    Tentar Novamente
+  </a>
+</div>
+{% endblock single_post %}

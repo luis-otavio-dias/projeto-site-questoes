@@ -11,14 +11,14 @@
       {{ single_question }}
     </h1>
 
-    <form method="post">
+    <form method="post" action="{% url "question:answer_question" single_question.id %}">
       {% csrf_token %}
 
       {% for answer in single_question.answer_options.all %}
         <div>
           <input 
               type="radio" 
-              name="question_answer" 
+              name="reply" 
               id="answer{{ forloop.counter }}" 
               value="{{ answer.option }}"
           >

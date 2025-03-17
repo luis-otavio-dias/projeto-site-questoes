@@ -32,3 +32,33 @@ def question(request, question_id):
         "question/single_question.html",
         context,
     )
+
+
+def answer_question(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+
+    if request.method == "POST":
+        user_answer = request.POST.get("reply").strip().upper()
+
+        if user_answer == question.correct_answer:
+            message = "Você acertou!"
+        else:
+            message = f"Resposta incorreta! \
+                Alternativa correta {question.correct_answer}"
+
+        return render(
+            request,
+            "question/result.html",
+            {
+                "question": question,
+                "message": message,
+            },
+        )
+
+    return render(
+        request,
+        "question/question.html",
+        {
+            "question": question,
+        },
+    )
