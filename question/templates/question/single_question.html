@@ -2,24 +2,34 @@
 
 {% block single_post %}
 
-  <article class="post-box"> 
-    <div>
-      
-      <p>
-        {{ single_question.theme }} | {{ single_question.edition }}
-      </p>
+  <div class="post-box">
+    <p>
+      {{ single_question.theme }} | {{ single_question.edition }}
+    </p>
 
-      <h2>
-        {{ single_question }}
-      </h2>
+    <h1>
+      {{ single_question }}
+    </h1>
 
-      {% for answer_option in single_question.answer_options.all %}
-        <p>
-          <b>{{ answer_option }}</b>
-        </p>
+    <form method="post">
+      {% csrf_token %}
+
+      {% for answer in single_question.answer_options.all %}
+        <div>
+          <input 
+              type="radio" 
+              name="question_answer" 
+              id="answer{{ forloop.counter }}" 
+              value="{{ answer.option }}"
+          >
+          <label for="answer{{ forloop.counter }}">
+              {{ answer.option }})  {{ answer.option_text }}
+          </label>
+        </div>
       {% endfor %}
-
-    </div>
-  </article>
+      <button class="btn btn-link" type="submit">Enviar Resposta</button>
+    </form>
+ 
+  </div>
 
 {% endblock single_post %}

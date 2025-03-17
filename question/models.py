@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 # Create your models here.
@@ -36,6 +37,16 @@ class Question(models.Model):
 
     def __str__(self):
         return f"{self.stem}"
+
+    def clean(self):
+        super.clean()
+
+        options_list = [ans.option for ans in self.answer_options.all()]
+
+        if self.correct_answer not in options_list:
+            raise ValidationError(
+                "A alternativa correta não está entre as opções",
+            )
 
 
 class Answer(models.Model):
