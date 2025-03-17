@@ -1,12 +1,12 @@
 {% extends "global/base.html" %}
 
-{% block posts %}
+{% block single_post %}
 
-  <article class="post single-post">
+  <article class="post-box"> 
     <div>
       
       <p>
-        {{ single_question.theme }}
+        {{ single_question.theme }} | {{ single_question.edition }}
       </p>
 
       <h2>
@@ -15,11 +15,11 @@
 
       {% for answer_option in single_question.answer_options.all %}
         <p>
-            <b>{{ answer_option }}</b>
+          <b>{{ answer_option }}</b>
         </p>
       {% endfor %}
 
     </div>
   </article>
 
-{% endblock posts %}
+{% endblock single_post %}

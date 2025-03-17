@@ -3,10 +3,14 @@
 <head>
   {% include "global/partials/_head.html" %}
 </head>
-<body class="content">
+<body>
+    <div class="content">
+      {% block posts %}{% endblock posts %}
+    </div>
 
-  {% block posts %}{% endblock posts %}
-  
+    <div>
+      {% block single_post %}{% endblock single_post %}
+    </div>
 </body>
 </html>
 
