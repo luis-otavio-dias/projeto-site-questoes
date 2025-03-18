@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from question.models import Question
+from question.forms import AnswerForm
 
 
 # Create your views here.
@@ -20,10 +21,12 @@ def index(request):
 
 def question(request, question_id):
     single_question = get_object_or_404(Question, pk=question_id)
+    form = AnswerForm(single_question.answer_options.all())
     site_title = f"{single_question.id}"
 
     context = {
         "single_question": single_question,
+        "form": form,
         "site_title": site_title,
     }
 
@@ -36,9 +39,10 @@ def question(request, question_id):
 
 def answer_question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    form = AnswerForm(question.answer_options.all(), request.POST)
 
-    if request.method == "POST":
-        user_answer = request.POST.get("reply").strip().upper()
+    if form.is_valid():
+        user_answer = form.cleaned_data["reply"]
         user_is_right = False
 
         if user_answer == question.correct_answer:
