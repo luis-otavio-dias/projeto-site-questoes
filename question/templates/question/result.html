@@ -9,8 +9,14 @@
   <p>
     {{ message }}
   </p>
-  <a href="{% url "question:question" question.id %}">
-    Tentar Novamente
-  </a>
+  {% if is_right %}
+    <a href="{% url "question:index" %}">
+      Retornar para as questões
+    </a>
+  {% else %}
+    <a href="{% url "question:question" question.id %}">
+      Tentar Novamente
+    </a>
+  {% endif %}
 </div>
 {% endblock single_post %}

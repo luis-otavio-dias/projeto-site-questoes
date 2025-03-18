@@ -39,9 +39,11 @@ def answer_question(request, question_id):
 
     if request.method == "POST":
         user_answer = request.POST.get("reply").strip().upper()
+        user_is_right = False
 
         if user_answer == question.correct_answer:
             message = "Você acertou!"
+            user_is_right = True
         else:
             message = f"Resposta incorreta! \
                 Alternativa correta {question.correct_answer}"
@@ -52,6 +54,7 @@ def answer_question(request, question_id):
             {
                 "question": question,
                 "message": message,
+                "is_right": user_is_right,
             },
         )
 
