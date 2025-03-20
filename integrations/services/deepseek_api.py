@@ -14,7 +14,7 @@ client = OpenAI(
 )
 
 
-def send_message(message, messages_list):
+def send_message(message, messages_list=[]):
     messages_list.append(
         {
             "role": "user",

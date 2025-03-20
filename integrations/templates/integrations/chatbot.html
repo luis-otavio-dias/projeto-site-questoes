@@ -1,0 +1,17 @@
+{% extends "global/base.html" %}
+
+{% block chat_bot %}
+  <div class="post-box">
+    <h1>Chatbot</h1>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-link" type="submit">Enviar</button>
+    </form>
+
+    {% if response %}
+      <h3>Resposta Chatbot: </h3>
+      <p>{{ response }}</p>
+    {% endif %}
+  </div>
+{% endblock chat_bot %}
