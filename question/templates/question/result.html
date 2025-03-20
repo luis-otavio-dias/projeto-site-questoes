@@ -2,7 +2,7 @@
 
 {% block single_post %}
 
-<div class="post-box blue">
+<div class="post-box">
   <h1>
     {{ question }}
   </h1>
@@ -10,11 +10,11 @@
     {{ message }}
   </p>
   {% if is_right %}
-    <a href="{% url "question:index" %}">
+    <a href="{% url "question:index" %}" class="link-blue">
       Retornar para as questões
     </a>
   {% else %}
-    <a href="{% url "question:question" question.id %}">
+    <a href="{% url "question:question" question.id %}" class="link-blue">
       Tentar Novamente
     </a>
   {% endif %}

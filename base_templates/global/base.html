@@ -4,13 +4,13 @@
   {% include "global/partials/_head.html" %}
 </head>
 <body>
-    <div class="content">
-      {% block posts %}{% endblock posts %}
-    </div>
+    {% include "global/partials/_header.html" %}
 
-    <div>
+    <main class="content">
+      {% block posts %}{% endblock posts %}
+    
       {% block single_post %}{% endblock single_post %}
-    </div>
+    </main>
 </body>
 </html>
 
