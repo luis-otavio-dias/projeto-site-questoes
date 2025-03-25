@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from user.forms import RegisterForm
 
 
@@ -6,11 +7,15 @@ from user.forms import RegisterForm
 def register(request):
     form = RegisterForm()
 
+    messages.info(request, "texto qualquer")
+
     if request.method == "POST":
         form = RegisterForm(request.POST)
 
         if form.is_valid():
             form.save()
+            messages.success(request, "Usuário registrado")
+            return redirect("question:index")
 
     context = {
         "form": form,
