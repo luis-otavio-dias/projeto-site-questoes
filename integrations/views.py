@@ -21,4 +21,8 @@ def chat_bot(request):
         "response": response,
     }
 
-    return render(request, "integrations/chatbot.html", context)
+    return render(request, "integrations/chat.html", context)
+
+
+# def chat(request):
+#     return render(request, "integrations/chat.html")

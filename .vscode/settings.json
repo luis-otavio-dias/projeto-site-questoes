@@ -33,9 +33,6 @@
     },
     "emmet.triggerExpansionOnTab": true,
     "git.enableSmartCommit": true,
-    "[c]": {
-        "editor.defaultFormatter": "ms-vscode.cpptools"
-    },
     "git.confirmSync": false,
     "window.customTitleBarVisibility": "windowed",
     "explorer.fileNesting.patterns": {
@@ -54,7 +51,8 @@
     },
     "[django-html]": {
         "editor.tabSize": 2,
-        "editor.indentSize": "tabSize"
+        "editor.indentSize": "tabSize",
+        "editor.detectIndentation": false,
     },
     "[css]": {
         "editor.renderWhitespace": "all",

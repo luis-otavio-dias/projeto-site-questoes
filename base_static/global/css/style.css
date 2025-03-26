@@ -80,10 +80,11 @@ a {
 
 
 .header {
-  background: var(--clr-black);
-  padding: var(--spacing);
-  box-shadow: 0 5px 10px 2px var(--clr-dark-shadow-20);
-  z-index: 1;
+  background: #000;
+  height: 80 px;
+  padding: 0.5rem;
+  box-shadow: 0 5px 10px 2px rgba(0, 0, 10, 0.2);
+  z-index: 10;
   position: relative;
 }
 

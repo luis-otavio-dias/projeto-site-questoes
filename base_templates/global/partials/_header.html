@@ -1,9 +1,9 @@
 <header class="header">
-  <h1 class="header-heading">
+  {% comment %} <h1 class="header-heading">
     <a href="{% url "question:index" %}" class="header-link">
       Questoes
     </a>
-  </h1>
+  </h1> {% endcomment %}
 
   <nav class="menu">
     <ul class="menu-list">
@@ -11,7 +11,10 @@
         <a href="{% url "question:index" %}" class="menu-link">Início</a>
       </li>
       <li class="menu-item">
-        <a href="{% url "integrations:chat_bot" %}" class="menu-link">Chat Bot</a>
+        <a href="{% url "integrations:chat" %}" class="menu-link">Chat Bot</a>
+      </li>
+      <li class="menu-item">
+        <a href="{% url "user:login" %}" class="menu-link">Login</a>
       </li>
   </nav>
 </header>

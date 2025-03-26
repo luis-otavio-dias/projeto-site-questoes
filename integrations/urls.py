@@ -4,5 +4,6 @@ from integrations import views
 app_name = "integrations"
 
 urlpatterns = [
-    path("chatbot/", views.chat_bot, name="chat_bot"),
+    # path("chatbot/", views.chat_bot, name="chat_bot"),
+    path("chat/", views.chat_bot, name="chat_bot"),
 ]
