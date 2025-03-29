@@ -15,7 +15,6 @@
         <header class="chat-header">
             <div class="chat-header-info">
                 <h1>Chat Template</h1>
-                <p class="status">Online</p>
             </div>
             <div class="chat-header-actions">
                 <button class="icon-button">
@@ -30,72 +29,73 @@
             <div class="message received">
                 <div class="message-content">
                     <div class="message-bubble">
-                        Hello! How can I help you today?
+                        Hello!
                     </div>
+                    <div class="message-info">
+                      <span class="message-time">{{ timestamp }}</span>
+                  </div>
                 </div>
             </div>
+            
 
-            <!-- Sent Message -->
+          {% if sent_message %}
             <div class="message sent">
-                <div class="message-content">
-                    <div class="message-bubble">
-                        I'm looking for information about building chat interfaces with HTML and CSS.
-                    </div>
-                </div>
-            </div>
-
-            <!-- Received Message with Multiple Bubbles -->
-            <div class="message received">
-                <div class="message-content">
-                    <div class="message-bubble">
-                        Great question! When building chat interfaces, it's important to consider:
-                    </div>
-                    <div class="message-bubble">
-                        1. Message layout and alignment
-                        2. Visual distinction between sent and received messages
-                        3. Responsive design for different screen sizes
-                        4. Input area accessibility
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sent Message -->
-            <div class="message sent">
-                <div class="message-content">
-                    <div class="message-bubble">
-                        That's helpful, thanks! This template looks great.
-                    </div>
-                </div>
+              <div class="message-content">
+                  <div class="message-bubble">
+                      {{ user_message }}
+                  </div>
+                  <div class="message-info">
+                    <span class="message-time">{{ timestamp }}</span>
+                  </div>
+              </div>
             </div>
 
             <!-- Typing Indicator -->
+          <div class="message received">
+            <div class="message-content">
+              <div class="message-bubble typing">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+          </div>
+
+          {% endif %}
+          
+          {% if response %}
             <div class="message received">
-
-                <div class="message-content">
-                    <div class="message-bubble typing">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </div>
-                </div>
+              <div class="message-content">
+                  <div class="message-bubble">
+                      {{ response|default:"" }}
+                  </div>
+                  <div class="message-info">
+                    <span class="message-time"> {{ timestamp }} </span>
+                  </div>
+              </div>
             </div>
+          {% endif %}
+
         </div>
+      
+      
+      
+      <!-- Input Area -->
+      <form action="{{ form_action }}" method="POST">
+      {% csrf_token %}
+        <div class="input-container">
+          <div class="input-wrapper">
+            {% for field in form %}
+              <label for="{{ field.id_for_label }}">{{field.label}}</label>
+              {{ field }}
+            {% endfor %}
+          </div>
+          <button class="send-button" type="submit"> 
+              <i class="fas fa-paper-plane"></i>
+          </button>
+        </div> 
+      </form>
 
-        <!-- Input Area -->
-        <form action="{{ form_action }}" method="POST">
-        {% csrf_token %}
-          <div class="input-container">
-            <div class="input-wrapper">
-              {% for field in form %}
-                <label for="{{ field.id_for_label }}">{{field.label}}</label>
-                {{field}}
-              {% endfor %}
-            </div>
-            <button class="send-button"> 
-                <i class="fas fa-paper-plane"></i>
-            </button>
-          </div> 
-        </form>
     </div>
 </body>
 </html>
