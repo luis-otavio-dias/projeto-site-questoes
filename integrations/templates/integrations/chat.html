@@ -3,35 +3,39 @@
 {% block body_class %}chat-page{% endblock %}
 
 {% block chat %}
-    <div class="chat-container">
-        <h1>{{ site_title }}</h1>
-        <div class="messages-container">
-          {% if is_clear %}
-            <p><b> {{ response }} </b></p>
-          {% endif %}
-            {% for message in messages %}
-                <div class="chat-message sent">
-                    <div class="message-bubble">
-                        <strong>You:</strong> {{ message.user_message }}
-                    </div>
-                </div>
-                <div class="chat-message received">
-                    <div class="message-bubble">
-                        <strong>Bot:</strong> {{ message.bot_message }}
-                    </div>
-                </div>
-            {% empty %}
-                <p>No messages yet. Start the conversation!</p>
-            {% endfor %}
-        </div>
-        <div class="input-container">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="input-wrapper">
-                    {{ form.message }}
-                </div>
-                <button type="submit" class="send-button">Send</button>
-            </form>
-        </div>
-    </div>
+  <div class="chat-container">
+      <div class="messages-container">
+        {% if is_clear %}
+          <p><b>{{ response }}</b></p>
+        {% endif %}
+        {% for message in chat_messages %}
+          <div class="chat-message sent">
+            <div class="message-bubble">
+              <strong></strong> {{ message.user_message }}
+            </div>
+          </div>
+          <div class="chat-message received">
+            <div class="message-bubble">
+              <strong></strong> {{ message.bot_message }}
+            </div>
+          </div>
+        {% empty %}
+            <p>Olá, como posso te ajudar?</p>
+        {% endfor %}
+      </div>
+      <div class="input-container">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="input-wrapper">
+            {{ form.message }}
+          </div>
+          {% comment %} <button type="submit" class="send-button">Send</button> {% endcomment %}
+          <button type="submit" class="send-button">
+            Enviar
+          </button>
+        </form>
+      </div>
+  </div>    
 {% endblock chat %}
+
+{% block content %}{% endblock content %}
