@@ -1,101 +1,37 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Template</title>
-    <link rel="stylesheet" href="{% static "global/css/chat.css" %}"> 
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+{% extends "global/base.html" %}
+
+{% block body_class %}chat-page{% endblock %}
+
+{% block chat %}
     <div class="chat-container">
-        <!-- Chat Header -->
-        <header class="chat-header">
-            <div class="chat-header-info">
-                <h1>Chat Template</h1>
-            </div>
-            <div class="chat-header-actions">
-                <button class="icon-button">
-                    <i class="fas fa-ellipsis-v"></i>
-                </button>
-            </div>
-        </header>
-
-        <!-- Messages Area -->
+        <h1>{{ site_title }}</h1>
         <div class="messages-container">
-            <!-- Received Message -->
-            <div class="message received">
-                <div class="message-content">
+          {% if is_clear %}
+            <p><b> {{ response }} </b></p>
+          {% endif %}
+            {% for message in messages %}
+                <div class="chat-message sent">
                     <div class="message-bubble">
-                        Hello!
+                        <strong>You:</strong> {{ message.user_message }}
                     </div>
-                    <div class="message-info">
-                      <span class="message-time">{{ timestamp }}</span>
-                  </div>
                 </div>
-            </div>
-            
-
-          {% if sent_message %}
-            <div class="message sent">
-              <div class="message-content">
-                  <div class="message-bubble">
-                      {{ user_message }}
-                  </div>
-                  <div class="message-info">
-                    <span class="message-time">{{ timestamp }}</span>
-                  </div>
-              </div>
-            </div>
-
-            <!-- Typing Indicator -->
-          <div class="message received">
-            <div class="message-content">
-              <div class="message-bubble typing">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-              </div>
-            </div>
-          </div>
-
-          {% endif %}
-          
-          {% if response %}
-            <div class="message received">
-              <div class="message-content">
-                  <div class="message-bubble">
-                      {{ response|default:"" }}
-                  </div>
-                  <div class="message-info">
-                    <span class="message-time"> {{ timestamp }} </span>
-                  </div>
-              </div>
-            </div>
-          {% endif %}
-
-        </div>
-      
-      
-      
-      <!-- Input Area -->
-      <form action="{{ form_action }}" method="POST">
-      {% csrf_token %}
-        <div class="input-container">
-          <div class="input-wrapper">
-            {% for field in form %}
-              <label for="{{ field.id_for_label }}">{{field.label}}</label>
-              {{ field }}
+                <div class="chat-message received">
+                    <div class="message-bubble">
+                        <strong>Bot:</strong> {{ message.bot_message }}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No messages yet. Start the conversation!</p>
             {% endfor %}
-          </div>
-          <button class="send-button" type="submit"> 
-              <i class="fas fa-paper-plane"></i>
-          </button>
-        </div> 
-      </form>
-
+        </div>
+        <div class="input-container">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="input-wrapper">
+                    {{ form.message }}
+                </div>
+                <button type="submit" class="send-button">Send</button>
+            </form>
+        </div>
     </div>
-</body>
-</html>
+{% endblock chat %}

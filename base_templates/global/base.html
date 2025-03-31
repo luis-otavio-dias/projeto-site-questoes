@@ -3,11 +3,11 @@
 <head>
   {% include "global/partials/_head.html" %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock  %}">
     {% include "global/partials/_header.html" %}
     {% include "global/partials/_messages.html" %}
     
-    
+    {% block chat %}{% endblock chat %}
     <main class="content">
       {% block chat_bot %}{% endblock chat_bot %}
 
