@@ -9,7 +9,7 @@ def index(request):
 
     context = {
         "questions": questions,
-        "site_title": "Title - ",
+        "site_title": "Início",
     }
 
     return render(

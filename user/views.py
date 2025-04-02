@@ -9,15 +9,13 @@ from user.forms import RegisterForm
 def register(request):
     form = RegisterForm()
 
-    messages.info(request, "texto qualquer")
-
     if request.method == "POST":
         form = RegisterForm(request.POST)
 
         if form.is_valid():
             form.save()
             messages.success(request, "Usuário registrado")
-            return redirect("question:index")
+            return redirect("user:login")
 
     context = {
         "form": form,
@@ -25,7 +23,7 @@ def register(request):
 
     return render(
         request,
-        "user/user_register.html",
+        "user/register.html",
         context,
     )
 
@@ -57,5 +55,4 @@ def login_view(request):
 @login_required(login_url="user:login")
 def logout_view(request):
     auth.logout(request)
-
     return redirect("user:login")
