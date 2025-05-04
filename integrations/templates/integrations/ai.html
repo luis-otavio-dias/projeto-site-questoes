@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    {% comment %} {% include "global/partials/_head.html" %} {% endcomment %}
+    <link rel="stylesheet" href={% static "global/css/chat.css" %}>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="chat-container">
+        <!-- Chat Header -->
+        <header class="chat-header">
+            <div class="chat-header-info">
+                <h1>Chat Template</h1>
+            </div>
+        </header>
+
+        <!-- Messages Area -->
+        <div class="messages-container">
+            <!-- Received Message -->
+            <div class="message received">
+                <div class="message-content">
+                    <div class="message-bubble">
+                        Hello! How can I help you today?
+                    </div>
+                    <div class="message-info">
+                        <span class="message-time">10:05 AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sent Message -->
+            <div class="message sent">
+                <div class="message-content">
+                    <div class="message-bubble">
+                        
+                    </div>
+                    <div class="message-info">
+                        <span class="message-time">10:07 AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Received Message with Multiple Bubbles -->
+            <div class="message received">
+                <div class="message-content">
+                    <div class="message-bubble">
+                    
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="message received">
+                <div class="message-avatar">
+                    <img src="/placeholder.svg?height=40&width=40" alt="Avatar">
+                </div>
+                <div class="message-content">
+                    <div class="message-bubble typing">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <form method="POST" action={% url "integrations:ai_chat" %}>
+          <div class="input-container">
+              {% csrf_token %}
+              <div class="input-wrapper">
+                  <input name="question" id="question" type="text" placeholder="Type a message..." class="message-input">
+              </div>
+              <button class="send-button">
+                  <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

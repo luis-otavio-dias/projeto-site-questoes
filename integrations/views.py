@@ -3,6 +3,8 @@ from django.utils.timezone import now
 from integrations.forms import ChatBotForm
 from integrations.models import ChatMessage
 from integrations.services import deepseek_api as ds
+from integrations.services import test
+from django.http import HttpResponse, StreamingHttpResponse
 
 
 # Create your views here.
@@ -45,3 +47,21 @@ def chat_bot(request):
     }
 
     return render(request, "integrations/chat.html", context)
+
+
+def ai_chat(request):
+    if request.method == "GET":
+        return render(request, "integrations/ai.html")
+    elif request.method == "POST":
+        question = request.POST.get("question")
+
+        def stream_result():
+            result = test.ai_connect(question)
+
+            for chunk in result:
+                yield chunk
+
+        response_server = StreamingHttpResponse(stream_result())
+        response_server["Cache-Control"] = "no-cache"
+        response_server["X-accel-Buffering"] = "no"
+        return response_server

@@ -7,8 +7,9 @@
     {% include "global/partials/_header.html" %}
     {% include "global/partials/_messages.html" %}
     
-    {% block chat %}{% endblock chat %}
     <main class="content">
+      {% block chat %}{% endblock chat %}
+      
       {% block posts %}{% endblock posts %}
     
       {% block single_post %}{% endblock single_post %}

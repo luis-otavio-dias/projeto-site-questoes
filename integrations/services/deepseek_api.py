@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 load_dotenv(BASE_DIR / "dotenv-files" / ".env")
 
 
@@ -29,3 +29,10 @@ def send_message(message):
     )
 
     return response.choices[0].message.content
+
+
+# while True:
+#     user_input = input("Voce: ")
+#     response = send_message(user_input)
+
+#     print(response)
