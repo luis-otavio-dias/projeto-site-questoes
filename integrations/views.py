@@ -4,7 +4,9 @@ from integrations.forms import ChatBotForm
 from integrations.models import ChatMessage
 from integrations.services import deepseek_api as ds
 from integrations.services import test
-from django.http import HttpResponse, StreamingHttpResponse
+
+# from django.http import StreamingHttpResponse
+# from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -35,7 +37,9 @@ def chat_bot(request):
     else:
         form = ChatBotForm()
 
-    chat_messages = ChatMessage.objects.order_by("timestamp")
+    chat_messages = ChatMessage.objects.order_by(
+        "-timestamp"
+    )  # Changed to descending order
 
     context = {
         "site_title": "Virtual Assistant",
@@ -50,18 +54,35 @@ def chat_bot(request):
 
 
 def ai_chat(request):
-    if request.method == "GET":
-        return render(request, "integrations/ai.html")
-    elif request.method == "POST":
-        question = request.POST.get("question")
+    if request.method == "POST":
+        form = ChatBotForm(request.POST)
 
-        def stream_result():
-            result = test.ai_connect(question)
+        if form.is_valid():
+            user_message = form.cleaned_data["message"]
+            user_message = user_message.strip()
 
-            for chunk in result:
-                yield chunk
+            response = test.ai_connect(user_message)
 
-        response_server = StreamingHttpResponse(stream_result())
-        response_server["Cache-Control"] = "no-cache"
-        response_server["X-accel-Buffering"] = "no"
-        return response_server
+            ChatMessage.objects.create(
+                user_message=user_message,
+                bot_message=response,
+            )
+            form = ChatBotForm()
+    else:
+        form = ChatBotForm()
+        # def stream_result():
+        #     result = test.ai_connect(question)
+        #     for chunk in result:
+        #         yield chunk
+    chat_messages = ChatMessage.objects.order_by(
+        "-timestamp"
+    )  # Changed to descending order
+
+    return render(
+        request,
+        "integrations/ai.html",
+        context={
+            "form": form,
+            "chat_messages": chat_messages,
+        },
+    )
