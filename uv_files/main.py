@@ -1,5 +1,5 @@
 def main():
-    print("Hello from projeto-site-questoes!")
+    print("Hello from uv-files!")
 
 
 if __name__ == "__main__":

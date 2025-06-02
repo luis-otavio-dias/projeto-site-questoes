@@ -1,5 +1,5 @@
 from django.urls import path
-from question import views
+from project.apps.question import views
 
 app_name = "question"
 

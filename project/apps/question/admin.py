@@ -1,5 +1,5 @@
 from django.contrib import admin
-from question.models import Question, Theme, Answer, Edition
+from project.apps.question.models import Question, Theme, Answer, Edition
 
 
 # Register your models here.

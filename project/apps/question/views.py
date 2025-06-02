@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from question.models import Question
-from question.forms import AnswerForm
+from project.apps.question.models import Question
+from project.apps.question.forms import AnswerForm
 
 
 # Create your views here.
