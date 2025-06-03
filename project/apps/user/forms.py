@@ -5,15 +5,31 @@ from django.core.exceptions import ValidationError
 
 
 class RegisterForm(UserCreationForm):
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["first_name"].widget.attrs.update(
+            {
+                "placeholder": "Primeiro nome",
+            },
+        )
+        self.fields["email"].widget.attrs.update(
+            {"placeholder": "E-mail"},
+        )
+        self.fields["username"].widget.attrs.update(
+            {"placeholder": "Username"},
+        )
+        # self.fields["username"].widget.get_context({"help_text": "new"})
+        self.fields["password1"].widget.attrs.update(
+            {"placeholder": "Senha"},
+        )
+        self.fields["password2"].widget.attrs.update(
+            {"placeholder": "Confirmar senha"},
+        )
 
     class Meta:
         model = User
         fields = [
             "first_name",
-            "last_name",
             "email",
             "username",
             "password1",

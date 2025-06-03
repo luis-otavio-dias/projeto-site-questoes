@@ -17,9 +17,7 @@ def register(request):
             messages.success(request, "Usuário registrado")
             return redirect("user:login")
 
-    context = {
-        "form": form,
-    }
+    context = {"form": form}
 
     return render(
         request,
@@ -41,9 +39,7 @@ def login_view(request):
             return redirect("question:index")
         messages.error(request, "Login inválido")
 
-    context = {
-        "form": form,
-    }
+    context = {"form": form}
 
     return render(
         request,
