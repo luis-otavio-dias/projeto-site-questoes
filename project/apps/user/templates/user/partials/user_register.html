@@ -6,7 +6,10 @@
       <label for="{{ field.id_for_label }}" class="input-label"
       >
       {{ field }} {{ field.errors }} {% if field.help_text %}
-      <p class="help-text">{{ field.help_text }}</p>
+      {% for help_text in field.help_text  %}
+        <p class="help-text">{{ help_text }}</p>
+      {% endfor %}
+      
       {% endif %}
     </div>
     {% endfor %}

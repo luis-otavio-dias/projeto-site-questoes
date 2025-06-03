@@ -5,26 +5,47 @@ from django.core.exceptions import ValidationError
 
 
 class RegisterForm(UserCreationForm):
+    first_name = forms.CharField(
+        max_length=60,
+        min_length=2,
+        required=False,
+        error_messages={
+            "min_length": "Seu nome precisa ter pelo menos 2 letras.",
+            "max_lenght": "Seu nome não pode ultrapassar 60 letras.",
+        },
+        widget=forms.TextInput({"placeholder": "Nome"}),
+    )
+
+    username = forms.CharField(
+        max_length=60,
+        min_length=2,
+        required=True,
+        help_text=("Obrigatório. Letras, números e @/./+/-/_ apenas.",),
+        error_messages={
+            "min_length": "Seu username precisa ter pelo menos 2 caracteres.",
+            "max_lenght": "Seu username não pode ter mais de 60 caracteres. ",
+        },
+        widget=forms.TextInput({"placeholder": "Username"}),
+    )
+
+    password1 = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput({"placeholder": "Senha"}),
+        help_text=(
+            "Sua senha precisa conter pelo menos 8 caracteres.",
+            "Sua senha não pode ser inteiramente numérica.",
+        ),
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["first_name"].widget.attrs.update(
-            {
-                "placeholder": "Primeiro nome",
-            },
-        )
         self.fields["email"].widget.attrs.update(
             {"placeholder": "E-mail"},
-        )
-        self.fields["username"].widget.attrs.update(
-            {"placeholder": "Username"},
-        )
-        # self.fields["username"].widget.get_context({"help_text": "new"})
-        self.fields["password1"].widget.attrs.update(
-            {"placeholder": "Senha"},
         )
         self.fields["password2"].widget.attrs.update(
             {"placeholder": "Confirmar senha"},
         )
+        self.fields["password2"].help_text = ("Insira a senha novamente.",)
 
     class Meta:
         model = User
