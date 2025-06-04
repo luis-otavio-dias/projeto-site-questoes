@@ -67,3 +67,17 @@ class RegisterForm(UserCreationForm):
             )
 
         return email
+
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+
+        if User.objects.filter(username=username).exists():
+            self.add_error(
+                "username",
+                ValidationError(
+                    "Esse username já está em uso.",
+                    code="invalid",
+                ),
+            )
+
+        return username

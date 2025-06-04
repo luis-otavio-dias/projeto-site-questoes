@@ -5,11 +5,17 @@
     <div class="input-box">
       <label for="{{ field.id_for_label }}" class="input-label"
       >
-      {{ field }} {{ field.errors }} {% if field.help_text %}
-      {% for help_text in field.help_text  %}
-        <p class="help-text">{{ help_text }}</p>
-      {% endfor %}
-      
+      {{ field }}
+      {% if field.errors %}
+        {% for error in field.errors %}
+          <li class="error-message"> {{error}} </li>
+        {% endfor %}
+      {% endif %}
+
+      {% if field.help_text %}
+        {% for help_text in field.help_text  %}
+          <li class="help-text">{{ help_text }}</li>
+        {% endfor %} 
       {% endif %}
     </div>
     {% endfor %}

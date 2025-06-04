@@ -48,7 +48,7 @@ body {
 
 .input-box {
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .input-box input {
@@ -72,6 +72,8 @@ body {
   color: rgba(163, 163, 163, 0.959);
   margin-left: 5px;
   font-weight: 700;
+  list-style-type: none;
+  margin-top: 5px;
 }
 
 .btn-send {
@@ -107,4 +109,14 @@ body {
 .account-link a:hover {
   color: rgba(188, 188, 188, 0.851);
   text-decoration: underline;
+}
+
+.error-message {
+  list-style-type: none;
+  color: #8d0505e0;
+  /* padding-bottom: 5px; */
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 5px;
+  margin-top: 1.5%;
 }
