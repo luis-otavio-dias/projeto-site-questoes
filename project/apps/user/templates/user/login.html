@@ -1,8 +1,6 @@
-{% extends "global/base.html" %}
+{% extends "user/base.html" %}
 
 {% block content %}
-
-  <h2>Login</h2>
 
   {% if user.is_authenticated %}
     <p>
@@ -10,9 +8,15 @@
       Clique <a href="{% url "user:logout" %}">aqui</a> para sair
     </p>
   {% else %}
+
     <div class="form-wrapper">
+      <h1>Entre com sua conta</h1>
       {% include "user/partials/user_register.html" %}
+      <div class="account-link">
+        <p>Não tem conta? <a href="{% url "user:register" %}">Crie por aqui</a></p>
+      </div>
     </div>
+
   {% endif %}
 
 {% endblock content %}

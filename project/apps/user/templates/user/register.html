@@ -3,6 +3,9 @@
 <div class="form-wrapper">
   <h1>Crie sua conta</h1>
   {% include "user/partials/user_register.html" %}
+  <div class="account-link">
+    <p>Já tem uma conta? <a href="{% url "user:login" %}">Faça login por aqui</a></p>
+  </div>
 </div>
 
 {% endblock content %}

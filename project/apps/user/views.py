@@ -2,10 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from project.apps.user.forms import RegisterForm
+from project.apps.user.forms import RegisterForm, AuthForm
 
 
-# Create your views here.
 def register(request):
     form = RegisterForm()
 
@@ -17,7 +16,10 @@ def register(request):
             messages.success(request, "Usuário registrado")
             return redirect("user:login")
 
-    context = {"form": form}
+    context = {
+        "form": form,
+        "site_title": "Crie sua conta",
+    }
 
     return render(
         request,
@@ -27,7 +29,7 @@ def register(request):
 
 
 def login_view(request):
-    form = AuthenticationForm(request)
+    form = AuthForm(request)
 
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -39,7 +41,10 @@ def login_view(request):
             return redirect("question:index")
         messages.error(request, "Login inválido")
 
-    context = {"form": form}
+    context = {
+        "form": form,
+        "site_title": "Faça seu login",
+    }
 
     return render(
         request,

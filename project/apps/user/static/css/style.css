@@ -15,18 +15,6 @@ body {
   position: relative;
 }
 
-#form-content {
-  max-width: 700px;
-  width: auto;
-  background-color: whitesmoke;
-  margin: 80px auto;
-  padding: 8px;
-  position: relative;
-  border: 1px solid black;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.362);
-  border-radius: 10px;
-}
-
 .form-wrapper {
   width: 500px;
   background-color: rgba(255, 255, 255, 0.15);

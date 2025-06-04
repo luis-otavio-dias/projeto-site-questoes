@@ -21,9 +21,10 @@
     {% endfor %}
   </div>
   <div>
-    <p><button class="btn-send" type="submit">Concluir</button></p>
-  </div>
-  <div class="account-link">
-    <p>Já tem uma conta? <a href="{% url "user:login" %}">Faça login por aqui</a></p>
+    {% if site_title == "Crie sua conta" %}
+      <p><button class="btn-send" type="submit">Concluir</button></p>
+    {% else %}
+      <p><button class="btn-send" type="submit">Entrar</button></p>
+    {% endif %}
   </div>
 </form>
