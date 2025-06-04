@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from project.apps.user.forms import RegisterForm, AuthForm
 
@@ -21,36 +20,29 @@ def register(request):
         "site_title": "Crie sua conta",
     }
 
-    return render(
-        request,
-        "user/register.html",
-        context,
-    )
+    return render(request, "user/register.html", context)
 
 
 def login_view(request):
     form = AuthForm(request)
 
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = AuthForm(request, data=request.POST)
 
         if form.is_valid():
             user = form.get_user()
             auth.login(request, user)
-            messages.success(request, "Usuário logado")
             return redirect("question:index")
-        messages.error(request, "Login inválido")
+
+        messages.error(request, "Username ou senha inválidos")
+        return redirect("user:login")
 
     context = {
         "form": form,
         "site_title": "Faça seu login",
     }
 
-    return render(
-        request,
-        "user/login.html",
-        context,
-    )
+    return render(request, "user/login.html", context)
 
 
 @login_required(login_url="user:login")

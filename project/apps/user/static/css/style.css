@@ -99,12 +99,48 @@ body {
   text-decoration: underline;
 }
 
+/*  Messages  */
 .error-message {
   list-style-type: none;
   color: #8d0505e0;
-  /* padding-bottom: 5px; */
   font-size: 18px;
   font-weight: 700;
   margin-left: 5px;
   margin-top: 1.5%;
+}
+
+.error-box {
+  margin-left: auto;
+  text-align: center;
+  width: 100%;
+  height: 40px;
+  border: 2px solid red;
+  border-radius: 8px;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(225, 179, 179);
+  padding: 7px;
+  font-size: 18px;
+}
+
+.success-message {
+  list-style-type: none;
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 5px;
+  margin-top: 1.5%;
+}
+
+.success-box {
+  margin-left: auto;
+  text-align: center;
+  width: 100%;
+  height: 40px;
+  border: 2px solid rgba(30, 255, 0, 0.908);
+  border-radius: 8px;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(154, 192, 147);
+  padding: 7px;
+  font-size: 18px;
 }
