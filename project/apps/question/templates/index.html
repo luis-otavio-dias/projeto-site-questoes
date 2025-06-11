@@ -4,7 +4,9 @@
   <div class="posts-wrapper">
     {% for question in questions %}
       <div class="post-box">
-        {% include "partials/question_card.html" with i=forloop.counter0 %}
+        <a href="{% url "question:question" question.id %}" class="card-link">
+          {% include "partials/question_card.html" with i=forloop.counter0 %}
+        </a>
       </div>
     {% endfor %}
   </div>

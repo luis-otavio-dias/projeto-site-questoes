@@ -3,9 +3,9 @@
 }
 
 body {
-  background-color: rgb(93, 91, 206);
-  background: #53b8e0;
-  background: linear-gradient(to bottom, #230673, #151aa8d2);
+  background-color: #5756b9;
+  /* background: #53b8e0; */
+  background: linear-gradient(to bottom, #5756b9, #9c9ff5);
   /* display: flex;
   min-height: 100vh; */
   min-height: 100vh;
@@ -18,7 +18,8 @@ body {
 .posts-wrapper {
   width: auto;
   display: grid;
-  border: 1px solid rgba(0, 0, 0, 0.941);
+  /* borda pra testes  */
+  /* border: 1px solid rgba(0, 0, 0, 0.941); */
   grid-template-columns: repeat(4, 1fr);
   row-gap: 20px;
   column-gap: 20px;
@@ -69,10 +70,11 @@ body {
 
 /* Card */
 .card {
+  cursor: pointer;
   background-color: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(38, 38, 38, 0.782);
   border-radius: 15px;
-  backdrop-filter: blur(10px);
+  /* backdrop-filter: blur(10px); */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   width: 300px;
   height: 200px;
@@ -99,7 +101,7 @@ body {
   margin: 15px;
 }
 
-.card-content a {
+.card-link {
   text-decoration: none;
   color: black;
 }
@@ -130,6 +132,7 @@ body {
   color: white;
   text-decoration: none;
   font-weight: 700;
+  font-size: large;
 }
 
 .redirect-link:hover {

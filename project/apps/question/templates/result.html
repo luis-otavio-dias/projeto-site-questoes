@@ -19,9 +19,11 @@
         Retornar para as questões
       </a>
     {% else %}
+      <p class="question-options">{{ message }}</p>
       <a href="{% url "question:question" question.id %}" class="redirect-link">
         Tentar Novamente
       </a>
+      
     {% endif %}
   </div>
 {% endblock 'single_question' %}

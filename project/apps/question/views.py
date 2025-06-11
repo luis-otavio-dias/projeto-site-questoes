@@ -48,7 +48,7 @@ def answer_question(request, question_id):
             message = "Resposta correta."
             user_is_right = True
         else:
-            message = f"Resposta errada \
+            message = f"Resposta errada. \
                 Alternativa correta: {question.correct_answer}"
 
         return render(
