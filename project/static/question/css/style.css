@@ -1,0 +1,26 @@
+:root {
+  font-family: "Ancizar Sans", sans-serif;
+}
+
+body {
+  background-color: rgb(93, 91, 206);
+  background: #53b8e0;
+  background: linear-gradient(to bottom, #3f10c1, #3d43f1cf);
+}
+
+.posts-wrapper {
+  width: auto;
+  display: grid;
+  border: 1px solid rgba(0, 0, 0, 0.941);
+  background-color: rgba(207, 206, 206, 0.74);
+  /* flex-direction: row;
+  flex-wrap: wrap; */
+}
+
+.posts-wrapper > div {
+  border: 1px solid red;
+  padding: 4px;
+  margin: 4px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

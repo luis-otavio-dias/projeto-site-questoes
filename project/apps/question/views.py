@@ -3,7 +3,6 @@ from project.apps.question.models import Question
 from project.apps.question.forms import AnswerForm
 
 
-# Create your views here.
 def index(request):
     questions = Question.objects.all()
 
