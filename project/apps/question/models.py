@@ -26,7 +26,7 @@ class Question(models.Model):
     theme = models.ForeignKey(
         Theme,
         on_delete=models.SET_DEFAULT,
-        default="Não está atriubída à nenhum tema.",
+        default="Sem tema",
     )
     edition = models.ForeignKey(
         Edition,

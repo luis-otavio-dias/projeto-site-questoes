@@ -1,0 +1,12 @@
+<article class="card">
+  <div class="card-title">
+    <p>{{ question.theme }} | {{ question.edition }}</p>
+  </div>
+  <div class="card-content">
+    <p>
+      <a href="{% url "question:question" question.id %}" class="link-black">
+        {{ question }}
+      </a>
+    </p>
+  </div>
+</article>

@@ -8,12 +8,12 @@ def index(request):
 
     context = {
         "questions": questions,
-        "site_title": "Início",
+        "site_title": "Home",
     }
 
     return render(
         request,
-        "question/index.html",
+        "index.html",
         context,
     )
 
@@ -21,7 +21,7 @@ def index(request):
 def question(request, question_id):
     single_question = get_object_or_404(Question, pk=question_id)
     form = AnswerForm(single_question.answer_options.all())
-    site_title = f"{single_question.id}"
+    site_title = f"{single_question.stem}"
 
     context = {
         "single_question": single_question,
@@ -31,7 +31,7 @@ def question(request, question_id):
 
     return render(
         request,
-        "question/single_question.html",
+        "single_question.html",
         context,
     )
 
@@ -45,15 +45,15 @@ def answer_question(request, question_id):
         user_is_right = False
 
         if user_answer == question.correct_answer:
-            message = "Você acertou!"
+            message = "Resposta correta."
             user_is_right = True
         else:
-            message = f"Resposta incorreta! \
-                Alternativa correta {question.correct_answer}"
+            message = f"Resposta errada \
+                Alternativa correta: {question.correct_answer}"
 
         return render(
             request,
-            "question/result.html",
+            "result.html",
             {
                 "question": question,
                 "message": message,

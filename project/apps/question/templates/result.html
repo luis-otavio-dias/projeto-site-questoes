@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block 'single_question' %}
+
+  <div class="question-box">
+    <p class="question-content">{{ question }}</p>
+
+    {% if is_right %}
+
+      {% for option in question.answer_options.all %}
+        {% if option.option == question.correct_answer %}
+          <p class="question-options"> {{option.option}}) {{option.option_text}} </p>
+        {% endif %}
+      {% endfor %}
+
+      <p class="question-options">{{ message }}</p>
+    
+      <a href="{% url "question:index" %}" class="redirect-link">
+        Retornar para as questões
+      </a>
+    {% else %}
+      <a href="{% url "question:question" question.id %}" class="redirect-link">
+        Tentar Novamente
+      </a>
+    {% endif %}
+  </div>
+{% endblock 'single_question' %}

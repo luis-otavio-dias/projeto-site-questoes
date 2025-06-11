@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block 'questions' %}
+  <div class="posts-wrapper">
+    {% for question in questions %}
+      <div class="post-box">
+        {% include "partials/question_card.html" with i=forloop.counter0 %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock 'questions' %}
