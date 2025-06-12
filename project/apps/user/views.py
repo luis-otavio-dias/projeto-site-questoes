@@ -20,7 +20,7 @@ def register(request):
         "site_title": "Crie sua conta",
     }
 
-    return render(request, "user/register.html", context)
+    return render(request, "register.html", context)
 
 
 def login_view(request):
@@ -42,7 +42,7 @@ def login_view(request):
         "site_title": "Faça seu login",
     }
 
-    return render(request, "user/login.html", context)
+    return render(request, "login.html", context)
 
 
 @login_required(login_url="user:login")

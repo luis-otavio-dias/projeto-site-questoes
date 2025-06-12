@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block body_class %}content-block{% endblock body_class %}
 
+{% block content %}
   <div class="form-wrapper">
     <h1>Entre com sua conta</h1>
       {% if messages %}
@@ -11,10 +12,9 @@
           </div>
         {% endfor %}
       {% endif %}
-    {% include "user/partials/user_register.html" %}
+    {% include "partials/user_register.html" %}
     <div class="account-link">
       <p>Não tem conta? <a href="{% url "user:register" %}">Crie sua conta aqui</a></p>
     </div>
   </div>
-
 {% endblock content %}
