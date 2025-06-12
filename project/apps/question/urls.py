@@ -4,7 +4,7 @@ from project.apps.question import views
 app_name = "question"
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("index/", views.index, name="index"),
     path("question/<int:question_id>/", views.question, name="question"),
     path(
         "question/<int:question_id>/result",

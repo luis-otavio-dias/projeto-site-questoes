@@ -23,7 +23,8 @@ category: global
   box-sizing: border-box;
 }
 
-/* @docs
+/* @d
+ocs
 label: Line Sizing
 
 note: |
@@ -269,8 +270,8 @@ note: |
 
 category: legacy browsers
 */
-[type='checkbox'],
-[type='radio'] {
+[type="checkbox"],
+[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }

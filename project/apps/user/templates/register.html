@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block body_class %}content-block{% endblock body_class %}
 
 {% block content %}
+<div class="content-block">
   <div class="form-wrapper">
     <h1>Crie sua conta</h1>
     {% include "partials/user_register.html" %}
@@ -9,4 +9,5 @@
       <p>Já tem uma conta? <a href="{% url "user:login" %}">Faça login por aqui</a></p>
     </div>
   </div>
+</div>
 {% endblock content %}

@@ -3,6 +3,7 @@
 {% block body_class %}content-block{% endblock body_class %}
 
 {% block content %}
+<div class="content-block">
   <div class="form-wrapper">
     <h1>Entre com sua conta</h1>
       {% if messages %}
@@ -17,4 +18,5 @@
       <p>Não tem conta? <a href="{% url "user:register" %}">Crie sua conta aqui</a></p>
     </div>
   </div>
+</div>
 {% endblock content %}

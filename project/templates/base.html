@@ -15,9 +15,13 @@
 
     <title>{{site_title}}</title>
   </head>
-  <body class="{% block body_class %}{% endblock body_class %}">
-    {% block content %}{% endblock content %}
-    {% block 'questions' %}{% endblock 'questions' %}
-    {% block 'single_question' %}{% endblock 'single_question' %}
+  <body>
+      {% if request.user.is_authenticated %}
+        {% include "partials/_header.html" %}
+      {% endif %}
+      {% block content %}{% endblock content %}
+      
+      {% block 'questions' %}{% endblock 'questions' %}
+      {% block 'single_question' %}{% endblock 'single_question' %}
   </body>
 </html>

@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+
 from project.apps.question.models import Question
 from project.apps.question.forms import AnswerForm
 
 
+@login_required(login_url="user:login")
 def index(request):
     questions = Question.objects.all()
 
@@ -18,6 +21,7 @@ def index(request):
     )
 
 
+@login_required(login_url="user:login")
 def question(request, question_id):
     single_question = get_object_or_404(Question, pk=question_id)
     form = AnswerForm(single_question.answer_options.all())
@@ -42,14 +46,11 @@ def answer_question(request, question_id):
 
     if form.is_valid():
         user_answer = form.cleaned_data["reply"]
-        user_is_right = False
 
         if user_answer == question.correct_answer:
             message = "Resposta correta."
-            user_is_right = True
         else:
-            message = f"Resposta errada. \
-                Alternativa correta: {question.correct_answer}"
+            message = "Resposta errada."
 
         return render(
             request,
@@ -57,7 +58,6 @@ def answer_question(request, question_id):
             {
                 "question": question,
                 "message": message,
-                "is_right": user_is_right,
             },
         )
 

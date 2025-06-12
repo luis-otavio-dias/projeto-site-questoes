@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
-{% block body_class %}questions-block{% endblock body_class %}
-
 {% block 'questions' %}
+<div class="questions-block">
   <div class="posts-wrapper">
     {% for question in questions %}
       <div class="post-box">
@@ -12,4 +11,5 @@
       </div>
     {% endfor %}
   </div>
+</div>
 {% endblock 'questions' %}
