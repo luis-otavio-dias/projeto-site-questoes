@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&display=swap"
+    rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+
+    <title>{{site_title}}</title>
+  </head>
+  <body>
+      {% if request.user.is_authenticated %}
+        {% include "partials/_header.html" %}
+      {% endif %}
+      {% block content %}{% endblock content %}
+      
+      {% block 'questions' %}{% endblock 'questions' %}
+      {% block 'single_question' %}{% endblock 'single_question' %}
+  </body>
+</html>

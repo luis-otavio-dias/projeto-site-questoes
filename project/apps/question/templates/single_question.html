@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block body_class %}questions-block{% endblock body_class %}
+
+{% block 'single_question' %}
+
+<div class="questions-block">
+  <div class="question-box">
+    <div class="post-box">
+      <p class="question-info">
+        {{ single_question.theme }} | {{ single_question.edition }}
+      </p>
+
+      <p class="question-content">
+        {{ single_question.stem }}
+      </p>
+
+      <form method="post" action="{% url "question:answer_question" single_question.id %}" class="question-options">
+        {% csrf_token %}
+        {{ form.reply }}
+        <button class="btn-send" type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock 'single_question' %}

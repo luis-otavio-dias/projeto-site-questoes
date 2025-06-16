@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block 'single_question' %}
+
+<div class="questions-block">
+  <div class="question-box">
+    <div>
+        <p class="question-content">{{ question }}</p>
+
+        {% for option in question.answer_options.all %}
+          {% if request.POST.reply == option.option %}
+            {% if option.option == question.correct_answer %}
+              <p class="question-options"> {{option.option}}) {{option.option_text}} </p>
+
+              <p class="question-options correct-answer">{{ message }}</p>
+              <a href="{% url "question:index" %}" class="redirect-link">
+                Retornar para as questões
+              </a>
+            {% else %}
+              <p class="question-options"> {{option.option}}) {{option.option_text}} </p>
+              <p class="question-options wrong-answer">{{ message }}</p>
+              <p class="question-options margin-adjust">Alternativa correta: {{question.correct_answer}} </p>
+              <a href="{% url "question:question" question.id %}" class="redirect-link">
+                Tentar Novamente
+              </a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock 'single_question' %}

@@ -45,9 +45,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "user",
-    "question",
-    "integrations",
+    "project.apps.user",
+    "project.apps.question",
 ]
 
 MIDDLEWARE = [
@@ -65,7 +64,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "base_templates"],
+        "DIRS": [BASE_DIR / "project" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -124,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "pt-br"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Sao_Paulo"
 
 USE_I18N = True
 
@@ -136,7 +135,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
-STATICFILES_DIRS = (BASE_DIR / "base_static",)
+STATICFILES_DIRS = (BASE_DIR / "project" / "static",)
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"

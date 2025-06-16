@@ -1,0 +1,16 @@
+{% load static %}
+
+<header class="menu-wrapper">
+  <nav class="menu-bar"> 
+    <div class="menu-icon">
+      {% comment %} <img src="{% static "img/vscode-icon.svg" %}" alt=""> {% endcomment %}
+    </div>
+    <div class="menu-list">
+      <ul>
+        <li class="menu-item"><a href="{% url "question:index" %}">Início</a></li>
+        <li class="menu-item"><a href="#">novo</a></li>
+        <li class="menu-item"><a href="{% url "user:logout" %}">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+</header> 

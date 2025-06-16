@@ -1,0 +1,353 @@
+@import url(remedy.css);
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  font-family: "Ancizar Sans", sans-serif;
+}
+
+/* Style to each block */
+.content-block {
+  background-color: rgb(93, 91, 206);
+  background: #53b8e0;
+  background: linear-gradient(to bottom, #230673, #151aa8d2);
+  min-height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.questions-block {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #5756b9;
+  background: linear-gradient(to bottom, #5756b9, #9c9ff5);
+}
+
+/* Header */
+.menu-wrapper {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(to bottom, #230673, #151aa8d2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.712);
+}
+
+.menu-icon {
+  display: flex;
+  max-width: 50px;
+  width: auto;
+  height: auto;
+  align-items: start;
+}
+
+.menu-bar {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 6rem;
+}
+
+.menu-list {
+  display: flex;
+  align-items: center;
+}
+
+.menu-list ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+.menu-item {
+  margin: 0 15px;
+}
+
+.menu-item a {
+  text-decoration: none;
+  font-size: 1.15rem;
+  color: white;
+  font-weight: 600;
+}
+
+.menu-item a:hover {
+  color: rgba(188, 188, 188, 0.851);
+  text-decoration: underline;
+}
+
+/* Login/Register */
+.form-wrapper {
+  width: 500px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 35px;
+  overflow: visible;
+}
+
+.form-wrapper h1 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* Inputs */
+.input-box {
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.input-box input {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0 10px;
+  font-size: 18px;
+  margin-top: 8px;
+}
+
+.input-box input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Help texts */
+.help-text {
+  color: rgba(163, 163, 163, 0.959);
+  margin-left: 5px;
+  font-weight: 700;
+  list-style-type: none;
+  margin-top: 5px;
+}
+
+/* Buttons */
+.btn-confirm {
+  width: 100%;
+  height: 45px;
+  background-color: rgba(41, 41, 107, 0.89);
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.754);
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1%;
+}
+
+.btn-confirm:hover {
+  background-color: rgba(65, 65, 166, 0.89);
+  outline: 2px solid;
+  outline-color: rgb(76, 76, 191);
+  color: rgba(153, 152, 152, 0.851);
+}
+
+/* Links */
+.account-link {
+  margin: 5%;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+}
+
+.account-link a {
+  color: white;
+  text-decoration: none;
+}
+
+.account-link a:hover {
+  color: rgba(188, 188, 188, 0.851);
+  text-decoration: underline;
+}
+
+/*  Messages  */
+.error-message {
+  list-style-type: none;
+  color: #8d0505e0;
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 5px;
+  margin-top: 1.5%;
+}
+
+.error-box {
+  margin-left: auto;
+  text-align: center;
+  width: 100%;
+  height: 40px;
+  border: 2px solid red;
+  border-radius: 8px;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(225, 179, 179);
+  padding: 7px;
+  font-size: 18px;
+}
+
+.success-message {
+  list-style-type: none;
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 5px;
+  margin-top: 1.5%;
+}
+
+.success-box {
+  margin-left: auto;
+  text-align: center;
+  width: 100%;
+  height: 40px;
+  border: 2px solid rgba(30, 255, 0, 0.908);
+  border-radius: 8px;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(154, 192, 147);
+  padding: 7px;
+  font-size: 18px;
+}
+
+/*  Questions */
+.posts-wrapper {
+  z-index: 20;
+  width: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+.post-box {
+  padding: 4px;
+  margin: 4px;
+}
+
+.post-card {
+  width: 300px;
+}
+
+.question-box {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 500px auto;
+  padding: 1%;
+  margin: 1%;
+  overscroll-behavior-y: none;
+}
+
+.margin-adjust {
+  margin: 20px 0 20px 0;
+}
+
+.question-info {
+  text-align: left;
+  font-size: large;
+  font-weight: 700;
+  margin-top: auto;
+}
+
+.question-content {
+  margin: 20px 0 20px 0;
+  font-weight: 600;
+  text-align: justify;
+  font-size: x-large;
+}
+
+.question-options {
+  font-weight: 600;
+  text-align: justify;
+  font-size: larger;
+}
+
+.correct-answer {
+  color: green;
+  margin: 20px 0 20px 0;
+}
+
+.wrong-answer {
+  color: #8d0505e0;
+  margin: 20px 0 20px 0;
+}
+
+/* Card */
+.card {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(38, 38, 38, 0.782);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  height: 200px;
+  transition: scale 300ms ease-in-out, box-shadow 300ms ease-in-out;
+}
+
+.card:hover {
+  scale: 1.02;
+  box-shadow: 0 5px 15px hsl(black / 0.3);
+}
+
+.card-title {
+  font-weight: 700;
+  text-align: center;
+  margin: 1%;
+  padding-top: 5%;
+}
+
+.card-content {
+  font-weight: 600;
+  text-align: justify;
+  margin: 3%;
+  padding: 5%;
+}
+
+.card-link {
+  text-decoration: none;
+  color: black;
+}
+
+/* Button */
+.btn-send {
+  width: 20%;
+  height: 45px;
+  background-color: rgba(41, 41, 107, 0.89);
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.754);
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+.btn-send:hover {
+  background-color: rgba(65, 65, 166, 0.89);
+  outline: 2px solid;
+  outline-color: rgb(76, 76, 191);
+  color: rgba(153, 152, 152, 0.851);
+}
+
+/* Liks */
+.redirect-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: large;
+}
+
+.redirect-link:hover {
+  color: rgba(188, 188, 188, 0.851);
+  text-decoration: underline;
+}
