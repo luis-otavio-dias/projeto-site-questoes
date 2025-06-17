@@ -9,6 +9,17 @@
   font-family: "Ancizar Sans", sans-serif;
 }
 
+.global-title {
+  color: white;
+}
+
+.global-title h1 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
 /* Style to each block */
 .content-block {
   background-color: rgb(93, 91, 206);
@@ -33,23 +44,62 @@
 
 /* Header */
 .menu-wrapper {
+  display: block;
   position: relative;
   z-index: 10;
   background: linear-gradient(to bottom, #230673, #151aa8d2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.712);
+  box-shadow: 0 8px 32px rgba(37, 37, 37, 0.712);
+}
+
+.menu-logo {
+  display: flex;
+  align-items: center;
+}
+
+.menu-logo img {
+  width: 36px;
+  height: 36px;
 }
 
 .menu-icon {
   display: flex;
-  max-width: 50px;
-  width: auto;
-  height: auto;
-  align-items: start;
+  align-items: center;
+}
+
+.menu-icon button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.alt-menu {
+  display: none;
+}
+
+.alt-menu ul {
+  display: flex;
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+.alt-menu .menu-item {
+  display: block;
+  padding-top: 1.2rem;
+}
+
+.div-line {
+  border-top: 1px solid rgba(120, 120, 120, 0.749);
+  /* border-width: ; */
+}
+
+.open {
+  display: flex;
+  justify-content: center;
 }
 
 .menu-bar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   padding: 1.5rem 6rem;
 }
 

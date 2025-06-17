@@ -17,13 +17,11 @@ CSV_FILE = Path(__file__).parent / "questoes_socio.csv"
 django.setup()
 
 if __name__ == "__main__":
-    from question.models import Question, Theme, Edition, Answer
+    from project.apps.question.models import Question, Theme, Edition, Answer
 
     with open(CSV_FILE, newline="", encoding="utf-8") as file:
         reader = csv.reader(file, delimiter=";")
         next(reader)
-        rows_len = 0
-        idx = 0
 
         for row in reader:
             theme = Theme.objects.create(name=row[1])
@@ -49,5 +47,3 @@ if __name__ == "__main__":
                     option=option,
                     option_text=text,
                 )
-
-            rows_len += 1

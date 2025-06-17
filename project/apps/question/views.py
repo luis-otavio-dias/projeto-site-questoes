@@ -11,7 +11,7 @@ def index(request):
 
     context = {
         "questions": questions,
-        "site_title": "Home",
+        "site_title": "Início",
     }
 
     return render(
