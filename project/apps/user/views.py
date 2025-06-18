@@ -49,3 +49,8 @@ def login_view(request):
 def logout_view(request):
     auth.logout(request)
     return redirect("user:login")
+
+
+def add_questions(request):
+
+    return render(request, "add_questions.html")
