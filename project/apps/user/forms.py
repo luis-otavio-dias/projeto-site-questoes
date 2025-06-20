@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
 
-from project.apps.user.models import User
+from project.apps.user.models import File, User
 
 
 class RegisterForm(UserCreationForm):
@@ -94,3 +94,12 @@ class AuthForm(AuthenticationForm):
         self.fields["password"].widget.attrs.update(
             {"placeholder": "Senha"},
         )
+
+
+class AddQuestionsForm(forms.ModelForm):
+    class Meta:
+        model = File
+        fields = ("file",)
+        widgets = {
+            "file": forms.FileInput({"accept": ".pdf, .xls, .xlsx, .csv"}),
+        }

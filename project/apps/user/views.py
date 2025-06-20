@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from project.apps.user.forms import RegisterForm, AuthForm
+from project.apps.user.forms import RegisterForm, AuthForm, AddQuestionsForm
+from project.apps.user.models import User
 
 
 def register(request):
@@ -52,5 +53,17 @@ def logout_view(request):
 
 
 def add_questions(request):
+    form = AddQuestionsForm()
+    user = User.objects.get(id=request.user.id)
 
-    return render(request, "add_questions.html")
+    if request.method == "POST":
+        form = AddQuestionsForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            file = form.save(commit=False)
+            file.user = user
+            file.save()
+
+            return redirect("question:index")
+
+    return render(request, "add_questions.html", {"form": form})

@@ -3,4 +3,16 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    files = models.FileField(upload_to="media/files", blank=True, null=True)
+    pass
+
+
+class File(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="files",
+    )
+    file = models.FileField(upload_to="media/files")
+
+    def __str__(self):
+        return self.file
