@@ -12,7 +12,7 @@ class File(models.Model):
         on_delete=models.CASCADE,
         related_name="files",
     )
-    file = models.FileField(upload_to="media/files")
+    file = models.FileField(upload_to="files")
 
     def __str__(self):
         return self.file

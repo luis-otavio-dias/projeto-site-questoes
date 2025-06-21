@@ -1,8 +1,13 @@
+from pathlib import Path
+
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
+
 from project.apps.user.forms import RegisterForm, AuthForm, AddQuestionsForm
 from project.apps.user.models import User
+
+from utils.add_questions import add_question_csv
 
 
 def register(request):
@@ -63,6 +68,14 @@ def add_questions(request):
             file = form.save(commit=False)
             file.user = user
             file.save()
+            file_path = (
+                Path(__file__).parent.parent.parent.parent
+                / "media"
+                / str(
+                    file.file,
+                )
+            )
+            add_question_csv(file_path)
 
             return redirect("question:index")
 

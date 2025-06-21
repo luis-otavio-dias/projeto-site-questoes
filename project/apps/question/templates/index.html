@@ -4,18 +4,18 @@
 {% include "partials/_header.html" %}
 
 <div class="questions-block">
-  {% if questions.objects.all %}
-    <div class="posts-wrapper">
-        {% for question in questions %}
-          <div class="post-box">
-            <a href="{% url "question:question" question.id %}" class="card-link">
-              {% include "partials/question_card.html" with i=forloop.counter0 %}
-            </a>
-          </div>
-        {% endfor %}
-    </div>
-  {% else %}
+  {% if not questions %}
     <div class="global-title"><h1>Nenhuma questão encontrada :(</h1></div>
+  {% else %}
+    <div class="posts-wrapper">
+      {% for question in questions %}
+        <div class="post-box">
+          <a href="{% url "question:question" question.id %}" class="card-link">
+            {% include "partials/question_card.html" with i=forloop.counter0 %}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
   {% endif %}
 </div>
 {% endblock 'questions' %}
