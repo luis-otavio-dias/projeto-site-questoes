@@ -1,7 +1,13 @@
+from pathlib import Path
+
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from project.apps.user.forms import RegisterForm, AuthForm
+
+from project.apps.user.forms import RegisterForm, AuthForm, AddQuestionsForm
+from project.apps.user.models import User
+
+from utils.add_questions import add_question_csv
 
 
 def register(request):
@@ -49,3 +55,29 @@ def login_view(request):
 def logout_view(request):
     auth.logout(request)
     return redirect("user:login")
+
+
+@login_required(login_url="user:login")
+def add_questions(request):
+    form = AddQuestionsForm()
+    user = User.objects.get(id=request.user.id)
+
+    if request.method == "POST":
+        form = AddQuestionsForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            file = form.save(commit=False)
+            file.user = user
+            file.save()
+            file_path = (
+                Path(__file__).parent.parent.parent.parent
+                / "media"
+                / str(
+                    file.file,
+                )
+            )
+            add_question_csv(file_path)
+
+            return redirect("question:index")
+
+    return render(request, "add_questions.html", {"form": form})

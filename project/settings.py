@@ -87,15 +87,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": os.getenv("DB_ENGINE", "change_me"),
-        "NAME": os.getenv("MYSQL_DB", "change-me"),
-        "USER": os.getenv("MYSQL_USER", "change-me"),
-        "PASSWORD": os.getenv("MYSQL_PASSWORD", "change-me"),
-        "HOST": os.getenv("MYSQL_HOST", "change-me"),
-        "PORT": os.getenv("MYSQL_PORT", "change-me"),
-        "OPTIONS": {
-            "charset": "utf8mb4",
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        "NAME": BASE_DIR / os.getenv("DB_NAME", "change-me"),
     }
 }
 
@@ -146,3 +138,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "user.User"

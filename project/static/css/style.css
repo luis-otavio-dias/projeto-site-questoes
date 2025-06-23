@@ -156,6 +156,10 @@
   margin-bottom: 5px;
 }
 
+.teste input {
+  color: red;
+}
+
 .input-box input {
   width: 100%;
   height: 40px;

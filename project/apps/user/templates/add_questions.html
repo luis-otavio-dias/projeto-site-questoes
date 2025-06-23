@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block 'questions' %}
+{% include "partials/_header.html" %}
+
+  <div class="questions-block">
+    <div class="form-wrapper">
+      <h1>Adicione suas questões</h1>
+        <form action=" {{form_action}} " method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+            {% for field in form %}
+              {{field.label}}
+              <div class="input-box">{{field}}</div>
+            {% endfor %}
+            <div>
+              <p><button class="btn-confirm" type="submit">Enviar</button></p>
+            </div>
+        </form>
+    </div> 
+  </div>
+
+{% endblock 'questions' %}
