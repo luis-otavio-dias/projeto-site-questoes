@@ -57,6 +57,7 @@ def logout_view(request):
     return redirect("user:login")
 
 
+@login_required(login_url="user:login")
 def add_questions(request):
     form = AddQuestionsForm()
     user = User.objects.get(id=request.user.id)
