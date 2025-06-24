@@ -12,7 +12,8 @@ sys.path.append(str(DJANGO_BASE_DIR))
 os.environ["DJANGO_SETTINGS_MODULE"] = "project.settings"
 settings.USE_TZ = False
 
-CSV_FILE = Path(__file__).parent / "questoes_socio.csv"
+file_name = "questoes_socio.csv"
+CSV_FILE = Path(__file__).parent / file_name
 
 
 def add_question_csv(csv_file):
@@ -51,6 +52,11 @@ def add_question_csv(csv_file):
 
 
 if __name__ == "__main__":
+    # If this file is run directly, it will read data from a CSV file
+    # specified by the CSV_FILE variable and add the data to the platform.
+    # The CSV file must be located in the 'utils/' directory; otherwise,
+    # please update the CSV_FILE variable with the correct path.
+
     from project.apps.question.models import Question, Theme, Edition, Answer
 
     django.setup()
