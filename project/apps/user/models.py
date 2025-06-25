@@ -11,8 +11,9 @@ class File(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name="files",
+        null=True,
     )
     file = models.FileField(upload_to="files")
 
     def __str__(self):
-        return self.file
+        return f"{self.file}"
