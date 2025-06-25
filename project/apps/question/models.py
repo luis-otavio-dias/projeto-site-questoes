@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from project.apps.user.models import User
+
 
 # Create your models here.
 class Edition(models.Model):
@@ -21,6 +23,12 @@ class Theme(models.Model):
 
 
 class Question(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="question",
+        null=True,
+    )
     stem = models.TextField(blank=False)
     correct_answer = models.CharField(max_length=1)
     theme = models.ForeignKey(

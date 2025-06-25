@@ -76,7 +76,7 @@ def add_questions(request):
                     file.file,
                 )
             )
-            add_question_csv(file_path)
+            add_question_csv(file_path, user)
 
             return redirect("question:index")
 

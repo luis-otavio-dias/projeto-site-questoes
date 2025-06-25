@@ -16,7 +16,7 @@ file_name = "questoes_socio.csv"
 CSV_FILE = Path(__file__).parent / file_name
 
 
-def add_question_csv(csv_file):
+def add_question_csv(csv_file, user):
     from project.apps.question.models import Question, Theme, Edition, Answer
 
     django.setup()
@@ -31,6 +31,7 @@ def add_question_csv(csv_file):
             edition = Edition.objects.create(year=row[0])
 
             question_ = Question.objects.create(
+                user=user,
                 stem=row[2],
                 correct_answer=row[4],
                 theme=theme,

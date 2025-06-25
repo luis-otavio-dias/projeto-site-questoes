@@ -6,14 +6,18 @@
 <div class="questions-block">
   {% if not questions %}
     <div class="global-title"><h1>Nenhuma questão encontrada :(</h1></div>
+  {% elif questions.first.user != request.user %}
+    <div class="global-title"><h1>Nenhuma questão encontrada :(</h1></div>
   {% else %}
     <div class="posts-wrapper">
       {% for question in questions %}
-        <div class="post-box">
-          <a href="{% url "question:question" question.id %}" class="card-link">
-            {% include "partials/question_card.html" with i=forloop.counter0 %}
-          </a>
-        </div>
+        {% if question.user == request.user %}
+          <div class="post-box">
+            <a href="{% url "question:question" question.id %}" class="card-link">
+              {% include "partials/question_card.html" with i=forloop.counter0 %}
+            </a>
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
   {% endif %}
