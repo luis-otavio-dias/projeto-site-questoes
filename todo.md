@@ -1,5 +1,4 @@
-## concluido
-
+**Concluido:**
 - Organizar apps
 - Pasta uv_files
 - Refazer menubar
@@ -15,9 +14,8 @@
 - Home
 - Upload de questoes
 - Relacao entre Question e User
-
-## em aberto
-
+##
+**Em aberto:**
 - Email não obrigatorio no register form
 - Remodelar relações das models:
   - Question -> Themes
