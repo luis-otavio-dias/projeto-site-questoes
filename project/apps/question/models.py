@@ -33,8 +33,8 @@ class Question(models.Model):
     correct_answer = models.CharField(max_length=1)
     theme = models.ForeignKey(
         Theme,
-        on_delete=models.SET_DEFAULT,
-        default="Sem tema",
+        on_delete=models.SET_NULL,
+        null=True,
     )
     edition = models.ForeignKey(
         Edition,

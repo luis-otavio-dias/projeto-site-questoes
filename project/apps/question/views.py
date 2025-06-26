@@ -7,7 +7,7 @@ from project.apps.question.forms import AnswerForm
 
 @login_required(login_url="user:login")
 def index(request):
-    questions = Question.objects.all()
+    questions = Question.objects.filter(user=request.user.pk)
 
     context = {
         "questions": questions,
