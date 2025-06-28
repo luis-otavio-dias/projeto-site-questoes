@@ -1,4 +1,5 @@
 **Concluido:**
+
 - Organizar apps
 - Pasta uv_files
 - Refazer menubar
@@ -14,11 +15,15 @@
 - Home
 - Upload de questoes
 - Relacao entre Question e User
-##
-**Em aberto:**
 - Email não obrigatorio no register form
+
+##
+
+**Em aberto:**
+
+- Evitar temas e edições repitidas ao adicionar novas questões
 - Remodelar relações das models:
   - Question -> Themes
-- Painel admin para user
+- Perfil para user
 - Mais formatos compativeis
 - Recriar chatbot
