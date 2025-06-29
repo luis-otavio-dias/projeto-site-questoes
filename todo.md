@@ -16,14 +16,12 @@
 - Upload de questoes
 - Relacao entre Question e User
 - Email não obrigatorio no register form
+- Evitar temas e edições repitidas ao adicionar novas questões
 
 ##
 
 **Em aberto:**
 
-- Evitar temas e edições repitidas ao adicionar novas questões
-- Remodelar relações das models:
-  - Question -> Themes
 - Perfil para user
 - Mais formatos compativeis
-- Recriar chatbot
+- Criar chatbot
