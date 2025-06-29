@@ -14,8 +14,10 @@ class Edition(models.Model):
 
 class Theme(models.Model):
     name = models.CharField(
-        max_length=50,
+        max_length=100,
+        unique=True,
         blank=False,
+        null=True,
     )
 
     def __str__(self):
