@@ -1,4 +1,4 @@
-Plataforma de estudos personalizável para ENEM e vestibulares. O projeto consiste em um ambiente de estudos customizável, permitindo que o usuário adicione seu próprio banco de questões.
+Plataforma de estudos personalizável. O projeto consiste em um ambiente de estudos customizável, permitindo que o usuário adicione seu próprio banco de questões.
 
 O banco de questões deve ser composto por questões de múltipla escolha, contendo obrigatoriamente:
   - Enunciado da questão
