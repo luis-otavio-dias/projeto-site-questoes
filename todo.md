@@ -16,7 +16,7 @@
 - Upload de questoes
 - Relacao entre Question e User
 - Email não obrigatorio no register form
-- Evitar temas e edições repitidas ao adicionar novas questões
+- Sem temas e edições repitidas ao importar novas questões
 
 ##
 

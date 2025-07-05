@@ -18,8 +18,11 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Static files base dir
+DATA_DIR = BASE_DIR.parent / "data" / "web"
+
 # Load .env rightly
-load_dotenv(BASE_DIR / "dotenv-files" / ".env")
+load_dotenv(BASE_DIR.parent / "dotenv_files" / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -126,12 +129,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = "/static/"
+STATIC_ROOT = DATA_DIR / "static"
 STATICFILES_DIRS = (BASE_DIR / "project" / "static",)
 
-MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = DATA_DIR / "media"
 
 
 # Default primary key field type
