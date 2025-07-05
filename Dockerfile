@@ -1,18 +1,18 @@
 FROM python:3.13-slim-bookworm
 LABEL mantainer="luis-otavio-dias"
 
-ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+PYTHONUNBUFFERED=1
 
-ENV PYTHONUNBUFFERED 1
-
-# Copia a pasta "djangoapp" e "scripts" para dentro   do container.
-COPY djangoapp /djangoap
-COPY uv_files /djangoapp/uv_files
+COPY djangoapp /djangoapp
 COPY scripts /scripts
 
 WORKDIR /djangoapp
+
 # Instala uv 
-COPY --from=ghcr.io/astral-sh/uv:0.7.8 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:latest  /uv /uvx /bin/
+
+COPY djangoapp/requirements.txt /djangoapp
 
 # Enable bytecode compilation
 ENV UV_COMPILE_BYTECODE=1
@@ -22,29 +22,21 @@ ENV UV_LINK_MODE=copy
 
 EXPOSE 8000
 
-RUN cd uv_files && \
-  uv sync --locked --no-dev && \
-  cd .. &&\
+RUN uv pip install -r requirements.txt --system && \
   adduser --disabled-password --no-create-home duser && \
+  mkdir -p /home/duser/.cache && \
+  chown -R duser:duser /home/duser/.cache && \
   mkdir -p /data/web/static && \
   mkdir -p /data/web/media && \
-  chown -R duser:duser /djangoapp/uv_files/.venv && \
   chown -R duser:duser /data/web/static && \
   chown -R duser:duser /data/web/media && \
-  chmod -R 755 /usr/local && \
   chmod -R 755 /data/web/static && \
   chmod -R 755 /data/web/media && \
   chmod -R +x /scripts
 
 
 # Adiciona a pasta scripts no $PATH do container.
-ENV PATH="/scripts:/djangoapp/uv_files/.venv/bin:$PATH"
-
-ENV PATH=/root/.local/bin:$PATH
-
-RUN uv tool install cowsay
-
-ENTRYPOINT []
+ENV PATH="/scripts:/djangoapp/.venv/bin:$PATH"
 
 USER duser
 
