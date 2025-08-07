@@ -5,6 +5,7 @@
 <p align="center">
 <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff">
 <img alt="Django" src="https://img.shields.io/badge/Django-%23092E20.svg?logo=django&logoColor=white">
+<img alt="Status do Projeto" src="https://img.shields.io/badge/License-MIT-black.svg">
 <img alt="Status do Projeto" src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow">
 </p>
 
@@ -54,7 +55,7 @@ cd projeto-site-questoes
     DB_ENGINE="django.db.backends.sqlite3"
     DB_NAME="db.sqlite"
     ```
-
+##
 ### Como usar
 
 **Executando a aplicação**
@@ -71,6 +72,7 @@ docker-compose up
 ```
 
 A aplicação estará disponível em http://localhost:8000.
+##
 
-
- 
+### Licença
+Distribuído sob a licença MIT. Veja LICENSE para mais informações. 
