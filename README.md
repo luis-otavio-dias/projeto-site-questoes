@@ -50,7 +50,7 @@ cd projeto-site-questoes
     ```
     SECRET_KEY=escolha-uma-cahve-forte
     DEBUG="1"
-    ALLOWED_HOSTS = "127.0.0.1,localhost"
+    ALLOWED_HOSTS="127.0.0.1,localhost"
     DB_ENGINE="django.db.backends.sqlite3"
     DB_NAME="db.sqlite"
     ```
@@ -63,6 +63,11 @@ Com o Docker Desktop instalado e aberto, o arquivo .env configurado, execute na 
 
 ```
 docker-compose up --build -d
+```
+Após finalizar o processo de build, execute:
+
+```
+docker-compose up
 ```
 
 A aplicação estará disponível em http://localhost:8000.
