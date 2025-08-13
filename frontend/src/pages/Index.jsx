@@ -1,13 +1,9 @@
 import React from "react";
 import QuestionCard from "../components/QuestionCard";
 import { Container, Row, Col } from "react-bootstrap";
+import questions from "../questions";
 
 function Index() {
-  const questions = [
-    { id: 1, title: "Question 1", description: "Description for question 1" },
-    { id: 2, title: "Question 2", description: "Description for question 2" },
-  ];
-
   return (
     <Container>
       <Row>

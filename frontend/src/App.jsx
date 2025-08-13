@@ -1,15 +1,23 @@
 import { useState } from "react";
+import { Container } from "react-bootstrap";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import QuestionPage from "./pages/QuestionPage";
 import Header from "./components/Header";
 
 function App() {
   return (
-    <div>
+    <Router>
       <Header />
       <main className="py-3">
-        <Index />
+        <Container>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/questions/:id" element={<QuestionPage />} />
+          </Routes>
+        </Container>
       </main>
-    </div>
+    </Router>
   );
 }
 
