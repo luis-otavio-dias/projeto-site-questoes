@@ -48,12 +48,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # API
+    "rest_framework",
+    # Cors
+    "corsheaders",
+    # Apps
     "project.apps.user",
     "project.apps.question",
     "project.apps.home",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -143,3 +149,8 @@ MEDIA_ROOT = DATA_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "user.User"
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]

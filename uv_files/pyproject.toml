@@ -19,6 +19,8 @@ dependencies = [
     "dataclasses-json==0.6.7",
     "distro==1.9.0",
     "django==5.1.7",
+    "django-cors-headers>=4.7.0",
+    "djangorestframework>=3.16.1",
     "dotenv==0.9.9",
     "frozenlist==1.6.0",
     "greenlet==3.2.1",

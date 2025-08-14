@@ -1,5 +1,6 @@
 from django.urls import path
 from project.apps.question import views
+from project.apps.question.api.views import getQuestions, getQuestion
 
 app_name = "question"
 
@@ -11,4 +12,6 @@ urlpatterns = [
         views.answer_question,
         name="answer_question",
     ),
+    path("api/questions/", getQuestions, name="questions"),
+    path("api/question/<int:id>/", getQuestion, name="question_detail"),
 ]

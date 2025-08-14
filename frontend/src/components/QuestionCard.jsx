@@ -14,9 +14,11 @@ function QuestionCard({ question }) {
         className="text-decoration-none text-dark"
         style={{ cursor: "pointer" }}
       >
-        <Card.Header>{question.title}</Card.Header>
+        <Card.Header>
+          {question.edition.year} | {question.theme.name}{" "}
+        </Card.Header>
         <Card.Body>
-          <Card.Text>{question.description}</Card.Text>
+          <Card.Text>{question.stem}</Card.Text>
         </Card.Body>
       </Link>
     </Card>
