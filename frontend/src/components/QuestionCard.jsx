@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 
 function QuestionCard({ question }) {
   return (
-    <Card border="primary" className="my-3 rounded">
+    <Card
+      border="primary"
+      className="my-3 rounded card-hover"
+      style={{ minHeight: "200px", minWidth: "300px" }}
+    >
       <Link
-        to={`/questions/${question.id}`}
+        to={`/question/${question.id}`}
         className="text-decoration-none text-dark"
         style={{ cursor: "pointer" }}
       >

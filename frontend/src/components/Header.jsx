@@ -1,22 +1,32 @@
 import React from "react";
 import { Nav, Navbar, NavDropdown, Container } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 function Header() {
   return (
     <header>
       <Navbar
-        className="bg-primary"
+        className="bg-primary shadow"
         expand="lg"
         variant="dark"
         collapseOnSelect
       >
         <Container>
-          <Navbar.Brand href="#home">iStudy</Navbar.Brand>
+          <LinkContainer to="/">
+            <Navbar.Brand>iStudy</Navbar.Brand>
+          </LinkContainer>
+
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
+              <LinkContainer to="/">
+                <Nav.Link>Home</Nav.Link>
+              </LinkContainer>
+
+              <LinkContainer to="/">
+                <Nav.Link>Link</Nav.Link>
+              </LinkContainer>
+
               <NavDropdown
                 title="Dropdown"
                 id="nav-dropdown"

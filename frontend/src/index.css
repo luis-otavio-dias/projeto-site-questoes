@@ -20,10 +20,11 @@ h3 {
   margin: 0.1rem;
 }
 
-.card {
+.card-hover {
   transition: all 0.3s ease;
 }
 
-.card:hover {
+.card-hover:hover {
   transform: scale(1.08);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }

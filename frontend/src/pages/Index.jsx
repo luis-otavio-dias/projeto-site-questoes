@@ -5,7 +5,10 @@ import questions from "../questions";
 
 function Index() {
   return (
-    <Container>
+    <Container
+      className="d-flex align-items-center"
+      style={{ minHeight: "90vh" }}
+    >
       <Row>
         {questions.map((question) => (
           <Col key={question.id} sm={12} md={6} lg={4} xl={3}>
