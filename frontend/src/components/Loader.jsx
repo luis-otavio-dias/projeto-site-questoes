@@ -1,20 +1,23 @@
 import React from "react";
-import { Spinner } from "react-bootstrap";
+import { Spinner, Container } from "react-bootstrap";
 
 function Loader() {
   return (
-    <Spinner
-      animation="border"
-      role="status"
-      style={{
-        height: "100px",
-        width: "100px",
-        margin: "auto",
-        display: "block",
-      }}
+    <Container
+      className="d-flex align-items-center"
+      style={{ minHeight: "70vh" }}
     >
-      <span className="visually-hidden">Loading...</span>
-    </Spinner>
+      <Spinner
+        animation="border"
+        role="status"
+        style={{
+          height: "100px",
+          width: "100px",
+          margin: "auto",
+          display: "block",
+        }}
+      ></Spinner>
+    </Container>
   );
 }
 

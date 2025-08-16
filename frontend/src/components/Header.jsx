@@ -20,19 +20,11 @@ function Header() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <LinkContainer to="/">
-                <Nav.Link>Home</Nav.Link>
+                <Nav.Link className="custom-nav-link">Home</Nav.Link>
               </LinkContainer>
 
-              <LinkContainer to="/">
-                <Nav.Link>Link</Nav.Link>
-              </LinkContainer>
-
-              <NavDropdown
-                title="Dropdown"
-                id="nav-dropdown"
-                menuVariant="dark"
-              >
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown title="Menu" id="nav-dropdown" menuVariant="dark">
+                <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                   Another action
                 </NavDropdown.Item>

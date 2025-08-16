@@ -16,7 +16,7 @@ function QuestionPage() {
     async function fetchQuestion() {
       try {
         setLoading(true);
-        const { data } = await axios.get(`/api/question/${id}`);
+        const { data } = await axios.get(`/api/questions/${id}`);
         setQuestion(data);
         setError(null);
       } catch (err) {
@@ -46,19 +46,23 @@ function QuestionPage() {
               <Col md={12}>
                 <Card
                   className="text-center"
-                  style={{ minHeight: "800px", minWidth: "500px" }}
+                  style={{ minHeight: "80vh" }}
+                  // style={{ minHeight: "800px", minWidth: "500px" }}
                 >
                   <Card.Header as="h5">
                     {question.edition.year} | {question.theme.name}
                   </Card.Header>
                   <Card.Body>
-                    <Card.Text> {question.stem} </Card.Text>
+                    <Card.Text className="my-4 text-sm-start fs-5">
+                      {question.stem}
+                    </Card.Text>
+
                     <Card.Text as={"div"}>
-                      <Form>
+                      <Form className="mt-5">
                         {question.answer_options.map((option) => (
                           <div
                             key={option.id}
-                            className="mb-2 d-flex align-items-center"
+                            className="ms-3 d-flex align-items-center fw-bold fs-6 mb-3"
                           >
                             <Form.Check
                               name="options"
@@ -70,8 +74,8 @@ function QuestionPage() {
                         ))}
                         <Button
                           variant="primary"
-                          type="#"
-                          className="mb-2 d-flex align-items-center"
+                          type="submit"
+                          className="my-5 d-flex align-items-center"
                         >
                           Enviar
                         </Button>

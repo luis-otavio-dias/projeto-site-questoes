@@ -13,5 +13,5 @@ urlpatterns = [
         name="answer_question",
     ),
     path("api/questions/", getQuestions, name="questions"),
-    path("api/question/<int:id>/", getQuestion, name="question_detail"),
+    path("api/questions/<int:id>/", getQuestion, name="question_detail"),
 ]

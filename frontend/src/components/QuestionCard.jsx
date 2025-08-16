@@ -10,7 +10,7 @@ function QuestionCard({ question }) {
       style={{ minHeight: "200px", minWidth: "300px" }}
     >
       <Link
-        to={`/question/${question.id}`}
+        to={`/questions/${question.id}`}
         className="text-decoration-none text-dark"
         style={{ cursor: "pointer" }}
       >
