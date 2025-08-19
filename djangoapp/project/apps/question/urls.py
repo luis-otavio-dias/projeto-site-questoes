@@ -12,6 +12,7 @@ urlpatterns = [
         views.answer_question,
         name="answer_question",
     ),
+    # API endpoints
     path("api/questions/", getQuestions, name="questions"),
     path("api/questions/<int:id>/", getQuestion, name="question_detail"),
 ]

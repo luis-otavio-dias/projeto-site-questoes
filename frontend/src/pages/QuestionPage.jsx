@@ -8,9 +8,31 @@ import Message from "../components/Message";
 function QuestionPage() {
   const { id } = useParams();
 
+  const [feedback, setFeedback] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
+
   const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const checkAnswerHandler = (e) => {
+    e.preventDefault();
+    if (selectedOption === question.correct_answer) {
+      setFeedback({
+        type: "success",
+        text: "Resposta correta!",
+        linkText: "Voltar ao início",
+        linkUrl: "/",
+      });
+    } else {
+      setFeedback({
+        type: "danger",
+        text: "Resposta errada! Tente novamente.",
+        linkText: "",
+        linkUrl: "",
+      });
+    }
+  };
 
   useEffect(() => {
     async function fetchQuestion() {
@@ -44,15 +66,20 @@ function QuestionPage() {
           <ListGroup.Item>
             <Row>
               <Col md={12}>
-                <Card
-                  className="text-center"
-                  style={{ minHeight: "80vh" }}
-                  // style={{ minHeight: "800px", minWidth: "500px" }}
-                >
+                <Card className="text-center" style={{ minHeight: "80vh" }}>
                   <Card.Header as="h5">
                     {question.edition.year} | {question.theme.name}
                   </Card.Header>
-                  <Card.Body>
+                  <Card.Body as={"div"}>
+                    {feedback && (
+                      <Message
+                        variant={feedback.type}
+                        text={feedback.text}
+                        linkText={feedback.linkText}
+                        linkUrl={feedback.linkUrl}
+                      />
+                    )}
+
                     <Card.Text className="my-4 text-sm-start fs-5">
                       {question.stem}
                     </Card.Text>
@@ -69,13 +96,18 @@ function QuestionPage() {
                               label={`${option.option}) ${option.option_text}`}
                               type="radio"
                               id={`check-${option.option}`}
+                              value={option.option}
+                              onChange={(e) =>
+                                setSelectedOption(e.target.value)
+                              }
                             />
                           </div>
                         ))}
                         <Button
-                          variant="primary"
-                          type="submit"
+                          variant="dark"
                           className="my-5 d-flex align-items-center"
+                          onClick={checkAnswerHandler}
+                          disabled={!selectedOption}
                         >
                           Enviar
                         </Button>

@@ -6,7 +6,7 @@ function Header() {
   return (
     <header>
       <Navbar
-        className="bg-primary shadow"
+        className="bg-dark shadow"
         expand="lg"
         variant="dark"
         collapseOnSelect
