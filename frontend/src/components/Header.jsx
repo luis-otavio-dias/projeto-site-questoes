@@ -24,7 +24,9 @@ function Header() {
               </LinkContainer>
 
               <NavDropdown title="Menu" id="nav-dropdown" menuVariant="dark">
-                <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
+                <LinkContainer to="/login">
+                  <NavDropdown.Item>Login</NavDropdown.Item>
+                </LinkContainer>
                 <NavDropdown.Item href="#action/3.2">
                   Another action
                 </NavDropdown.Item>

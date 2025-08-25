@@ -38,6 +38,7 @@ def getUser(request, id):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def getUserProfile(request):
     user = request.user
     serializer = UserSerializer(instance=user, many=False)
