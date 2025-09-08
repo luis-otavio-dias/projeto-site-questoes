@@ -186,7 +186,7 @@
   }
 
   .container {
-    min-height: 90vh;
+    /* min-height: 90vh; */
     min-width: 90%;
     margin: 0 auto;
   }

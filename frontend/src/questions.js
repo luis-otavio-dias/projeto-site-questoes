@@ -71,6 +71,72 @@ const questions = [
     description: "Description for question 12",
     options: ["a", "b", "c", "d", "e"],
   },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
+  {
+    id: 12,
+    title: "Question 12",
+    description: "Description for question 12",
+    options: ["a", "b", "c", "d", "e"],
+  },
 ];
 
 export default questions;
