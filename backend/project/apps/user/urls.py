@@ -4,6 +4,8 @@ from project.apps.user.api.views import (
     getUser,
     getUsers,
     getUserProfile,
+    getUserQuestions,
+    getUserMeQuestions,
     registerUser,
     CustomTokenObtainPairView,
 )
@@ -21,8 +23,18 @@ urlpatterns = [
         CustomTokenObtainPairView.as_view(),
         name="login",
     ),
-    path("api/users/register/", registerUser, name="register"),
-    path("api/users/profile", getUserProfile, name="profile"),
     path("api/users/", getUsers, name="users"),
+    path("api/users/register/", registerUser, name="register"),
+    path("api/users/profile/", getUserProfile, name="profile"),
     path("api/users/<int:id>/", getUser, name="user"),
+    path(
+        "api/users/<int:id>/questions/",
+        getUserQuestions,
+        name="user_questions",
+    ),
+    path(
+        "api/users/me/questions/",
+        getUserMeQuestions,
+        name="user_me_questions",
+    ),
 ]
