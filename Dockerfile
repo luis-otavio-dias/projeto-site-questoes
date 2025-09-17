@@ -4,15 +4,15 @@ LABEL mantainer="luis-otavio-dias"
 ENV PYTHONDONTWRITEBYTECODE=1 \
 PYTHONUNBUFFERED=1
 
-COPY djangoapp /djangoapp
+COPY backend /backend
 COPY scripts /scripts
 
-WORKDIR /djangoapp
+WORKDIR /backend
 
 # Instala uv 
 COPY --from=ghcr.io/astral-sh/uv:latest  /uv /uvx /bin/
 
-COPY djangoapp/requirements.txt /djangoapp
+COPY backend/requirements.txt /backend
 
 # Enable bytecode compilation
 ENV UV_COMPILE_BYTECODE=1
@@ -36,7 +36,7 @@ RUN uv pip install -r requirements.txt --system && \
 
 
 # Adiciona a pasta scripts no $PATH do container.
-ENV PATH="/scripts:/djangoapp/.venv/bin:$PATH"
+ENV PATH="/scripts:/backend/.venv/bin:$PATH"
 
 USER duser
 
