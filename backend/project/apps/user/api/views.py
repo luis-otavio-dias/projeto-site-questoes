@@ -9,9 +9,10 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from project.apps.user.models import User
+from project.apps.user.models import User, File
 from project.apps.question.api.serializers import QuestionSerializer
 from project.apps.user.api.serializers import (
+    FileSerializer,
     UserSerializer,
     UserTokenSerializer,
     CustomTokenObtainPairSerializer,
@@ -82,5 +83,25 @@ def registerUser(request):
     except IntegrityError:
         message = {
             "descrição": "Já existe um usuário com esse username ou email.",
+        }
+        return Response(message, status=HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def uploadFiles(request):
+    try:
+        data = request.data.get("file")
+        user = request.user
+        file = File.objects.create(
+            user=user,
+            file=data,
+        )
+        serializer = FileSerializer(file, many=False)
+        return Response(serializer.data)
+
+    except IntegrityError:
+        message = {
+            "descrição": "Erro ao adicionar questões.",
         }
         return Response(message, status=HTTP_400_BAD_REQUEST)

@@ -12,9 +12,6 @@ sys.path.append(str(DJANGO_BASE_DIR))
 os.environ["DJANGO_SETTINGS_MODULE"] = "project.settings"
 settings.USE_TZ = False
 
-file_name = "questoes_socio.csv"
-CSV_FILE = Path(__file__).parent / file_name
-
 
 def add_question_csv(csv_file, user):
     from project.apps.question.models import Question, Theme, Edition, Answer
@@ -59,6 +56,9 @@ if __name__ == "__main__":
     # please update the CSV_FILE variable with the correct path.
 
     from project.apps.question.models import Question, Theme, Edition, Answer
+
+    file_name = "questoes_socio.csv"
+    CSV_FILE = Path(__file__).parent / file_name
 
     django.setup()
 

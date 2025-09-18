@@ -3,13 +3,19 @@ from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from project.apps.user.models import User
+from project.apps.user.models import User, File
+
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = ["id", "file", "user"]
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email", "isAdmin"]
+        fields = ["id", "username", "email", "isAdmin", "files"]
 
     isAdmin = serializers.SerializerMethodField(read_only=True)
 
@@ -20,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserTokenSerializer(UserSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email", "isAdmin", "token"]
+        fields = ["id", "username", "email", "isAdmin", "files", "token"]
 
     token = serializers.SerializerMethodField(read_only=True)
 
