@@ -1,6 +1,6 @@
 from django.urls import path
-from project.apps.user import views
-from project.apps.user.api.views import (
+
+from project.apps.user.views import (
     getUser,
     getUsers,
     getUserProfile,
@@ -14,32 +14,28 @@ from project.apps.user.api.views import (
 app_name = "user"
 
 urlpatterns = [
-    path("user/register/", views.register, name="register"),
-    path("user/login/", views.login_view, name="login"),
-    path("user/logout/", views.logout_view, name="logout"),
-    path("user/add_questions/", views.add_questions, name="add_questions"),
     # API endpoints
     path(
-        "api/users/login",
+        "login/",
         CustomTokenObtainPairView.as_view(),
         name="login",
     ),
-    path("api/users/", getUsers, name="users"),
-    path("api/users/register/", registerUser, name="register"),
-    path("api/users/profile/", getUserProfile, name="profile"),
-    path("api/users/<int:id>/", getUser, name="user"),
+    path("get_users/", getUsers, name="get_users"),
+    path("register/", registerUser, name="register"),
+    path("profile/", getUserProfile, name="profile"),
+    path("<int:id>/", getUser, name="user"),
     path(
-        "api/users/<int:id>/questions/",
+        "<int:id>/questions/",
         getUserQuestions,
         name="user_questions",
     ),
     path(
-        "api/users/me/questions/",
+        "me/questions/",
         getUserMeQuestions,
         name="user_me_questions",
     ),
     path(
-        "api/users/upload_questions/",
+        "upload_questions/",
         uploadFiles,
         name="upload_questions",
     ),

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from project.apps.question.models import Question, Edition, Theme, Answer
 
-from project.apps.user.api.serializers import UserSerializer
+from project.apps.user.serializers import UserSerializer
 
 
 class EditionSerilizer(serializers.ModelSerializer):
