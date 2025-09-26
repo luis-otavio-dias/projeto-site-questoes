@@ -1,94 +1,64 @@
 import { Card } from "../../components/Card";
-import { Container } from "../../components/Container";
-import { Menu } from "../../components/Menu";
-import { LeftBar } from "../../components/LeftBar";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { Loader } from "../../components/Loader";
-
-type Theme = {
-  id: number;
-  name: string;
-};
-
-type Edition = {
-  id: number;
-  year: number;
-};
-
-type Option = {
-  id: number;
-  option: string;
-  option_text: string;
-};
-
-type Question = {
-  id: number;
-  edition: Edition;
-  theme: Theme;
-  stem: string;
-  answer_options: Option[];
-};
+import { MainTemplate } from "../../templates/MainTemplate";
+import { useQuestionContext } from "../../contexts/QuestionContext/useQuestionContext";
+import { QuestionActionTypes } from "../../actions/questionActions";
+import type { QuestionModel } from "../../models/Question/QuestionModel";
+import { useEffect } from "react";
+import { Link } from "react-router";
+import axios from "axios";
 
 export function Home() {
   const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN;
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+
+  const { state, dispatch } = useQuestionContext();
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchQuestions = async () => {
+      dispatch({ type: QuestionActionTypes.QUESTION_LIST_REQUEST });
+
       try {
-        setLoading(true);
-        const { data } = await axios.get("/api/questions/", {
+        const { data } = await axios.get<QuestionModel[]>("/api/questions/", {
           headers: {
             Authorization: AUTH_TOKEN,
           },
         });
-        setQuestions(data);
-        setError(null);
+
+        dispatch({
+          type: QuestionActionTypes.QUESTION_LIST_SUCCESS,
+          payload: data,
+        });
       } catch (err) {
-        setError("Failed to fetch data");
-      } finally {
-        setLoading(false);
+        dispatch({
+          type: QuestionActionTypes.QUESTION_LIST_FAIL,
+          payload: "Error fetching questions",
+        });
       }
-    }
-    fetchData();
-    console.log(questions);
-  }, []);
+    };
+    fetchQuestions();
+  }, [AUTH_TOKEN]);
 
   return (
-    <>
-      <Menu />
-      <div className="flex flex-col min-h-screen">
-        <div className="flex flex-1">
-          <LeftBar />
-          <div className="flex-1">
-            <Container className="h-[90vh] mt-10 border-2 rounded-2xl overflow-auto flex-1">
-              <div className="flex flex-wrap gap-10 justify-center bg-scroll">
-                {loading && <Loader />}
+    <MainTemplate>
+      {state.loading ? (
+        <Loader />
+      ) : (
+        Array.isArray(state.questions) &&
+        state.questions.map((q) => (
+          <Link
+            to={`/questions/${q.id}`}
+            key={`link-question-${q.id}`}
+            state={{ question: q }}
+          >
+            <Card key={`question-${q.id}`}>
+              {q.theme.name} | {q.edition.year}
+              <div>{q.stem}</div>
+            </Card>
+          </Link>
+        ))
+      )}
 
-                {error && <p>{error}</p>}
-
-                {Array.isArray(questions) &&
-                  questions.map((q) => (
-                    <Card key={`question-${q.id}`} id={q.id}>
-                      {q.theme.name} | {q.edition.year}
-                      <div>{q.stem}</div>
-                      {/* <div>
-                      {q.options.map((option) => (
-                        <ul key={`option-${option}`}>
-                          <li>{option}</li>
-                        </ul>
-                      ))}
-                    </div> */}
-                    </Card>
-                  ))}
-              </div>
-            </Container>
-          </div>
-        </div>
-      </div>
-    </>
+      {state.error && <p>{state.error}</p>}
+    </MainTemplate>
   );
 }

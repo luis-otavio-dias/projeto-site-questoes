@@ -7,9 +7,5 @@ type ContainerProps = {
 };
 
 export function Container({ className, children }: ContainerProps) {
-  return (
-    <div className={cn("container", className)}>
-      <div className="content">{children}</div>
-    </div>
-  );
+  return <div className={cn("", className)}>{children}</div>;
 }
