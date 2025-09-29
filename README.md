@@ -5,7 +5,9 @@
 <p align="center">
 <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff">
 <img alt="Django" src="https://img.shields.io/badge/Django-%23092E20.svg?logo=django&logoColor=white">
-<img alt="Status do Projeto" src="https://img.shields.io/badge/License-MIT-black.svg">
+<img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff">
+<img alt="React" src="https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)">
+<img alt="Licença" src="https://img.shields.io/badge/License-MIT-black.svg">
 <img alt="Status do Projeto" src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow">
 </p>
 
