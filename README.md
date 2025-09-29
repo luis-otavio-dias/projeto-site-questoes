@@ -20,11 +20,6 @@ A plataforma importa o arquivo enviado, organiza o conteúdo em blocos de quest�
 
 Este é um projeto pessoal de estudos desenvolvido em Django, atualmente em desenvolvimento. Estou constantemente implementando novas funcionalidades e corrigindo falhas.
 
-Na raiz do projeto existe o arquivo ``todo.md``  que me auxilia a acompanhar o progresso do desenvolvimento, nele registro:
-  - Alterações realizadas
-  - Pontos de melhoria
-  - Bugs identificados
-
 ## Como rodar o projeto localmente
 
 **Pré-requisitos**: 
@@ -65,7 +60,7 @@ Com o Docker Desktop instalado e aberto, o arquivo .env configurado, execute na 
 ```
 docker-compose up --build -d
 ```
-Após finalizar o processo de build, execute:
+Após finalizar o processo de build, execute para iniciar o servidor do backend:
 
 ```
 docker-compose up
