@@ -50,7 +50,7 @@ export function MenuDropdown() {
         </a>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="mr-2 mt-7 w-80 border-2 rounded-lg dark:bg-primary-foreground"
+        className="mr-2 mt-7 w-80 border-2 rounded-lg bg-primary-foreground"
         align="center"
       >
         <DropdownMenuGroup className="flex flex-col p-4 gap-4">
