@@ -18,7 +18,10 @@ export function DefaultButton({
       {linkTo && (
         <button
           {...props}
-          className={cn("cursor-pointer rounded-2xl w-32 h-14", className)}
+          className={cn(
+            "cursor-pointer rounded-2xl w-32 h-14 disabled:bg-muted-foreground disabled:cursor-default",
+            className
+          )}
         >
           <Link to={`${linkTo}`}>{icon}</Link>
         </button>
@@ -27,7 +30,10 @@ export function DefaultButton({
       {!linkTo && (
         <button
           {...props}
-          className={cn("cursor-pointer rounded-2xl w-32 h-14", className)}
+          className={cn(
+            "cursor-pointer rounded-2xl w-32 h-14 disabled:bg-muted-foreground disabled:cursor-default",
+            className
+          )}
         >
           {icon}
         </button>

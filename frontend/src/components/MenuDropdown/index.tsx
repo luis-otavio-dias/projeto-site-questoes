@@ -14,6 +14,7 @@ import {
   MoonIcon,
 } from "lucide-react";
 import { useTheme } from "../ThemeProvider";
+import { Link } from "react-router";
 
 export function MenuDropdown() {
   const { theme, changeTheme } = useTheme();
@@ -93,7 +94,7 @@ export function MenuDropdown() {
         <DropdownMenuGroup className="flex flex-col p-4 gap-4">
           <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
             <a aria-label="Home" title="Home">
-              Login
+              <Link to="/login">Login</Link>
             </a>
           </DropdownMenuItem>
         </DropdownMenuGroup>

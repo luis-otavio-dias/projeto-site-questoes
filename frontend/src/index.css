@@ -182,18 +182,4 @@
       sans-serif;
     font-size: 1.6rem;
   }
-
-  .container-fluid {
-    max-width: auto;
-  }
-
-  .container {
-    /* min-height: 90vh; */
-    min-width: 90%;
-    margin: 0 auto;
-  }
-
-  .content {
-    margin: 3.2rem;
-  }
 }

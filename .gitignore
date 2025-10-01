@@ -1,5 +1,11 @@
 .vscode/
 
+# gemini-cli settings
+.gemini/
+
+# GitHub App credentials
+gha-creds-*.json
+
 # Django #
 *.log
 *.pot

@@ -1,7 +1,6 @@
-import { Menu } from "../../components/Menu";
 import { LeftBar } from "../../components/LeftBar";
 import { Container } from "../../components/Container";
-import { MenuDropdown } from "../../components/MenuDropdown";
+import { DefaultMenu } from "../../components/DefaultMenu";
 
 type MainTemplateProps = {
   children: React.ReactNode;
@@ -10,11 +9,7 @@ type MainTemplateProps = {
 export function MainTemplate({ children }: MainTemplateProps) {
   return (
     <>
-      <Menu
-        title={"iStudy"}
-        actions={"search bar"}
-        children={<MenuDropdown />}
-      />
+      <DefaultMenu />
       <div className="flex min-h-screen">
         <LeftBar />
         <Container className="flex-1 mx-8 h-[90vh] mt-10 py-10 border-2 rounded-2xl overflow-auto flex flex-wrap gap-10 justify-center bg-scroll">

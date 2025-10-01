@@ -51,7 +51,9 @@ export function Home() {
             state={{ question: q }}
           >
             <Card key={`question-${q.id}`}>
-              {q.theme.name} | {q.edition.year}
+              <p className="mb-2 text-muted-foreground">
+                {q.theme.name} | {q.edition.year}
+              </p>
               <div>{q.stem}</div>
             </Card>
           </Link>
