@@ -15,9 +15,18 @@ import {
 } from "lucide-react";
 import { useTheme } from "../ThemeProvider";
 import { Link } from "react-router";
+import { useUserContext } from "../../contexts/UserContext/useUserContext";
+import { UserActionTypes } from "../../actions/userActions";
 
 export function MenuDropdown() {
   const { theme, changeTheme } = useTheme();
+
+  const { state: userInfo, dispatch } = useUserContext();
+
+  function handleLogout() {
+    localStorage.removeItem("userInfo");
+    dispatch({ type: UserActionTypes.USER_LOGOUT });
+  }
 
   const NextThemeIcon = {
     dark: <MoonIcon size={32} />,
@@ -93,9 +102,20 @@ export function MenuDropdown() {
         <DropdownMenuSeparator className="border-1" />
         <DropdownMenuGroup className="flex flex-col p-4 gap-4">
           <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
-            <a aria-label="Home" title="Home">
-              <Link to="/login">Login</Link>
-            </a>
+            {userInfo.userInfo ? (
+              <Link
+                aria-label="Login"
+                title="Login"
+                to="/"
+                onClick={handleLogout}
+              >
+                Logout
+              </Link>
+            ) : (
+              <Link aria-label="Login" title="Login" to="/login">
+                Login
+              </Link>
+            )}
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

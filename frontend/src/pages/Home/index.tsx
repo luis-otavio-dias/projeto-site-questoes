@@ -7,22 +7,28 @@ import type { QuestionModel } from "../../models/Question/QuestionModel";
 import { useEffect } from "react";
 import { Link } from "react-router";
 import axios from "axios";
+import { useUserContext } from "../../contexts/UserContext/useUserContext";
 
 export function Home() {
   const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN;
 
   const { state, dispatch } = useQuestionContext();
 
+  const { state: userState } = useUserContext();
+
   useEffect(() => {
     const fetchQuestions = async () => {
       dispatch({ type: QuestionActionTypes.QUESTION_LIST_REQUEST });
 
       try {
-        const { data } = await axios.get<QuestionModel[]>("/api/questions/", {
-          headers: {
-            Authorization: AUTH_TOKEN,
-          },
-        });
+        const { data } = await axios.get<QuestionModel[]>(
+          "/api/users/me/questions/",
+          {
+            headers: {
+              Authorization: `Bearer ${userState.userInfo?.token}`,
+            },
+          }
+        );
 
         dispatch({
           type: QuestionActionTypes.QUESTION_LIST_SUCCESS,

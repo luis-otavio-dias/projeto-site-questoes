@@ -12,9 +12,7 @@ export function QuestionContextProvider({
 }: QuestionContextProviderProps) {
   const [state, dispatch] = useReducer(questionReducer, initialQuestionState);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
+  useEffect(() => {}, [state]);
 
   return (
     <QuestionContext.Provider value={{ state, dispatch }}>
