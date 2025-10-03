@@ -10,10 +10,7 @@ import axios from "axios";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 
 export function Home() {
-  const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN;
-
   const { state, dispatch } = useQuestionContext();
-
   const { state: userState } = useUserContext();
 
   useEffect(() => {
@@ -34,18 +31,34 @@ export function Home() {
           type: QuestionActionTypes.QUESTION_LIST_SUCCESS,
           payload: data,
         });
-      } catch (err) {
+      } catch (err: any) {
+        console.error(err);
         dispatch({
           type: QuestionActionTypes.QUESTION_LIST_FAIL,
-          payload: "Error fetching questions",
+          payload:
+            err.response && err.response.data.detail
+              ? err.response.data.detail
+              : err.message,
         });
       }
     };
     fetchQuestions();
-  }, [AUTH_TOKEN]);
+  }, [dispatch, userState.userInfo]);
+
+  const userQuestions: QuestionModel[] | null = state.questions;
 
   return (
     <MainTemplate>
+      {!userQuestions ||
+        (userQuestions.length === 0 && (
+          <div className="flex flex-col items-center justify-center h-full">
+            <h2 className="text-3xl font-bold mb-4">No Questions Found</h2>
+            <p className="text-lg text-muted-foreground">
+              You have not created any questions yet.
+            </p>
+          </div>
+        ))}
+
       {state.loading ? (
         <Loader />
       ) : (

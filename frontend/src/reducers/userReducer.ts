@@ -23,6 +23,20 @@ export function userReducer(
     case UserActionTypes.USER_LOGOUT: {
       return { ...state, userInfo: null, error: null };
     }
+    case UserActionTypes.USER_REGISTER_REQUEST: {
+      return { ...state, loading: true, error: null };
+    }
+    case UserActionTypes.USER_REGISTER_SUCCESS: {
+      return { ...state, loading: false, userInfo: action.payload };
+    }
+    case UserActionTypes.USER_REGISTER_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        userInfo: null,
+      };
+    }
   }
 
   return state;

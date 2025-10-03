@@ -76,7 +76,7 @@ def registerUser(request):
 
         user = User.objects.create(
             username=data["username"],
-            email=data["email"],
+            # email=data["email"],
             password=make_password(data["password"]),
         )
 
@@ -86,7 +86,7 @@ def registerUser(request):
 
     except IntegrityError:
         message = {
-            "descrição": "Já existe um usuário com esse username ou email.",
+            "detail": "User with this username or email already exists.",
         }
         return Response(message, status=HTTP_400_BAD_REQUEST)
 
@@ -106,7 +106,7 @@ def uploadFiles(request):
 
     except IntegrityError:
         message = {
-            "descrição": "Erro ao adicionar questões.",
+            "deetail": "Error uploading file.",
         }
         return Response(message, status=HTTP_400_BAD_REQUEST)
 

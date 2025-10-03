@@ -14,18 +14,20 @@ import {
   MoonIcon,
 } from "lucide-react";
 import { useTheme } from "../ThemeProvider";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 import { UserActionTypes } from "../../actions/userActions";
 
 export function MenuDropdown() {
+  const navigate = useNavigate();
   const { theme, changeTheme } = useTheme();
-
   const { state: userInfo, dispatch } = useUserContext();
 
-  function handleLogout() {
+  function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    e.preventDefault();
     localStorage.removeItem("userInfo");
     dispatch({ type: UserActionTypes.USER_LOGOUT });
+    navigate("/login");
   }
 
   const NextThemeIcon = {
@@ -104,9 +106,9 @@ export function MenuDropdown() {
           <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
             {userInfo.userInfo ? (
               <Link
-                aria-label="Login"
-                title="Login"
-                to="/"
+                aria-label="Logout"
+                title="Logout"
+                to="#"
                 onClick={handleLogout}
               >
                 Logout
