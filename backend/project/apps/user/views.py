@@ -1,7 +1,6 @@
 # from pathlib import Path
 # from utils.add_questions import add_question_csv
 
-# API Views
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
@@ -21,6 +20,8 @@ from project.apps.user.serializers import (
     UserTokenSerializer,
     CustomTokenObtainPairSerializer,
 )
+
+from utils.add_questions import add_question_csv
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -93,7 +94,7 @@ def registerUser(request):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def uploadFiles(request):
+def uploadFile(request):
     try:
         data = request.data.get("file")
         user = request.user
@@ -101,12 +102,13 @@ def uploadFiles(request):
             user=user,
             file=data,
         )
+        add_question_csv(file.file.path, user)
         serializer = FileSerializer(file, many=False)
         return Response(serializer.data)
 
     except IntegrityError:
         message = {
-            "deetail": "Error uploading file.",
+            "detail": "Error uploading file.",
         }
         return Response(message, status=HTTP_400_BAD_REQUEST)
 

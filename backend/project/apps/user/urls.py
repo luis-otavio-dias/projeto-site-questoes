@@ -6,7 +6,7 @@ from project.apps.user.views import (
     getUserProfile,
     getUserQuestions,
     getUserMeQuestions,
-    uploadFiles,
+    uploadFile,
     registerUser,
     CustomTokenObtainPairView,
 )
@@ -35,8 +35,8 @@ urlpatterns = [
         name="user_me_questions",
     ),
     path(
-        "upload_questions/",
-        uploadFiles,
-        name="upload_questions",
+        "upload_file/",
+        uploadFile,
+        name="upload_file",
     ),
 ]

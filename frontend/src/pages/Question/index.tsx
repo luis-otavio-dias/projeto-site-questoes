@@ -9,12 +9,18 @@ import { Container } from "../../components/Container";
 import { DefaultInput } from "../../components/DefaultInput";
 import { DefaultButton } from "../../components/DefaultButton";
 import { ArrowLeft } from "lucide-react";
+import { DefaultForm } from "../../components/DefaultForm";
 
 export function Question() {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
   function checkOptionHandler(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    alert(`Opção selecionada: ${selectedOption}`);
+  }
+
+  function handleFormExample(e: React.FormEvent) {
+    console.log(e.target);
   }
 
   const location = useLocation();
@@ -48,7 +54,12 @@ export function Question() {
             {state.question.edition.year} | {state.question.theme.name}
           </p>
           <p className="text-4xl text-justify mb-5">{state.question.stem}</p>
-          <form action="" radioGroup="options" className="flex flex-col gap-5">
+          <DefaultForm
+            onSubmit={handleFormExample}
+            buttonText="Enviar"
+            onClick={checkOptionHandler}
+            className="items-start"
+          >
             {state.question.answer_options.map((option) => (
               <DefaultInput
                 id={`question-${option.id}`}
@@ -57,19 +68,34 @@ export function Question() {
                 value={option.option}
                 name="options"
                 type="radio"
+                key={option.id}
                 className=""
                 onChange={(e) => setSelectedOption(e.target.value)}
               />
             ))}
+          </DefaultForm>
+          {/* <form action="" radioGroup="options" className="flex flex-col gap-5"> */}
+          {/* {state.question.answer_options.map((option) => (
+              <DefaultInput
+                id={`question-${option.id}`}
+                labelText={`${option.option}) ${option.option_text}`}
+                labelInline={true}
+                value={option.option}
+                name="options"
+                type="radio"
+                key={option.id}
+                onChange={(e) => setSelectedOption(e.target.value)}
+              />
+            ))} */}
 
-            <DefaultButton
+          {/* <DefaultButton
               icon="Enviar"
               className="mt-4 bg-primary text-primary-foreground dark:bg-secondary dark:text-secondary-foreground hover:opacity-80 transition-colors"
               type="submit"
               onClick={checkOptionHandler}
               disabled={!selectedOption}
             />
-          </form>
+          </form> */}
         </Container>
       )}
     </MainTemplate>
