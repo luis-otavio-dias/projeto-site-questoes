@@ -53,22 +53,43 @@ cd projeto-site-questoes
     DB_NAME="db.sqlite"
     ```
 ##
-### Como usar
+### Como rodar a aplicação localmente
 
-**Executando a aplicação**
+**Executando a aplicação**  
+O projeto é dividido em duas partes principais: o backend (Django) e o frontend (React). Ambos precisam ser executados simultaneamente.
 
-Com o Docker Desktop instalado e aberto, o arquivo .env configurado, execute na raiz do projeto:
 
+**Executando o Backend com Docker**  
+
+Com o Docker Desktop em execução, o comando irá construir a imagem do Docker (se ainda não tiver sido construída) e iniciar o serviço do backend em segundo plano:  
 ```
 docker-compose up --build -d
 ```
-Após finalizar o processo de build, execute para iniciar o servidor do backend:
 
-```
-docker-compose up
-```
+O backend estará disponível em http://localhost:8000.
+##
+**Executando o Frontend com Vite**  
 
-A aplicação estará disponível em http://localhost:8000.
+Navegue até a pasta `frontend`
+```
+cd frontend
+```
+Instale as dependências do Node.js:
+```
+npm install
+(ou pnpm install / yarn install )
+```
+Inicie o servidor de desenvolvimento do React:
+```
+npm run dev
+(ou pnpm dev / yarn dev )
+```
+A aplicação frontend estará acessível em `http://localhost:5173`. O Vite já está configurado para redirecionar as chamadas de API (/api) para o backend do Django que está rodando na porta 8000.
+
+**Acessando a Aplicação**  
+Após iniciar ambos os serviços, abra seu navegador e acesse:  
+Frontend (Interface do Usuário): http://localhost:5173  
+Backend (API): http://localhost:8000  
 ##
 
 ### Licença
