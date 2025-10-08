@@ -92,6 +92,23 @@ def registerUser(request):
         return Response(message, status=HTTP_400_BAD_REQUEST)
 
 
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def updateUserProfile(request):
+    user = request.user
+    serializer = UserTokenSerializer(instance=user)
+
+    data = request.data
+
+    user.username = data["username"]
+    if data["password"] != "":
+        user.password = make_password(data["password"])
+
+    user.save()
+
+    return Response(serializer.data)
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def uploadFile(request):
@@ -111,30 +128,3 @@ def uploadFile(request):
             "detail": "Error uploading file.",
         }
         return Response(message, status=HTTP_400_BAD_REQUEST)
-
-
-# Template Views
-# @login_required(login_url="user:login")
-# def add_questions(request):
-#     form = AddQuestionsForm()
-#     user = User.objects.get(id=request.user.id)
-
-#     if request.method == "POST":
-#         form = AddQuestionsForm(request.POST, request.FILES)
-
-#         if form.is_valid():
-#             file = form.save(commit=False)
-#             file.user = user
-#             file.save()
-#             file_path = (
-#                 Path(__file__).parent.parent.parent.parent
-#                 / "media"
-#                 / str(
-#                     file.file,
-#                 )
-#             )
-#             add_question_csv(file_path, user)
-
-#             return redirect("question:index")
-
-#     return render(request, "add_questions.html", {"form": form})

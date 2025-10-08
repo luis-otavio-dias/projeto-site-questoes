@@ -100,6 +100,18 @@ export function MenuDropdown() {
               Contact
             </a>
           </DropdownMenuItem>
+          {userInfo.userInfo && (
+            <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
+              <Link
+                aria-label="Profile"
+                title="Profile"
+                to="/profile"
+                // onClick={handleLogout}
+              >
+                Profile
+              </Link>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator className="border-1" />
         <DropdownMenuGroup className="flex flex-col p-4 gap-4">

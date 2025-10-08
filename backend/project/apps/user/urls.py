@@ -8,6 +8,7 @@ from project.apps.user.views import (
     getUserMeQuestions,
     uploadFile,
     registerUser,
+    updateUserProfile,
     CustomTokenObtainPairView,
 )
 
@@ -22,6 +23,7 @@ urlpatterns = [
     ),
     path("get_users/", getUsers, name="get_users"),
     path("register/", registerUser, name="register"),
+    path("profile/update/", updateUserProfile, name="update_profile"),
     path("profile/", getUserProfile, name="profile"),
     path("<int:id>/", getUser, name="user"),
     path(

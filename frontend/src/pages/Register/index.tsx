@@ -50,7 +50,6 @@ export function Register() {
             ? err.response.data.detail
             : err.message,
       });
-      // console.log(err.response.data.detail);
     }
   };
 
