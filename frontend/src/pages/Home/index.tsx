@@ -49,37 +49,38 @@ export function Home() {
 
   return (
     <MainTemplate>
-      {!userQuestions ||
-        (userQuestions.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-3xl font-bold mb-4">No Questions Found</h2>
-            <p className="text-lg text-muted-foreground">
-              You have not created any questions yet.
-            </p>
-          </div>
-        ))}
-
       {state.loading ? (
         <Loader />
       ) : (
-        Array.isArray(state.questions) &&
-        state.questions.map((q) => (
-          <Link
-            to={`/questions/${q.id}`}
-            key={`link-question-${q.id}`}
-            state={{ question: q }}
-          >
-            <Card key={`question-${q.id}`}>
-              <p className="mb-2 text-muted-foreground">
-                {q.theme.name} | {q.edition.year}
-              </p>
-              <div>{q.stem}</div>
-            </Card>
-          </Link>
-        ))
-      )}
+        <>
+          {!userQuestions ||
+            (userQuestions.length === 0 && (
+              <div className="flex flex-col items-center justify-center h-full">
+                {state.error && <p>{state.error}</p>}
+                <h2 className="text-3xl font-bold mb-4">No Questions Found</h2>
+                <p className="text-lg text-muted-foreground">
+                  You have not created any questions yet.
+                </p>
+              </div>
+            ))}
 
-      {state.error && <p>{state.error}</p>}
+          {Array.isArray(state.questions) &&
+            state.questions.map((q) => (
+              <Link
+                to={`/questions/${q.id}`}
+                key={`link-question-${q.id}`}
+                state={{ question: q }}
+              >
+                <Card key={`question-${q.id}`}>
+                  <p className="mb-2 text-muted-foreground">
+                    {q.theme.name} | {q.edition.year}
+                  </p>
+                  <div>{q.stem}</div>
+                </Card>
+              </Link>
+            ))}
+        </>
+      )}
     </MainTemplate>
   );
 }

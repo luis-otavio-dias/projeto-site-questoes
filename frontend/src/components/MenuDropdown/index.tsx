@@ -90,24 +90,10 @@ export function MenuDropdown() {
               Home
             </a>
           </DropdownMenuItem>
-          <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
-            <a aria-label="Home" title="Home">
-              About
-            </a>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
-            <a aria-label="Home" title="Home">
-              Contact
-            </a>
-          </DropdownMenuItem>
+
           {userInfo.userInfo && (
             <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
-              <Link
-                aria-label="Profile"
-                title="Profile"
-                to="/profile"
-                // onClick={handleLogout}
-              >
+              <Link aria-label="Profile" title="Profile" to="/profile">
                 Profile
               </Link>
             </DropdownMenuItem>

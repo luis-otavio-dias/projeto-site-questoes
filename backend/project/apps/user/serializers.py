@@ -9,10 +9,12 @@ from project.apps.user.models import User, File
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
-        fields = ["id", "file", "user"]
+        fields = ["id", "file"]
 
 
 class UserSerializer(serializers.ModelSerializer):
+    files = FileSerializer(many=True, read_only=True)
+
     class Meta:
         model = User
         fields = ["id", "username", "email", "isAdmin", "files"]

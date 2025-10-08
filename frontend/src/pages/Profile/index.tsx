@@ -8,7 +8,6 @@ import { useNavigate } from "react-router";
 import { FormContainerTemplate } from "../../templates/FormContainerTemplate";
 
 export function Profile() {
-  // const { state: userInfo } = useUserContext();
   const { state, dispatch } = useUserContext();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
