@@ -28,16 +28,4 @@ urlpatterns = [
         FileUploadView.as_view(),
         name="upload_file",
     ),
-    # path("get_users/", getUsers, name="get_users"),
-    # path("<int:id>/", getUser, name="user"),
-    # path(
-    #     "<int:id>/questions/",
-    #     getUserQuestions,
-    #     name="user_questions",
-    # ),
-    # path(
-    #     "me/questions/",
-    #     getUserMeQuestions,
-    #     name="user_me_questions",
-    # ),
 ]

@@ -1,8 +1,6 @@
 from django.contrib.auth.hashers import make_password
-from django.db import IntegrityError
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -18,15 +16,13 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from apps.user.models import File, User
+from apps.user.models import User
 from apps.user.serializers import (
-    FileSerializer,
     FileUploadSerializer,
     LoginUserSerializer,
     RegisterUserSerializer,
     UserSerializer,
 )
-from utils.add_questions import add_question_csv
 
 
 class RegisterUserView(CreateAPIView):
@@ -168,4 +164,3 @@ class UpdateUserInfoView(APIView):
 class FileUploadView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = FileUploadSerializer
-

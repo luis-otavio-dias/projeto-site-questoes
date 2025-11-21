@@ -9,7 +9,6 @@ dependencies = [
     "djangorestframework==3.16.0",
     "djangorestframework-simplejwt>=5.5.1",
     "django-cors-headers==4.7.0",
-    # Keep only if settings.py uses it:
     "python-dotenv==1.0.1",
     "python-magic>=0.4.27",
 ]
