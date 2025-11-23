@@ -9,20 +9,15 @@ COPY scripts /scripts
 
 WORKDIR /backend
 
-# Instala uv 
+
 COPY --from=ghcr.io/astral-sh/uv:latest  /uv /uvx /bin/
-
-COPY backend/requirements.txt /backend
-
-# Enable bytecode compilation
-ENV UV_COMPILE_BYTECODE=1
-
-# Copy from the cache instead of linking since it's a mounted volume
-ENV UV_LINK_MODE=copy
 
 EXPOSE 8000
 
-RUN uv pip install -r requirements.txt --system && \
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends libmagic1 file && \
+  rm -rf /var/lib/apt/lists/* && \
+  uv sync --locked && \
   adduser --disabled-password --no-create-home duser && \
   mkdir -p /home/duser/.cache && \
   chown -R duser:duser /home/duser/.cache && \
@@ -35,7 +30,6 @@ RUN uv pip install -r requirements.txt --system && \
   chmod -R +x /scripts
 
 
-# Adiciona a pasta scripts no $PATH do container.
 ENV PATH="/scripts:/backend/.venv/bin:$PATH"
 
 USER duser

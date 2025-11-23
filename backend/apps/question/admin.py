@@ -1,8 +1,8 @@
 from django.contrib import admin
-from project.apps.question.models import Question, Theme, Answer, Edition
+
+from apps.question.models import Answer, Edition, Question, Theme
 
 
-# Register your models here.
 class AnswerLinkInLine(admin.TabularInline):
     model = Answer
     extra = 1

@@ -1,2 +1,2 @@
 #!/bin/sh
-python manage.py collectstatic --noinput
+uv run manage.py collectstatic --noinput

@@ -16,13 +16,13 @@ Including another URLconf
 """
 
 from django.conf import settings
-from django.contrib import admin
-from django.urls import path, include
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
 
 urlpatterns = [
-    path("api/users/", include("project.apps.user.urls")),
-    path("api/questions/", include("project.apps.question.urls")),
+    path("api/users/", include("apps.user.urls")),
+    path("api/questions/", include("apps.question.urls")),
     path("admin/", admin.site.urls),
 ]
 
