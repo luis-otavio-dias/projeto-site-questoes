@@ -2,7 +2,9 @@ FROM python:3.13-slim-bookworm
 LABEL mantainer="luis-otavio-dias"
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-PYTHONUNBUFFERED=1
+PYTHONUNBUFFERED=1 \
+UV_LINK_MODE=copy
+
 
 COPY backend /backend
 COPY scripts /scripts
