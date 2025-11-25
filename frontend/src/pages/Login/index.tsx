@@ -3,13 +3,14 @@ import { FormContainerTemplate } from "../../templates/FormContainerTemplate";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 import { useState } from "react";
 import { UserActionTypes } from "../../actions/userActions";
-import axios from "axios";
 import { Loader } from "../../components/Loader";
 import { LoginForm } from "../../components/LoginForm";
 
+import { api } from "../../services/api";
+
 export function Login() {
   const { state, dispatch } = useUserContext();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -18,20 +19,10 @@ export function Login() {
     dispatch({ type: UserActionTypes.USER_LOGIN_REQUEST });
 
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const { data } = await axios.post(
-        "/api/users/login/",
-        {
-          username: username,
-          password: password,
-        },
-        config
-      );
+      const { data } = await api.post("/users/login/", {
+        email: email,
+        password: password,
+      });
 
       dispatch({ type: UserActionTypes.USER_LOGIN_SUCCESS, payload: data });
       localStorage.setItem("userInfo", JSON.stringify(data));
@@ -60,9 +51,9 @@ export function Login() {
           </div>
 
           <LoginForm
-            username={username}
+            email={email}
             password={password}
-            onUsernameChange={(e) => setUsername(e.target.value)}
+            onEmailChange={(e) => setEmail(e.target.value)}
             onPasswordChange={(e) => setPassword(e.target.value)}
             onSubmit={handleLogin}
           />

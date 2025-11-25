@@ -1,9 +1,13 @@
 FROM python:3.13-slim-bookworm
 LABEL mantainer="luis-otavio-dias"
 
+COPY --from=ghcr.io/astral-sh/uv:latest  /uv /uvx /bin/
+
 ENV PYTHONDONTWRITEBYTECODE=1 \
 PYTHONUNBUFFERED=1 \
-UV_LINK_MODE=copy
+UV_COMPILE_BYTECODE=1 \
+UV_LINK_MODE=copy \
+UV_TOOL_BIN_DIR=/usr/local/bin
 
 
 COPY backend /backend
@@ -11,15 +15,12 @@ COPY scripts /scripts
 
 WORKDIR /backend
 
-
-COPY --from=ghcr.io/astral-sh/uv:latest  /uv /uvx /bin/
-
 EXPOSE 8000
 
 RUN apt-get update && \
   apt-get install -y --no-install-recommends libmagic1 file && \
   rm -rf /var/lib/apt/lists/* && \
-  uv sync --locked && \
+  uv sync --locked --no-dev && \
   adduser --disabled-password --no-create-home duser && \
   mkdir -p /home/duser/.cache && \
   chown -R duser:duser /home/duser/.cache && \

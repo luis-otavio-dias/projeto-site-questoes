@@ -3,7 +3,7 @@ import { DefaultForm } from "../../components/DefaultForm";
 import { DefaultInput } from "../../components/DefaultInput";
 import { cn } from "../../lib/utils";
 import { MainTemplate } from "../../templates/MainTemplate";
-import axios from "axios";
+import { api } from "../../services/api";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 import { useNavigate } from "react-router";
 
@@ -25,12 +25,11 @@ export function Upload() {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file_upload", file);
 
-    await axios.post("/api/users/upload_file/", formData, {
+    await api.post("/users/upload_file/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${userState.userInfo?.token}`,
       },
     });
 

@@ -4,9 +4,10 @@ import { MainTemplate } from "../../templates/MainTemplate";
 import { useQuestionContext } from "../../contexts/QuestionContext/useQuestionContext";
 import { QuestionActionTypes } from "../../actions/questionActions";
 import type { QuestionModel } from "../../models/Question/QuestionModel";
+import type { UserModel } from "../../models/User/UserModel";
 import { useEffect } from "react";
 import { Link } from "react-router";
-import axios from "axios";
+import { api } from "../../services/api";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 
 export function Home() {
@@ -18,18 +19,13 @@ export function Home() {
       dispatch({ type: QuestionActionTypes.QUESTION_LIST_REQUEST });
 
       try {
-        const { data } = await axios.get<QuestionModel[]>(
-          "/api/users/me/questions/",
-          {
-            headers: {
-              Authorization: `Bearer ${userState.userInfo?.token}`,
-            },
-          }
-        );
+        const { data } = await api.get<UserModel>("/users/me/profile/");
+
+        const userQuestions = data.questions ?? [];
 
         dispatch({
           type: QuestionActionTypes.QUESTION_LIST_SUCCESS,
-          payload: data,
+          payload: userQuestions,
         });
       } catch (err: any) {
         console.error(err);

@@ -2,20 +2,20 @@ import { DefaultForm } from "../DefaultForm";
 import { FormInput } from "../FormInput";
 
 type RegisterFormProps = {
-  username: string;
+  email: string;
   password: string;
   passwordConfirm: string;
-  onUsernameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPasswordConfirmChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
 export function RegisterForm({
-  username,
+  email,
   password,
   passwordConfirm,
-  onUsernameChange,
+  onEmailChange,
   onPasswordChange,
   onPasswordConfirmChange,
   onSubmit,
@@ -24,12 +24,12 @@ export function RegisterForm({
     <DefaultForm buttonText="Register" onSubmit={onSubmit}>
       <div className="flex flex-col items-center justify-center gap-2">
         <FormInput
-          id="username"
-          label="Username"
-          placeholder="Your username here"
-          value={username}
+          id="email"
+          label="email"
+          placeholder="Your email here"
+          value={email}
           type="text"
-          onChange={onUsernameChange}
+          onChange={onEmailChange}
         />
       </div>
 

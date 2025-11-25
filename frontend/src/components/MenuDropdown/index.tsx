@@ -17,15 +17,18 @@ import { useTheme } from "../ThemeProvider";
 import { Link, useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 import { UserActionTypes } from "../../actions/userActions";
+import { api } from "../../services/api";
 
 export function MenuDropdown() {
   const navigate = useNavigate();
   const { theme, changeTheme } = useTheme();
   const { state: userInfo, dispatch } = useUserContext();
 
-  function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+  async function handleLogout(
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) {
     e.preventDefault();
-    localStorage.removeItem("userInfo");
+    await api.post("/users/logout/");
     dispatch({ type: UserActionTypes.USER_LOGOUT });
     navigate("/login");
   }
@@ -105,8 +108,8 @@ export function MenuDropdown() {
             {userInfo.userInfo ? (
               <Link
                 aria-label="Logout"
-                title="Logout"
                 to="#"
+                title="Logout"
                 onClick={handleLogout}
               >
                 Logout
