@@ -26,3 +26,4 @@ __localcode/
 .venv/
 venv
 venv/
+backend/.venv
