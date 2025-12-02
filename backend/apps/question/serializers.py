@@ -1,8 +1,27 @@
 from rest_framework import serializers
 
-from apps.question.models import Answer, Edition, Question, Theme
+from apps.question.models import (
+    Answer,
+    Edition,
+    ExamExtractionTask,
+    Question,
+    Theme,
+)
 
-# from apps.user.serializers import UserSerializer
+
+class ExamExtractionTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExamExtractionTask
+        fields = (
+            "id",
+            "status",
+            "exam_file",
+            "answer_key_file",
+        )
+        read_only_fields = ("id", "status", "created_at")
+
+    def create(self, validated_data: dict) -> ExamExtractionTask:
+        return super().create(validated_data)
 
 
 class EditionSerilizer(serializers.ModelSerializer):

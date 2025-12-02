@@ -1,0 +1,110 @@
+import asyncio
+import json
+import time
+from pathlib import Path
+from typing import Any
+
+from graph import build_graph
+from langchain_core.caches import InMemoryCache
+from langchain_core.exceptions import OutputParserException
+from langchain_core.globals import set_llm_cache
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.output_parsers import JsonOutputParser
+from langgraph.graph.state import RunnableConfig
+from prompts import HUMAN_PROMPT, SYSTEM_PROMPT
+from pydantic import ValidationError
+from rich import print
+
+
+def _content_to_text(content: str | list[str | dict[str, Any]]) -> str:
+    text = ""
+
+    if isinstance(content, str):
+        text = content
+
+    if isinstance(content, list):
+        parts: list[str] = []
+
+        for item in content:
+            if isinstance(item, str) and item.strip():
+                parts.append(item)
+
+            elif isinstance(item, dict):
+                txt = item.get("text", "")
+                if txt and txt.strip():
+                    parts.append(txt)
+
+                elif (
+                    isinstance(item.get("content", None), str)
+                    and item["content"].strip()
+                ):
+                    parts.append(item["content"])
+        text = "\n".join(parts)
+
+    else:
+        text = str(content)
+
+    text = text.strip()
+    if text.startswith("```json"):
+        text = text[7:]
+    elif text.startswith("```"):
+        text = text[3:]
+
+    text = text.removesuffix("```")
+
+    return text.strip()
+
+
+async def main() -> None:
+    set_llm_cache(InMemoryCache())
+    config = RunnableConfig(configurable={"thread_id": 1})
+    graph = build_graph()
+
+    messages = [
+        SystemMessage(SYSTEM_PROMPT),
+        HumanMessage(HUMAN_PROMPT),
+    ]
+
+    result = await graph.ainvoke({"messages": messages}, config=config)
+
+    final_message = result["messages"][-1]
+    if isinstance(final_message, AIMessage):
+        content = final_message.content
+        raw_text: str = _content_to_text(content)
+        try:
+
+            parsed = JsonOutputParser().invoke(raw_text)
+            for question in parsed:
+                has_url = any(
+                    "http" in source for source in question.get("sources", [])
+                )
+                is_text_empty = not question.get("passage_text", "").strip()
+
+                if has_url and is_text_empty:
+                    question["image"] = True
+
+            json_path = Path(__file__).parent / "final_output.json"
+
+            with json_path.open("w", encoding="utf-8") as file:
+                json.dump(parsed, file, indent=4, ensure_ascii=False)
+
+        except (ValidationError, OutputParserException) as e:
+            print(f"Error while parsing JSON response: {e}")
+            print(f"Response content: {content[:100]}")
+
+    else:
+        print("content não foi parsable.")
+        return
+
+
+if __name__ == "__main__":
+    print(f"Start execution at {time.strftime('%X')}")
+    start = time.perf_counter()
+    asyncio.run(main())
+    end = time.perf_counter()
+    print(f"Execution time: {end - start:.2f} seconds")
+    # first time execution (before async functions and cache):  ~1165 seconds
+    # subsequent executions (with cache): ~1054 seconds
+    # after optimizations in tool 'structure_questions': ~ 525 seconds
+    # after switching to gemini-2.5-flash-lite: ~ 300-500 seconds
+    # after further prompt optimizations: ~150-250 seconds
