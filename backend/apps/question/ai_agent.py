@@ -90,7 +90,7 @@ async def process_question(
                 {"text": chunk, "answer_key_text": answer_key_text}
             )
         except Exception as e:
-            print(f"[red]❌ Erro no chunk {index}: {e}[/]")
+            print(f"[red]Erro no chunk {index}: {e}[/]")
             return None
 
 
