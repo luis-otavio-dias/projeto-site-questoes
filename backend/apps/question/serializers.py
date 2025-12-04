@@ -3,6 +3,7 @@ from rest_framework import serializers
 from apps.question.models import (
     Answer,
     Edition,
+    Exam,
     ExamExtractionTask,
     Question,
     Theme,
@@ -55,7 +56,15 @@ class QuestionSerializer(serializers.ModelSerializer):
             "id",
             "edition",
             "theme",
-            "correct_answer",
             "stem",
             "answer_options",
+            "correct_answer",
         )
+
+
+class ExamSerializer(serializers.ModelSerializer):
+    questions = QuestionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Exam
+        fields = ("id", "title", "questions")

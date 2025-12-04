@@ -12,7 +12,7 @@ app_name = "question"
 urlpatterns = [
     path("", get_questions, name="questions"),
     path("<int:id>/", get_question, name="question_detail"),
-    path("upload-ai/", UploadExamView.as_view(), name="upload_ai"),
+    path("upload-exam/", UploadExamView.as_view(), name="upload_exam"),
     path(
         "tasks/<int:id>/status/",
         ExamExtractionStatusView.as_view(),

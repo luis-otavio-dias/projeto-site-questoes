@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from django.core.files.uploadedfile import UploadedFile
 from rest_framework import serializers
 
-from apps.question.serializers import QuestionSerializer
+from apps.question.serializers import ExamSerializer
 from apps.user.models import File, User
 from apps.user.validators import validate_file_type
 from utils.add_questions import add_question_csv
@@ -65,8 +65,9 @@ class FileUploadSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     files = FileSerializer(many=True, read_only=True)
-    questions = QuestionSerializer(many=True, read_only=True)
+    # questions = QuestionSerializer(many=True, read_only=True)
+    exams = ExamSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ("id", "email", "files", "questions")
+        fields = ("id", "email", "files", "exams")

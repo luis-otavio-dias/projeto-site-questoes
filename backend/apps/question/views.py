@@ -41,6 +41,8 @@ class UploadExamView(CreateAPIView):
 
 class ExamExtractionStatusView(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = ExamExtractionTask.objects.all()
     serializer_class = ExamExtractionTaskSerializer
     lookup_field = "id"
+
+    def get_queryset(self) -> ExamExtractionTask:
+        return ExamExtractionTask.objects.filter(user=self.request.user)

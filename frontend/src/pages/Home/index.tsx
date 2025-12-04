@@ -9,10 +9,12 @@ import { useEffect } from "react";
 import { Link } from "react-router";
 import { api } from "../../services/api";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
+import { useNavigate } from "react-router";
 
 export function Home() {
   const { state, dispatch } = useQuestionContext();
   const { state: userState } = useUserContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -21,7 +23,8 @@ export function Home() {
       try {
         const { data } = await api.get<UserModel>("/users/me/profile/");
 
-        const userQuestions = data.questions ?? [];
+        const userQuestions = data.exams?.questions ?? [];
+        console.log("Fetched questions:", data);
 
         dispatch({
           type: QuestionActionTypes.QUESTION_LIST_SUCCESS,
@@ -43,6 +46,11 @@ export function Home() {
 
   const userQuestions: QuestionModel[] | null = state.questions;
 
+  if (userState.userInfo === null) {
+    navigate("/login");
+    return null;
+  }
+
   return (
     <MainTemplate>
       {state.loading ? (
@@ -52,7 +60,9 @@ export function Home() {
           {!userQuestions ||
             (userQuestions.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full">
-                {state.error && <p>{state.error}</p>}
+                {state.error && (
+                  <p className="mb-4 text-red-500">{state.error}</p>
+                )}
                 <h2 className="text-3xl font-bold mb-4">No Questions Found</h2>
                 <p className="text-lg text-muted-foreground">
                   You have not created any questions yet.
