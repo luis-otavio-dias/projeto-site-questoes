@@ -23,3 +23,7 @@ stats
 Dockerfile
 __localcode/
 .venv
+.venv/
+venv
+venv/
+backend/.venv

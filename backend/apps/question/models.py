@@ -4,11 +4,66 @@ from django.db import models
 from apps.user.models import User
 
 
-class Edition(models.Model):
-    year = models.PositiveIntegerField(unique=True)
+class Exam(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="exams",
+    )
+
+    title = models.CharField(max_length=150)
+    description = models.TextField(max_length=500, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return str(self.year)
+        return self.title
+
+
+class ExamExtractionTask(models.Model):
+    STATUS_CHOICES = (
+        ("PENDING", "Pending"),
+        ("PROCESSING", "Processing"),
+        ("COMPLETED", "Completed"),
+        ("FAILED", "Failed"),
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+
+    generated_exam = models.OneToOneField(
+        Exam,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="extraction_task",
+    )
+    title = models.CharField(max_length=150, blank=True)
+    description = models.TextField(max_length=500, blank=True)
+
+    exam_file = models.FileField(upload_to="uploads/ai_exams/")
+    answer_key_file = models.FileField(upload_to="uploads/ai_keys/")
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="PENDING",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    raw_json_output = models.JSONField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"ExamExtractionTask {self.id} - {self.status}"
+
+
+class Edition(models.Model):
+    year = models.CharField(max_length=100, unique=True)
+
+    def __str__(self) -> str:
+        return self.year
 
 
 class Theme(models.Model):
@@ -19,12 +74,14 @@ class Theme(models.Model):
 
 
 class Question(models.Model):
-    user = models.ForeignKey(
-        User,
+    exam = models.ForeignKey(
+        Exam,
         on_delete=models.CASCADE,
         related_name="questions",
-        null=True,
     )
+
+    has_image = models.BooleanField(default=False, blank=True)
+    passage_text = models.TextField(blank=True)
     stem = models.TextField()
     correct_answer = models.CharField(max_length=1)
     theme = models.ForeignKey(

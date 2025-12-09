@@ -40,7 +40,7 @@ export type UserActionRegister =
     }
   | {
       type: typeof UserActionTypes.USER_REGISTER_SUCCESS;
-      payload: UserModel;
+      payload: boolean;
     }
   | {
       type: typeof UserActionTypes.USER_REGISTER_FAIL;

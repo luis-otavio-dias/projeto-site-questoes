@@ -1,7 +1,12 @@
+import type { QuestionModel } from "../../models/Question/QuestionModel";
+
 export type UserModel = {
   id: string;
-  username: string;
   email: string;
-  files: string;
-  token: string;
+  files: string | null;
+  exams: {
+    id: string;
+    title: string;
+    questions: QuestionModel[] | null;
+  } | null;
 };

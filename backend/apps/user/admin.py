@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from apps.question.models import Question
 from apps.user.models import File, User
 
 # admin.site.register(User, UserAdmin)
@@ -14,11 +13,6 @@ class FileInline(admin.TabularInline):
     extra = 1
 
 
-class QuestionInLine(admin.TabularInline):
-    model = Question
-    extra = 1
-
-
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
     list_display = ("user", "title", "file_type", "file_upload")
@@ -27,7 +21,7 @@ class FileAdmin(admin.ModelAdmin):
 # @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     model = User
-    inlines = (FileInline, QuestionInLine)
+    inlines = (FileInline,)
     list_display = ("email", "is_staff", "is_active")
     list_filter = ("is_staff", "is_active")
     ordering = ("email",)

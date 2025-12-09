@@ -4,38 +4,41 @@ import { RegisterForm } from "../../components/RegisterForm";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 import { useState } from "react";
 import { UserActionTypes } from "../../actions/userActions";
-import axios from "axios";
+import { api } from "../../services/api";
 import { Loader } from "../../components/Loader";
 
 export function Register() {
   const { state, dispatch } = useUserContext();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password !== passwordConfirm) {
+      dispatch({
+        type: UserActionTypes.USER_REGISTER_FAIL,
+        payload: "Passwords do not match",
+      });
+      return;
+    }
+
     dispatch({ type: UserActionTypes.USER_REGISTER_REQUEST });
 
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+      await api.post("/users/register/", {
+        email: email,
+        password: password,
+      });
 
-      const { data } = await axios.post(
-        "/api/users/register/",
-        {
-          username: username,
-          password: password,
-          passwordConfirm: passwordConfirm,
-        },
-        config
-      );
+      const { data } = await api.post("/users/login/", {
+        email: email,
+        password: password,
+      });
 
-      dispatch({ type: UserActionTypes.USER_REGISTER_SUCCESS, payload: data });
+      dispatch({ type: UserActionTypes.USER_REGISTER_SUCCESS, payload: true });
 
       dispatch({ type: UserActionTypes.USER_LOGIN_SUCCESS, payload: data });
 
@@ -43,12 +46,34 @@ export function Register() {
 
       navigate("/");
     } catch (err: any) {
+      let errorMessage = "An error occurred";
+
+      if (err.response && err.response.data) {
+        const data = err.response.data;
+
+        if (data.detail) {
+          errorMessage = data.detail;
+        } else if (typeof data === "object") {
+          const firstKey = Object.keys(data)[0];
+          const firstError = data[firstKey];
+
+          if (Array.isArray(firstError)) {
+            errorMessage = `${firstKey}: ${firstError[0]}`;
+
+            if (firstKey === "email") {
+              errorMessage = "Credenciais inválidas";
+            }
+          } else {
+            errorMessage = String(firstError);
+          }
+        }
+      } else {
+        errorMessage = err.message;
+      }
+
       dispatch({
         type: UserActionTypes.USER_REGISTER_FAIL,
-        payload:
-          err.response && err.response.data.detail
-            ? err.response.data.detail
-            : err.message,
+        payload: errorMessage,
       });
     }
   };
@@ -68,10 +93,10 @@ export function Register() {
           </div>
 
           <RegisterForm
-            username={username}
+            email={email}
             password={password}
             passwordConfirm={passwordConfirm}
-            onUsernameChange={(e) => setUsername(e.target.value)}
+            onEmailChange={(e) => setEmail(e.target.value)}
             onPasswordChange={(e) => setPassword(e.target.value)}
             onPasswordConfirmChange={(e) => setPasswordConfirm(e.target.value)}
             onSubmit={handleRegister}

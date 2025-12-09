@@ -16,11 +16,12 @@ db.sqlite3
 /static/
 /data/
 backend/media/
+backend/static/
+backend/data/
+backend/temp/
 
 # Backup files # 
 *.bak 
-
-
 
 
 # File-based project format

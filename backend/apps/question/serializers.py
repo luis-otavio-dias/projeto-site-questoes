@@ -1,8 +1,31 @@
 from rest_framework import serializers
 
-from apps.question.models import Answer, Edition, Question, Theme
+from apps.question.models import (
+    Answer,
+    Edition,
+    Exam,
+    ExamExtractionTask,
+    Question,
+    Theme,
+)
 
-# from apps.user.serializers import UserSerializer
+
+class ExamExtractionTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExamExtractionTask
+        fields = (
+            "id",
+            "status",
+            "exam_file",
+            "answer_key_file",
+            "title",
+            "description",
+            "created_at",
+        )
+        read_only_fields = ("id", "status", "created_at")
+
+    def create(self, validated_data: dict) -> ExamExtractionTask:
+        return super().create(validated_data)
 
 
 class EditionSerilizer(serializers.ModelSerializer):
@@ -36,7 +59,15 @@ class QuestionSerializer(serializers.ModelSerializer):
             "id",
             "edition",
             "theme",
-            "correct_answer",
             "stem",
             "answer_options",
+            "correct_answer",
         )
+
+
+class ExamSerializer(serializers.ModelSerializer):
+    questions = QuestionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Exam
+        fields = ("id", "title", "description", "questions")

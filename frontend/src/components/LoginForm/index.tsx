@@ -2,17 +2,17 @@ import { DefaultForm } from "../DefaultForm";
 import { FormInput } from "../FormInput";
 
 type LoginFormPros = {
-  username: string;
+  email: string;
   password: string;
-  onUsernameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
 export function LoginForm({
-  username,
+  email,
   password,
-  onUsernameChange,
+  onEmailChange,
   onPasswordChange,
   onSubmit,
 }: LoginFormPros) {
@@ -20,12 +20,12 @@ export function LoginForm({
     <DefaultForm buttonText="Login" onSubmit={onSubmit}>
       <div className="flex flex-col items-center justify-center gap-2">
         <FormInput
-          id="username"
-          label="Username"
-          placeholder="Your username here"
-          type="text"
-          value={username}
-          onChange={onUsernameChange}
+          id="email"
+          label="Email"
+          placeholder="Your email here"
+          type="email"
+          value={email}
+          onChange={onEmailChange}
         />
       </div>
 
