@@ -1,38 +1,43 @@
 import { cn } from "../../lib/utils";
 
-type DefaultInputProps = {
+type DefaultTextareaProps = {
   id: string;
   labelInline?: boolean;
   labelText: string;
   className?: string;
-} & React.ComponentProps<"input">;
+  text: string;
+} & React.ComponentProps<"textarea">;
 
-export function DefaultInput({
+export function DefaultTextarea({
   id,
-  type,
   labelInline,
   labelText,
   className,
+  text,
+  maxLength = 500,
   ...props
-}: DefaultInputProps) {
+}: DefaultTextareaProps) {
   return (
     <>
       {labelInline && (
         <div className="flex items-center gap-2">
-          <input id={id} type={type} className={cn("", className)} {...props} />
+          <textarea id={id} className={cn("", className)} {...props} />
           <label htmlFor={id}>{labelText}</label>
         </div>
       )}
 
       {!labelInline && (
-        <>
-          <label htmlFor={id}> {labelText} </label>
-          <input
+        <div className="flex flex-col">
+          <label htmlFor={id} className="text-center mb-2 p-3.5">
+            {" "}
+            {labelText}{" "}
+          </label>
+          <textarea
             id={id}
-            type={type}
+            maxLength={500}
             className={cn(
               [
-                "text-center",
+                "text-justify",
                 "text-3xl",
                 "p-3.5",
                 "outline-none",
@@ -52,7 +57,11 @@ export function DefaultInput({
             )}
             {...props}
           />
-        </>
+          <div className="text-[13px] self-end-safe align-text-top mr-2">
+            {" "}
+            {text.length} / {maxLength}{" "}
+          </div>
+        </div>
       )}
     </>
   );

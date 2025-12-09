@@ -11,8 +11,8 @@ class Exam(models.Model):
         related_name="exams",
     )
 
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
+    title = models.CharField(max_length=150)
+    description = models.TextField(max_length=500, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
@@ -39,6 +39,8 @@ class ExamExtractionTask(models.Model):
         blank=True,
         related_name="extraction_task",
     )
+    title = models.CharField(max_length=150, blank=True)
+    description = models.TextField(max_length=500, blank=True)
 
     exam_file = models.FileField(upload_to="uploads/ai_exams/")
     answer_key_file = models.FileField(upload_to="uploads/ai_keys/")
@@ -58,10 +60,10 @@ class ExamExtractionTask(models.Model):
 
 
 class Edition(models.Model):
-    year = models.PositiveIntegerField(unique=True)
+    year = models.CharField(max_length=100, unique=True)
 
     def __str__(self) -> str:
-        return str(self.year)
+        return self.year
 
 
 class Theme(models.Model):

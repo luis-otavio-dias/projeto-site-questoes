@@ -1,4 +1,5 @@
 # API Views
+from django.db.models import Count
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
@@ -6,10 +7,12 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from apps.question.models import ExamExtractionTask, Question
+from apps.question.models import Exam, ExamExtractionTask, Question
 from apps.question.serializers import (
     ExamExtractionTaskSerializer,
+    ExamSerializer,
     QuestionSerializer,
 )
 
@@ -46,3 +49,22 @@ class ExamExtractionStatusView(RetrieveAPIView):
 
     def get_queryset(self) -> ExamExtractionTask:
         return ExamExtractionTask.objects.filter(user=self.request.user)
+
+
+class ExamQuestionsView(ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ExamSerializer
+
+    def get_queryset(self) -> Question:
+        return Exam.objects.filter(user=self.request.user).annotate(
+            questions_count=Count("questions")
+        )
+
+
+class ExamDetailView(RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ExamSerializer
+    lookup_field = "id"
+
+    def get_queryset(self) -> Exam:
+        return Exam.objects.filter(user=self.request.user)

@@ -22,6 +22,12 @@ You do NOT need to validate the correct_option provided; just include it in the
 output.
 You only need to extract the data as specified below.
 
+- edition: Extract from the text the edition of the exam (e.g., "ENEM 2023",
+"VUNESP 2022"). If not found, return "Not Identified".
+- theme: Main theme of the question (e.g., "Mathematics", "Biology", "Grammar",
+"Sociology", etc). If not found, return "Not Classified". Avoid overly broad
+themes like "General Knowledge". Attempt to be as specific as possible and use
+the same language as in the question text.
 - question: "QUESTÃO XX" format (pad single digits: "01", "02")
 - image: true if image/graph present OR (URL exists AND passage_text is empty)
 - passage_text: Any text before the statement (preserve line breaks). Exclude
@@ -36,6 +42,8 @@ sources.
 
 Return ONLY valid JSON (no markdown, no comments):
 {{
+    "edition": str,
+    "theme": str,
     "question": str,
     "image": bool,
     "passage_text": str,

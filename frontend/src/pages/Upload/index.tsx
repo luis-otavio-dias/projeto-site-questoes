@@ -7,6 +7,7 @@ import { api } from "../../services/api";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 import { useNavigate } from "react-router";
 import { Loader } from "../../components/Loader";
+import { DefaultTextarea } from "../../components/DefaultTextarea";
 
 type TaskStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
 
@@ -16,20 +17,27 @@ interface TaskResponse {
 }
 
 export function Upload() {
-  const [files, setFiles] = useState<File[] | null>([]);
+  const [answerKeyFile, setAnswerKeyFile] = useState<File | null>(null);
+  const [examFile, setExamFile] = useState<File | null>(null);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [taskStatus, setTaskStatus] = useState<TaskStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const { state: userState } = useUserContext();
   const navigate = useNavigate();
 
+  const maxLength = 500;
+
   if (!userState.userInfo) {
     navigate("/login");
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setFile(e.target.files ? e.target.files[0] : null);
-    setFiles(Array.from(e.target.files || []));
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const descriptionContent = e.target.value;
+    if (descriptionContent.length <= maxLength) {
+      setDescription(descriptionContent);
+    }
   };
 
   const checkTaskStatus = async (id: string | number) => {
@@ -47,7 +55,6 @@ export function Upload() {
         setUploading(false);
         setError("File processing failed. Please try again.");
       } else {
-        // If still pending or processing, check again after a delay
         setTimeout(() => checkTaskStatus(id), 2000);
       }
     } catch (error) {
@@ -58,17 +65,23 @@ export function Upload() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!files || files.length < 2) return;
 
-    setUploading(true);
-    setError(null);
+    if (!examFile || !answerKeyFile) {
+      setError("Please select both files");
+      return;
+    }
 
     const formData = new FormData();
 
-    formData.append("exam_file", files[1]);
-    formData.append("answer_key_file", files[0]);
+    formData.append("exam_file", examFile);
+    formData.append("answer_key_file", answerKeyFile);
+
+    if (title) formData.append("title", title);
+
+    if (description) formData.append("description", description);
 
     try {
+      setUploading(true);
       const { data } = await api.post<TaskResponse>(
         "/questions/upload-exam/",
         formData,
@@ -80,15 +93,14 @@ export function Upload() {
       );
 
       setTaskStatus(data.status);
-      // Start checking the task status
       checkTaskStatus(data.id);
-
-      setFiles([]);
     } catch (error) {
       setError("Error uploading files");
       setUploading(false);
       console.error("Error uploading files:", error);
     }
+
+    setUploading(false);
   };
 
   const getStatusMessage = () => {
@@ -121,17 +133,52 @@ export function Upload() {
         <DefaultForm
           onSubmit={handleSubmit}
           buttonText="Enviar"
-          buttonDisabled={!files}
+          buttonDisabled={!examFile || !answerKeyFile || uploading}
+          className="border-y-2 w-full p-6 flex flex-col gap-6 items-center"
         >
           {error && <p className="text-red-500">{error}</p>}
           <DefaultInput
-            id="file"
-            labelText="Selecione PDF para upload"
+            id="title"
+            labelText="Título do Exame (opcional)"
+            type="text"
+            name="title"
+            placeholder="Ex: ENEM 2023 - Dia 1"
+            onChange={(e) => setTitle(e.target.value)}
+            className={cn([
+              "w-[260px]",
+              "h-[43px]",
+              "text-3xl",
+              title ? "dark:border-primary border-muted-foreground/60" : "",
+            ])}
+          />
+
+          <DefaultTextarea
+            id="description"
+            labelText="Descrição (opcional)"
+            name="description"
+            placeholder="Detalhes extras..."
+            onChange={handleTextareaChange}
+            text={description}
+            maxLength={maxLength}
+            className={cn([
+              "w-[260px]",
+              "h-[100px]",
+              "text-2xl",
+              description
+                ? "dark:border-primary border-muted-foreground/60"
+                : "",
+            ])}
+          />
+
+          <DefaultInput
+            id="examFile"
+            labelText="Arquivo da Prova (PDF)"
             type="file"
             accept="application/pdf"
-            name="file"
-            onChange={handleFileChange}
-            multiple
+            name="examFile"
+            onChange={(e) =>
+              setExamFile(e.target.files ? e.target.files[0] : null)
+            }
             className={cn([
               "w-[260px]",
               "h-[43px]",
@@ -147,6 +194,36 @@ export function Upload() {
               "file:text-primary-foreground",
               "hover:file:bg-primary/80",
               "hover:cursor-pointer",
+              examFile ? "dark:border-primary border-muted-foreground/60" : "",
+            ])}
+          />
+          <DefaultInput
+            id="answerKeyFile"
+            labelText="Arquivo do Gabarito (PDF)"
+            type="file"
+            accept="application/pdf"
+            name="answerKeyFile"
+            onChange={(e) =>
+              setAnswerKeyFile(e.target.files ? e.target.files[0] : null)
+            }
+            className={cn([
+              "w-[260px]",
+              "h-[43px]",
+              "text-lg",
+              "file:border-0",
+              "file:mr-4",
+              "file:py-2",
+              "file:px-4",
+              "file:rounded-full",
+              "file:text-sm",
+              "file:font-semibold",
+              "file:bg-primary",
+              "file:text-primary-foreground",
+              "hover:file:bg-primary/80",
+              "hover:cursor-pointer",
+              answerKeyFile
+                ? "dark:border-primary border-muted-foreground/60"
+                : "",
             ])}
           />
         </DefaultForm>

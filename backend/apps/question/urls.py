@@ -1,7 +1,9 @@
 from django.urls import path
 
 from apps.question.views import (
+    ExamDetailView,
     ExamExtractionStatusView,
+    ExamQuestionsView,
     UploadExamView,
     get_question,
     get_questions,
@@ -17,5 +19,15 @@ urlpatterns = [
         "tasks/<int:id>/status/",
         ExamExtractionStatusView.as_view(),
         name="exam_status",
+    ),
+    path(
+        "exams/",
+        ExamQuestionsView.as_view({"get": "list"}),
+        name="exams_list",
+    ),
+    path(
+        "exams/<int:id>/",
+        ExamDetailView.as_view(),
+        name="exam_detail",
     ),
 ]

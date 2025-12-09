@@ -4,7 +4,6 @@ import { MainTemplate } from "../../templates/MainTemplate";
 import { useQuestionContext } from "../../contexts/QuestionContext/useQuestionContext";
 import { QuestionActionTypes } from "../../actions/questionActions";
 import type { QuestionModel } from "../../models/Question/QuestionModel";
-import type { UserModel } from "../../models/User/UserModel";
 import { useEffect } from "react";
 import { Link } from "react-router";
 import { api } from "../../services/api";
@@ -17,18 +16,27 @@ export function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (userState.userInfo === null) {
+      navigate("/login");
+    }
+  }, [userState.userInfo, navigate]);
+
+  useEffect(() => {
     const fetchQuestions = async () => {
       dispatch({ type: QuestionActionTypes.QUESTION_LIST_REQUEST });
 
       try {
-        const { data } = await api.get<UserModel>("/users/me/profile/");
+        const { data } = await api.get("questions/exams/");
 
-        const userQuestions = data.exams?.questions ?? [];
+        // const userQuestions = data.exams?.questions ?? [];
+        const allQuestions: QuestionModel[] = data.flatMap(
+          (exam: any) => exam.questions
+        );
         console.log("Fetched questions:", data);
 
         dispatch({
           type: QuestionActionTypes.QUESTION_LIST_SUCCESS,
-          payload: userQuestions,
+          payload: allQuestions,
         });
       } catch (err: any) {
         console.error(err);
@@ -41,14 +49,16 @@ export function Home() {
         });
       }
     };
-    fetchQuestions();
+
+    if (userState.userInfo) {
+      fetchQuestions();
+    }
   }, [dispatch, userState.userInfo]);
 
-  const userQuestions: QuestionModel[] | null = state.questions;
+  const allQuestions: QuestionModel[] | null = state.questions;
 
   if (userState.userInfo === null) {
-    navigate("/login");
-    return null;
+    return <Loader />;
   }
 
   return (
@@ -57,8 +67,8 @@ export function Home() {
         <Loader />
       ) : (
         <>
-          {!userQuestions ||
-            (userQuestions.length === 0 && (
+          {!allQuestions ||
+            (allQuestions.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full">
                 {state.error && (
                   <p className="mb-4 text-red-500">{state.error}</p>

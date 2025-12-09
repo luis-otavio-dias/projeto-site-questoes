@@ -18,6 +18,9 @@ class ExamExtractionTaskSerializer(serializers.ModelSerializer):
             "status",
             "exam_file",
             "answer_key_file",
+            "title",
+            "description",
+            "created_at",
         )
         read_only_fields = ("id", "status", "created_at")
 
@@ -67,4 +70,4 @@ class ExamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exam
-        fields = ("id", "title", "questions")
+        fields = ("id", "title", "description", "questions")

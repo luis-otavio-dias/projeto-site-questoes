@@ -1,4 +1,3 @@
-# backend/apps/question/signals.py
 import threading
 
 from django.db.models.signals import post_save
