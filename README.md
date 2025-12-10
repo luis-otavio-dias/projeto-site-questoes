@@ -7,7 +7,8 @@
 ![React](https://img.shields.io/badge/React-19-20232a?logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Available-2496ED?logo=docker&logoColor=white)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](#)
+[![LangChain](https://img.shields.io/badge/LangChain-1c3c3c.svg?logo=langchain&logoColor=white)](#)
 ![Gemini](https://img.shields.io/badge/Google%20Gemini-AI-8E75B2?logo=google-bard&logoColor=white)
 
 </div>
