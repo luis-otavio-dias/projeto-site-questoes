@@ -1,96 +1,107 @@
-<h2 align="center">Plataforma de estudos personalizável</h2>
+<h1 align="center">Plataforma de Estudos com IA</h1>
 
-<!-- Badges/Shields: Use um site como https://shields.io/ para gerar os seus -->
+<div align="center">
 
-<p align="center">
-<img alt="Python" src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff">
-<img alt="Django" src="https://img.shields.io/badge/Django-%23092E20.svg?logo=django&logoColor=white">
-<img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff">
-<img alt="React" src="https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)">
-<img alt="Licença" src="https://img.shields.io/badge/License-MIT-black.svg">
-<img alt="Status do Projeto" src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow">
-</p>
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-5.1-092E20?logo=django&logoColor=white)
+![React](https://img.shields.io/badge/React-19-20232a?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Available-2496ED?logo=docker&logoColor=white)
+![Gemini](https://img.shields.io/badge/Google%20Gemini-AI-8E75B2?logo=google-bard&logoColor=white)
 
-O projeto consiste em um ambiente de estudos customizável, permitindo que o usuário adicione seu próprio banco de questões.
-O banco de questões deve ser composto por questões de múltipla escolha, contendo obrigatoriamente:
+</div>
 
-  - Enunciado da questão
-  - Alternativas
-  - Alternativa correta
-   
-A plataforma importa o arquivo enviado, organiza o conteúdo em blocos de questões para facilitar a visualização. As questões podem ser acessadas e resolvidas.
+## Sobre o Projeto
 
-Este é um projeto pessoal de estudos desenvolvido em Django, atualmente em desenvolvimento. Estou constantemente implementando novas funcionalidades e corrigindo falhas.
+O projeto é um ambiente de estudos personalizável e inteligente. A plataforma permite que o usuário construa seu próprio banco de questões a partir de arquivos **PDF** (Provas e Gabaritos) ou **CSV**.
 
-## Como rodar o projeto localmente
+O projeto utiliza **Inteligência Artificial (Google Gemini)** para ler arquivos de provas, identificar enunciados, alternativas, respostas corretas e até mesmo extrair e associar imagens às questões automaticamente.
 
-**Pré-requisitos**: 
- - Docker Desktop
+## Funcionalidades Principais
 
-### Instalação 
+* **Extração Inteligente com IA:** Upload de arquivos de prova e gabarito (PDF) com processamento automático via LangChain e Google Gemini para estruturar as questões.
+* **Extração de Imagens:** O sistema identifica e recorta imagens presentes nas questões do PDF.
+* **Importação via CSV:** Suporte para carga de questões em lote via arquivos CSV padronizados.
+* **Simulado Interativo:** Interface moderna para resolução de questões com feedback imediato.
+* **Gerenciamento de Usuário:** Autenticação completa (Login, Registro, Atualização de Perfil) via JWT armazenado em Cookies HTTP-Only.
+* **Interface Moderna:** Frontend desenvolvido com React, TypeScript e Tailwind CSS, incluindo suporte a **Dark Mode**.
 
-1. Clone o repositório
-``` 
+## Tecnologias Utilizadas
+
+### Backend
+* **Python 3.13** & **Django 5.1**
+* **Django REST Framework** (API)
+* **Google Generative AI (Gemini 2.5 Flash)** & **LangChain** (Processamento de IA)
+* **PyMuPDF (Fitz)** & **Pillow** (Manipulação de PDF e Imagens)
+* **uv** (Gerenciamento de dependências ultra-rápido)
+
+### Frontend
+* **React 19** & **Vite**
+* **TypeScript**
+* **Tailwind CSS** & **Shadcn/UI** (Estilização e Componentes)
+* **Axios** & **React Router**
+
+---
+
+## Como Rodar o Projeto
+
+### Pré-requisitos
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado.
+* Uma **API Key do Google Gemini** (para a funcionalidade de extração de questões).
+
+### 1. Clonar o repositório
+
+```bash
 git clone https://github.com/luis-otavio-dias/projeto-site-questoes.git
 cd projeto-site-questoes
 ```
-  - Crie o arquivo de varíaveis ambiente
-    
-    ```
-    cd dotenv_files
-    cp .env-example .env
-    ```
-    
-2. Ajuste as varíaveis em  `.env`
-   
-  - Abra o arquivo e faça as seguintes alterações
-  
-    ```
-    SECRET_KEY=escolha-uma-cahve-forte
-    DEBUG="1"
-    ALLOWED_HOSTS="127.0.0.1,localhost"
-    DB_ENGINE="django.db.backends.sqlite3"
-    DB_NAME="db.sqlite"
-    ```
-##
-### Como rodar a aplicação localmente
 
-**Executando a aplicação**  
-O projeto é dividido em duas partes principais: o backend (Django) e o frontend (React). Ambos precisam ser executados simultaneamente.
+### 2. Configurar Varíaveis de Ambiente  
+Crie o arquivo `.env` baseado no exemplo fornecido na pasta `dotenv_files`.
 
-
-**Executando o Backend com Docker**  
-
-Com o Docker Desktop em execução, o comando irá construir a imagem do Docker (se ainda não tiver sido construída) e iniciar o serviço do backend em segundo plano:  
-```
-docker-compose up --build -d
+```bash
+cp dotenv_files/.env-example dotenv_files/.env
 ```
 
-O backend estará disponível em http://localhost:8000.
-##
-**Executando o Frontend com Vite**  
-
-Navegue até a pasta `frontend`
+**Importante**: Edite o arquivo `dotenv_files/.env` e adicione sua chave API do Google:
+```env
+GOOGLE_API_KEY="SUA_CHAVE_API_DO_GOOGLE_GEMINI_AQUI"
 ```
+
+### 3. Executando com Docker (Recomendado)
+O projeto está totalmente configurado com Docker Compose. Para iniciar o backend e preparar o ambiente:
+```bash
+docker compose up --build
+```
+O comando acima irá:
+  1. Construir a imagem do Backend.
+  2. Instalar as dependências do sistema.
+  3. Rodar as migrações do banco de dados.
+  4. Coletar arquivos estáticos.
+  5. Iniciar o servidor em ```http://localhost:8000```
+
+Agora, pare o servidor com CTRL + C (ou inicie um novo terminal) e execute o comando a seguir para criar um superuser:
+```bash
+docker compose up -d
+docker compose exec backend python manage.py createsuperuser
+```
+
+### 4. Executando o Frontend
+Abra um novo terminal, navegue até a pasta do frontend e inicie o servidor de desenvolvimento:
+```bash
 cd frontend
-```
-Instale as dependências do Node.js:
-```
 npm install
-(ou pnpm install / yarn install )
-```
-Inicie o servidor de desenvolvimento do React:
-```
 npm run dev
-(ou pnpm dev / yarn dev )
 ```
-A aplicação frontend estará acessível em `http://localhost:5173`. O Vite já está configurado para redirecionar as chamadas de API (/api) para o backend do Django que está rodando na porta 8000.
+A aplicação estará acessível em: http://localhost:5173
 
-**Acessando a Aplicação**  
-Após iniciar ambos os serviços, abra seu navegador e acesse:  
-Frontend (Interface do Usuário): http://localhost:5173  
-Backend (API): http://localhost:8000  
-##
+### Estrutura do Banco de Questões
+Para o upload manual via CSV, o arquivo deve seguir o formato delimitado por `;`:
+```csv
+Ano;Temática;Enunciado;Alternativas;Resposta Correta
+2024;História;Quem descobriu o Brasil?;A) Pedro Álvares Cabral | B) Colombo;A
+```
 
-### Licença
-Distribuído sob a licença MIT. Veja LICENSE para mais informações. 
+## Licença
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
