@@ -63,40 +63,46 @@ export function Home() {
 
   return (
     <MainTemplate>
-      {state.loading ? (
-        <Loader />
-      ) : (
-        <>
-          {!allQuestions ||
-            (allQuestions.length === 0 && (
-              <div className="flex flex-col items-center justify-center h-full">
-                {state.error && (
-                  <p className="mb-4 text-red-500">{state.error}</p>
-                )}
-                <h2 className="text-3xl font-bold mb-4">No Questions Found</h2>
-                <p className="text-lg text-muted-foreground">
-                  You have not created any questions yet.
-                </p>
-              </div>
-            ))}
-
-          {Array.isArray(state.questions) &&
-            state.questions.map((q) => (
-              <Link
-                to={`/questions/${q.id}`}
-                key={`link-question-${q.id}`}
-                state={{ question: q }}
-              >
-                <Card key={`question-${q.id}`}>
-                  <p className="mb-2 text-muted-foreground">
-                    {q.theme.name} | {q.edition.year}
+      <div className="flex-1 mx-8 h-[90vh] mt-10 py-10 border-2 rounded-2xl overflow-auto">
+        {state.loading ? (
+          <div className="flex flex-wrap gap-10 justify-center">
+            <Loader />
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-10 justify-center">
+            {!allQuestions ||
+              (allQuestions.length === 0 && (
+                <div className="flex flex-col items-center justify-center h-full">
+                  {state.error && (
+                    <p className="mb-4 text-red-500">{state.error}</p>
+                  )}
+                  <h2 className="text-3xl font-bold mb-4">
+                    No Questions Found
+                  </h2>
+                  <p className="text-lg text-muted-foreground">
+                    You have not created any questions yet.
                   </p>
-                  <div>{q.stem}</div>
-                </Card>
-              </Link>
-            ))}
-        </>
-      )}
+                </div>
+              ))}
+
+            {Array.isArray(state.questions) &&
+              state.questions.map((q) => (
+                <Link
+                  to={`/questions/${q.id}`}
+                  key={`link-question-${q.id}`}
+                  state={{ question: q }}
+                >
+                  <Card
+                    key={`question-${q.id}`}
+                    top={`${q.theme.name} | ${q.edition.year}`}
+                    content={q.stem}
+                    bottom={"RESOLVER"}
+                  />
+                </Link>
+              ))}
+          </div>
+        )}
+      </div>
     </MainTemplate>
   );
 }
