@@ -39,6 +39,8 @@ class UserInfoView(RetrieveAPIView):
 
 
 class LoginView(APIView):
+    authentication_classes = ()
+
     def post(self, request: HttpRequest) -> Response:
         serializer = LoginUserSerializer(data=request.data)
 
@@ -111,6 +113,9 @@ class CookieTokenRefreshView(TokenRefreshView):
             refresh = RefreshToken(refresh_token)
 
         except InvalidToken:
+            print()
+            print("Error here")
+            print()
             return Response(
                 {"detail": "Invalid token"},
                 status=HTTP_401_UNAUTHORIZED,
