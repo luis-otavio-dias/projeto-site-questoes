@@ -9,22 +9,15 @@ type MenuProps = {
 
 export function Menu({ className, title, actions, children }: MenuProps) {
   return (
-    <div
-      className={cn(
-        "flex flex-row items-center p-4 text-primary border-b-2",
-        className
-      )}
-    >
-      <div className="flex items-center ml-5 ">
+    <div className={cn("grid grid-cols-8 col-span-6 border-b-2", className)}>
+      <div className="w-30 h-20 flex justify-center items-center">
         <h1 className="text-4xl font-bold"> {title} </h1>
       </div>
 
-      <nav className="flex flex-row items-center justify-between gap-8 font-semibold w-full">
-        <div className="flex m-auto items-center justify-center rounded-lg">
-          {actions}
-        </div>
+      <nav className="col-span-7 flex items-center justify-end">
+        <div className="m-5 hover:opacity-80 cursor-pointer">{actions}</div>
 
-        <div className="flex items-center mr-5">{children}</div>
+        <div className="m-5 hover:opacity-80 cursor-pointer">{children}</div>
       </nav>
     </div>
   );
