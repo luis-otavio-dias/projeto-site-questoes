@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "../../lib/utils";
+import { X, Check } from "lucide-react";
 
 interface CardProps {
   top?: React.ReactNode;
@@ -16,7 +17,6 @@ export function Card({ top, content, bottom }: CardProps) {
         "grid-rows-[15%_1fr_25%]",
         "grid-cols-1",
         "border-2",
-        // "border-black/40",
         "rounded-2xl",
         "w-[311px]",
         "h-[190px]",
@@ -36,15 +36,18 @@ export function Card({ top, content, bottom }: CardProps) {
       </div>
       <div className="flex items-center justify-center group">
         <div className="group-hover:hidden flex items-center justify-between w-full px-4">
-          {/* Três linhas horizontais à esquerda */}
           <div className="flex flex-row gap-4">
             <div className="w-12 h-2 bg-green-500 rounded-full"></div>
             <div className="w-12 h-2 bg-yellow-500 rounded-full"></div>
             <div className="w-12 h-2 bg-red-500 rounded-full"></div>
           </div>
 
-          {/* Círculo vermelho à direita */}
-          <div className="rounded-full bg-red-500 w-8 h-8"></div>
+          <div className="rounded-full bg-red-500 w-8 h-8 flex items-center justify-center">
+            <X className="text-white m-1" />
+          </div>
+          {/* <div className="rounded-full bg-green-500 w-8 h-8 flex items-center justify-center">
+            <Check className="text-white m-1" />
+          </div> */}
         </div>
         <div
           className={cn([

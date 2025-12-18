@@ -10,7 +10,7 @@ type MenuProps = {
 export function Menu({ className, title, actions, children }: MenuProps) {
   return (
     <div className={cn("grid grid-cols-8 col-span-6 border-b-2", className)}>
-      <div className="w-30 h-20 flex justify-center items-center">
+      <div className="w-30 h-20 flex justify-center items-center mx-15">
         <h1 className="text-4xl font-bold"> {title} </h1>
       </div>
 

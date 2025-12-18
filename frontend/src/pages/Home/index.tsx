@@ -28,7 +28,6 @@ export function Home() {
       try {
         const { data } = await api.get("questions/exams/");
 
-        // const userQuestions = data.exams?.questions ?? [];
         const allQuestions: QuestionModel[] = data.flatMap(
           (exam: any) => exam.questions
         );
@@ -57,15 +56,11 @@ export function Home() {
 
   const allQuestions: QuestionModel[] | null = state.questions;
 
-  if (userState.userInfo === null) {
-    return <Loader />;
-  }
-
   return (
     <MainTemplate>
       <div className="flex-1 mx-8 h-[90vh] mt-10 py-10 border-2 rounded-2xl overflow-auto">
         {state.loading ? (
-          <div className="flex flex-wrap gap-10 justify-center">
+          <div className="flex flex-col items-center justify-center">
             <Loader />
           </div>
         ) : (
