@@ -88,14 +88,14 @@ export function MenuDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator className="border-1" />
         <DropdownMenuGroup className="flex flex-col p-4 gap-4">
-          <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
+          <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg">
             <a aria-label="Home" title="Home">
               Home
             </a>
           </DropdownMenuItem>
 
           {userInfo.userInfo && (
-            <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
+            <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg">
               <Link aria-label="Profile" title="Profile" to="/profile">
                 Profile
               </Link>
@@ -104,7 +104,7 @@ export function MenuDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator className="border-1" />
         <DropdownMenuGroup className="flex flex-col p-4 gap-4">
-          <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg hover:opacity-80">
+          <DropdownMenuItem className="outline-none cursor-pointer p-2 hover:bg-accent rounded-lg">
             {userInfo.userInfo ? (
               <Link
                 aria-label="Logout"
