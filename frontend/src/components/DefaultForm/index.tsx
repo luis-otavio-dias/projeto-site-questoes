@@ -8,6 +8,8 @@ type DefaultFormProps = {
   buttonText: string;
   buttonIcon?: React.ReactNode;
   buttonDisabled?: boolean;
+  cancelButton?: boolean;
+  onClose?: () => void;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
@@ -18,6 +20,8 @@ export function DefaultForm({
   buttonText,
   buttonIcon,
   buttonDisabled,
+  cancelButton,
+  onClose,
   onClick,
   onSubmit,
 }: DefaultFormProps) {
@@ -30,13 +34,13 @@ export function DefaultForm({
       )}
     >
       {children}
-      <div className="flex flex-col items-center justify-center gap-2">
+
+      <div className="flex flex-col gap-1 mt-4">
         <DefaultButton
           icon={buttonIcon || buttonText}
           type="submit"
           onClick={onClick}
           className={clsx([
-            "mt-4",
             "w-[260px]",
             "h-[43px]",
             "font-bold",
@@ -56,6 +60,29 @@ export function DefaultForm({
           ])}
           disabled={buttonDisabled}
         />
+        {cancelButton && (
+          <DefaultButton
+            icon={"Cancelar"}
+            type="submit"
+            onClick={onClose}
+            className={clsx([
+              "w-[260px]",
+              "h-[43px]",
+              "mt-2",
+              "font-bold",
+              "border-transparent",
+              "border-2",
+              "text-primary",
+              "dark:text-muted-foreground",
+              "hover:bg-accent-foreground/30",
+              "transition-colors",
+              "disabled:cursor-default",
+              "disabled:border-none",
+              "disabled:bg-muted-foreground",
+              "disabled:hover:opacity-100",
+            ])}
+          />
+        )}
       </div>
     </form>
   );
