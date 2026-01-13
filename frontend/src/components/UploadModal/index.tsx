@@ -1,7 +1,6 @@
 import { X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useUserContext } from "../../contexts/UserContext/useUserContext";
 import { cn } from "../../lib/utils";
 import { api } from "../../services/api";
 import { Loader } from "../../components/Loader";
@@ -30,11 +29,25 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
   const [taskStatus, setTaskStatus] = useState<TaskStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
-  const { state: userState } = useUserContext();
   const navigate = useNavigate();
 
   const maxLength = 500;
   if (!isOpen) return null;
+
+  const resetForm = () => {
+    setAnswerKeyFile(null);
+    setExamFile(null);
+    setTitle("");
+    setDescription("");
+    setTaskStatus(null);
+    setError(null);
+    setUploading(false);
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const descriptionContent = e.target.value;
@@ -52,8 +65,9 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
 
       if (data.status === "COMPLETED") {
         setUploading(false);
+        handleClose();
         alert("File processed successfully!");
-        navigate("/");
+        navigate(0);
       } else if (data.status === "FAILED") {
         setUploading(false);
         setError("File processing failed. Please try again.");
@@ -128,10 +142,10 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
-        className="bg-white dark:bg-zinc-800 border-2 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-fade-in-up"
+        className="bg-primary-foreground border-2 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-6">
@@ -139,86 +153,94 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
             Adicionar Novo Exame
           </h2>
           <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+            onClick={handleClose}
+            disabled={uploading || taskStatus === "PROCESSING"}
+            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <X size={24} />
           </button>
         </div>
 
-        <DefaultForm
-          onSubmit={handleSubmit}
-          buttonText="Enviar"
-          buttonDisabled={!examFile || !answerKeyFile || uploading}
-          cancelButton={true}
-          onClose={onClose}
-        >
-          {error && <p className="text-red-500">{error}</p>}
-          <DefaultInput
-            id="title"
-            labelText="Título do Exame (opcional)"
-            type="text"
-            name="title"
-            placeholder="Ex: ENEM 2023 - Dia 1"
-            onChange={(e) => setTitle(e.target.value)}
-            className={cn([
-              "w-[260px]",
-              "h-[43px]",
-              "text-3xl",
-              title ? "dark:border-primary border-muted-foreground/60" : "",
-            ])}
-          />
+        {uploading || taskStatus === "PROCESSING" ? (
+          <div className="flex flex-col items-center gap-4 py-10">
+            <Loader />
+            <p className="text-lg">{getStatusMessage()}</p>
+          </div>
+        ) : (
+          <DefaultForm
+            onSubmit={handleSubmit}
+            buttonText="Enviar"
+            buttonDisabled={!examFile || !answerKeyFile || uploading}
+            cancelButton={true}
+            onClose={handleClose}
+          >
+            {error && <p className="text-red-500">{error}</p>}
+            <DefaultInput
+              id="title"
+              labelText="Título do Exame (opcional)"
+              type="text"
+              name="title"
+              placeholder="Ex: ENEM 2023 - Dia 1"
+              onChange={(e) => setTitle(e.target.value)}
+              className={cn([
+                "w-[260px]",
+                "h-[43px]",
+                "text-3xl",
+                title ? "dark:border-primary border-muted-foreground/60" : "",
+              ])}
+            />
 
-          <DefaultTextarea
-            id="description"
-            labelText="Descrição (opcional)"
-            name="description"
-            placeholder="Detalhes extras..."
-            onChange={handleTextareaChange}
-            text={description}
-            maxLength={maxLength}
-            className={cn([
-              "w-[260px]",
-              "h-[100px]",
-              "text-2xl",
-              description
-                ? "dark:border-primary border-muted-foreground/60"
-                : "",
-            ])}
-          />
+            <DefaultTextarea
+              id="description"
+              labelText="Descrição (opcional)"
+              name="description"
+              placeholder="Detalhes extras..."
+              onChange={handleTextareaChange}
+              text={description}
+              maxLength={maxLength}
+              className={cn([
+                "w-[260px]",
+                "h-[100px]",
+                "text-2xl",
+                description
+                  ? "dark:border-primary border-muted-foreground/60"
+                  : "",
+              ])}
+            />
 
-          <FileInput
-            id="examFile"
-            labelText="Arquivo da Prova (PDF)"
-            accept="application/pdf"
-            name="examFile"
-            fileName={examFile ? examFile.name : ""}
-            onChange={(e) =>
-              setExamFile(e.target.files ? e.target.files[0] : null)
-            }
-            className={cn(
-              examFile
-                ? "border-solid dark:border-primary border-muted-foreground/60"
-                : ""
-            )}
-          />
-          <FileInput
-            id="answerKeyFile"
-            labelText="Arquivo do Gabarito (PDF)"
-            type="file"
-            accept="application/pdf"
-            name="answerKeyFile"
-            fileName={answerKeyFile ? answerKeyFile.name : ""}
-            onChange={(e) =>
-              setAnswerKeyFile(e.target.files ? e.target.files[0] : null)
-            }
-            className={cn(
-              answerKeyFile
-                ? "dark:border-primary border-muted-foreground/60"
-                : ""
-            )}
-          />
-        </DefaultForm>
+            <FileInput
+              id="examFile"
+              labelText="Arquivo da Prova (PDF)"
+              accept="application/pdf"
+              name="examFile"
+              fileName={examFile ? examFile.name : ""}
+              onChange={(e) =>
+                setExamFile(e.target.files ? e.target.files[0] : null)
+              }
+              className={cn(
+                examFile
+                  ? "border-solid dark:border-primary border-muted-foreground/60"
+                  : ""
+              )}
+            />
+            <FileInput
+              id="answerKeyFile"
+              labelText="Arquivo do Gabarito (PDF)"
+              type="file"
+              accept="application/pdf"
+              name="answerKeyFile"
+              fileName={answerKeyFile ? answerKeyFile.name : ""}
+              onChange={(e) =>
+                setAnswerKeyFile(e.target.files ? e.target.files[0] : null)
+              }
+              className={cn(
+                answerKeyFile
+                  ? "border-solid dark:border-primary border-muted-foreground/60"
+                  : ""
+              )}
+            />
+          </DefaultForm>
+        )}
       </div>
     </div>
   );
