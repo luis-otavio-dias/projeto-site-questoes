@@ -18,9 +18,11 @@ export function DefaultInput({
   return (
     <>
       {labelInline && (
-        <div className="flex items-center gap-2">
-          <input id={id} type={type} className={cn("", className)} {...props} />
-          <label htmlFor={id}>{labelText}</label>
+        <div className={cn("flex items-center gap-2", className)}>
+          <input id={id} type={type} className="hidden" {...props} />
+          <label htmlFor={id}>
+            <span>{labelText}</span>
+          </label>
         </div>
       )}
 

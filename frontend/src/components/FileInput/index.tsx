@@ -36,7 +36,7 @@ export function FileInput({
               "border-2",
               "border-dashed",
               "border-gray-300",
-              "dark:border-gray-600",
+              "dark:border-accent",
               "rounded-2xl",
               "text-center",
               "hover:bg-gray-50",
