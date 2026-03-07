@@ -1,45 +1,41 @@
 from django.contrib import admin
 
 from apps.question.models import (
-    Answer,
-    Edition,
     Exam,
     ExamExtractionTask,
     Question,
-    Theme,
+    QuestionImage,
 )
 
 
-class AnswerLinkInLine(admin.TabularInline):
-    model = Answer
-    extra = 1
-
-
-@admin.register(Theme)
-class ThemeAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-
-
-@admin.register(Edition)
-class EditionAdmin(admin.ModelAdmin):
-    list_display = ("year",)
+class QuestionImageInline(admin.TabularInline):
+    model = QuestionImage
+    extra = 0
+    readonly_fields = ("image", "filename", "mime_type", "created_at")
 
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("id", "stem", "correct_answer", "theme")
+    list_display = ("id", "stem", "correct_answer", "area")
     list_display_links = ("id", "stem")
-    inlines = (AnswerLinkInLine,)
+    inlines = (QuestionImageInline,)
 
 
 @admin.register(Exam)
 class ExamAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "user")
-    list_display_links = ("id", "title")
+    list_display = ("id", "user", "name_base")
+    list_display_links = ("id", "name_base")
 
 
 @admin.register(ExamExtractionTask)
 class ExamExtractionTaskAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "status", "created_at")
     list_display_links = ("id",)
-    readonly_fields = ("generated_exam",)
+    readonly_fields = ("generated_exam", "raw_json_output")
+
+
+@admin.register(QuestionImage)
+class QuestionImageAdmin(admin.ModelAdmin):
+    list_display = ("id", "filename", "question", "mime_type", "created_at")
+    list_display_links = ("id", "filename")
+    readonly_fields = ("created_at",)
