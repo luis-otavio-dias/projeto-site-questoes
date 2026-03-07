@@ -58,6 +58,8 @@ export function Upload() {
         setTimeout(() => checkTaskStatus(id), 2000);
       }
     } catch (error) {
+      setUploading(false);
+      setTaskStatus(null);
       setError("Error checking task status");
       console.error("Error checking task status:", error);
     }
@@ -82,6 +84,7 @@ export function Upload() {
 
     try {
       setUploading(true);
+      setError(null);
       const { data } = await api.post<TaskResponse>(
         "/questions/upload-exam/",
         formData,
@@ -97,10 +100,7 @@ export function Upload() {
     } catch (error) {
       setError("Error uploading files");
       setUploading(false);
-      console.error("Error uploading files:", error);
     }
-
-    setUploading(false);
   };
 
   const getStatusMessage = () => {
@@ -134,7 +134,7 @@ export function Upload() {
           onSubmit={handleSubmit}
           buttonText="Enviar"
           buttonDisabled={!examFile || !answerKeyFile || uploading}
-          className="border-y-2 w-full p-6 flex flex-col gap-6 items-center"
+          className="flex-1 mx-8 h-[90vh] mt-10 py-10 border-2 rounded-2xl overflow-auto"
         >
           {error && <p className="text-red-500">{error}</p>}
           <DefaultInput

@@ -75,6 +75,8 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
         setTimeout(() => checkTaskStatus(id), 2000);
       }
     } catch (error) {
+      setUploading(false);
+      setTaskStatus(null);
       setError("Error checking task status");
       console.error("Error checking task status:", error);
     }
@@ -99,6 +101,7 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
 
     try {
       setUploading(true);
+      setError(null);
       const { data } = await api.post<TaskResponse>(
         "/questions/upload-exam/",
         formData,
@@ -116,8 +119,6 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
       setUploading(false);
       console.error("Error uploading files:", error);
     }
-
-    setUploading(false);
   };
 
   const getStatusMessage = () => {
