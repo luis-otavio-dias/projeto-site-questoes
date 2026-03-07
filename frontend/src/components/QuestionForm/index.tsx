@@ -26,7 +26,7 @@ export function QuestionForm({
     <form
       onSubmit={onSubmit}
       className={cn(
-        "flex flex-col items-center justify-center gap-5",
+        "flex flex-col items-center justify-center gap-4",
         className
       )}
     >
@@ -45,10 +45,10 @@ export function QuestionForm({
             "border-2",
             "bg-primary",
             "text-primary-foreground",
-            "dark:bg-primary",
+            "dark:bg-secondary",
             "dark:text-primary-foreground",
-            "hover:border-foreground",
-            "hover:opacity-80",
+            // "hover:border-foreground",
+            "hover:bg-primary/90",
             "transition-colors",
             "disabled:cursor-default",
             "disabled:border-none",
