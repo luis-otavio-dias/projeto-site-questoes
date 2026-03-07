@@ -1,23 +1,24 @@
-type Theme = {
-  id: number;
-  name: string;
-};
-
-type Edition = {
-  id: number;
-  year: number;
-};
-
 type Option = {
   id: number;
-  option: string;
-  option_text: string;
+  label: string;
+  text: string;
+};
+
+type Image = {
+  id: number;
+  image: string;
+  filename: string;
+  mime_type: string;
 };
 
 export type QuestionModel = {
-  id: number;
-  edition: Edition;
-  theme: Theme;
+  id: string;
+  image?: boolean; // Indicates if an image is associated
+  passage_text?: string;
+  sources?: string[];
   stem: string;
-  answer_options: Option[];
+  options: Option[];
+  area: string;
+  topic: string;
+  images?: Image[]; // Array of image URLs if images are associated
 };
