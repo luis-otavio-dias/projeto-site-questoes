@@ -168,3 +168,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# Extraction Pipeline API (FastAPI microservice)
+EXTRACTION_API_URL = os.getenv("EXTRACTION_API_URL", "http://localhost:8001")
+EXTRACTION_API_KEY = os.getenv("EXTRACTION_API_KEY", "")
