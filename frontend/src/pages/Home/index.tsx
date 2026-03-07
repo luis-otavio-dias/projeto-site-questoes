@@ -29,7 +29,7 @@ export function Home() {
         const { data } = await api.get("questions/exams/");
 
         const allQuestions: QuestionModel[] = data.flatMap(
-          (exam: any) => exam.questions
+          (exam: any) => exam.questions,
         );
         console.log("Fetched questions:", data);
 
@@ -88,8 +88,8 @@ export function Home() {
                   state={{ question: q }}
                 >
                   <Card
-                    key={`question-${q.id}`}
-                    top={`${q.theme.name} | ${q.edition.year}`}
+                    key={`${q.id}`}
+                    top={`${q.area} | ${q.topic}`}
                     content={q.stem}
                     bottom={"RESOLVER"}
                   />
