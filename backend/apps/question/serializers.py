@@ -1,16 +1,16 @@
 from rest_framework import serializers
 
 from apps.question.models import (
-    Answer,
-    Edition,
     Exam,
     ExamExtractionTask,
     Question,
-    Theme,
+    QuestionImage,
 )
 
 
 class ExamExtractionTaskSerializer(serializers.ModelSerializer):
+    answer_key_file = serializers.FileField(required=False)
+
     class Meta:
         model = ExamExtractionTask
         fields = (
@@ -28,40 +28,30 @@ class ExamExtractionTaskSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
-class EditionSerilizer(serializers.ModelSerializer):
+class QuestionImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Edition
-        fields = ("year",)
-
-
-class ThemeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Theme
-        fields = ("name",)
-
-
-class AnswerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Answer
-        fields = ("option", "option_text")
+        model = QuestionImage
+        fields = ("id", "image", "filename", "mime_type")
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    edition = EditionSerilizer(read_only=True)
-
-    theme = ThemeSerializer(read_only=True)
-
-    answer_options = AnswerSerializer(many=True, read_only=True)
+    images = QuestionImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Question
         fields = (
+            "area",
+            "topic",
+            "question_id",
             "id",
-            "edition",
-            "theme",
+            "name",
+            "passage_text",
+            "sources",
+            "has_image",
             "stem",
-            "answer_options",
+            "options",
             "correct_answer",
+            "images",
         )
 
 
@@ -70,4 +60,12 @@ class ExamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exam
-        fields = ("id", "title", "description", "questions")
+        fields = (
+            "id",
+            "name_base",
+            "name_sigle",
+            "variant",
+            "year",
+            "style",
+            "questions",
+        )
