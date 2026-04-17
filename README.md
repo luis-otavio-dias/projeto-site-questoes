@@ -15,41 +15,155 @@
 
 ## Sobre o Projeto
 
-O projeto é um ambiente de estudos personalizável e inteligente. A plataforma permite que o usuário construa seu próprio banco de questões a partir de arquivos **PDF** (Provas e Gabaritos) ou **CSV**.
+Plataforma web para gerenciamento e resolução de questões de provas, integrada a um pipeline de extração automática de questões baseado em IA.
 
-O projeto utiliza **Inteligência Artificial (Google Gemini)** para ler arquivos de provas, identificar enunciados, alternativas, respostas corretas e até mesmo extrair e associar imagens às questões automaticamente.
+O sistema permite que usuário façam upload de exames em PDF, que são processados por um pipeline externo responsável por extrair, normalizar e estruturar as questões, retornando dados organizados para serem armazenados no banco de dados e exibidos na interface do usuário.
 
-## Funcionalidades Principais
+## Arquitetura do Sistema
 
-* **Extração Inteligente com IA:** Upload de arquivos de prova e gabarito (PDF) com processamento automático via LangChain e Google Gemini para estruturar as questões.
-* **Extração de Imagens:** O sistema identifica e recorta imagens presentes nas questões do PDF.
-* **Importação via CSV:** Suporte para carga de questões em lote via arquivos CSV padronizados.
-* **Simulado Interativo:** Interface moderna para resolução de questões com feedback imediato.
-* **Gerenciamento de Usuário:** Autenticação completa (Login, Registro, Atualização de Perfil) via JWT armazenado em Cookies HTTP-Only.
-* **Interface Moderna:** Frontend desenvolvido com React, TypeScript e Tailwind CSS, incluindo suporte a **Dark Mode**.
+O projeto segue uma arquitetura full-stack distribuída, separando interface, backend e processamento de IA em camadas distintas:
 
-## Tecnologias Utilizadas
+![Imagem ilustrativa da arquitetura](docs/img/architeture.png)
+
+### Responsabilidades de cada camada
+
+- **Frontend (React + Vite):**
+  - Interface de usuário
+  - Autenticação de usuário e gerenciamento de sessão
+  - Upload de arquivos
+  - Visualização e interação de questões
+
+- **Backend (Django + Django REST Framework):**
+  - API REST para gerenciamento de usuários e exames
+  - Segurança e autenticação via JWT
+  - Persistência de dados
+  - Orquestração da comunicação com o pipeline de IA
+
+- **Pipeline de IA (FastAPI + LangChain):**
+  - Processamento de arquivos PDF de prova
+  - Extração e normalização de questões
+  - Estruturação de questões via LLM
+  - Retorno de JSON validado
+
+## Fluxo de Funcionamento
+
+![Fluxo de Funcionamento](docs/img//workflow.png)
+
+## Autenticação e Segurança
+
+### Autenticação de usuários
+
+O sistema utiliza JWT para autenticação, com tokens armazenados em cookies HTTP-Only para garantir segurança contra ataques XSS. O backend valida os tokens em cada requisição protegida, garantindo que apenas usuários autenticados possam acessar recursos sensíveis.
+
+**Fluxo de Autenticação:**
+
+1. O usuário se registra ou faz login, enviando suas credenciais para o backend.
+2. O backend valida as credenciais e, se forem corretas, gera um JWT contendo as informações do usuário.
+3. O token é enviado de volta ao cliente e armazenado em um cookie HTTP-Only.
+4. Em requisições subsequentes, o token é automaticamente incluído no cabeçalho da requisição, permitindo que o backend autentique o usuário e autorize o acesso aos recursos protegidos.
+
+### Comunicação entre serviços (Django e FastAPI)
+
+A comunicação entre o backend Django e o pipeline é restrita por API Key e CORS, garantindo que apenas o backend possa acessar os endpoints do pipeline de IA. O pipeline valida a API Key em cada requisição, rejeitando acessos não autorizados.
+
+Exemplo de request interno:
+
+```http
+POST /process-exam
+Host: pipeline-service
+X-API-Key: <API_KEY>
+Content-Type: multipart/form-data
+```
+
+## Estrutura do Projeto
+
+```bash
+├── backend
+│   ├── apps
+│   │   ├── question
+│   │   │   ├── api_contract.py
+│   │   │   ├── dto.py
+│   │   │   └── mapper.py
+│   │   └── user
+│   └── project
+├── dotenv_files
+├── frontend
+│   └── src
+│       ├── actions
+│       ├── components
+│       ├── contexts
+│       ├── models
+│       │   ├── Question
+│       │   └── User
+│       ├── pages
+│       ├── providers
+│       │   ├── Question
+│       │   └── User
+│       ├── reducers
+│       ├── routers
+│       ├── services
+│       └── templates
+└── scripts
+```
 
 ### Backend
-* **Python 3.13** & **Django 5.1**
-* **Django REST Framework** (API)
-* **Google Generative AI (Gemini 2.5 Flash)** & **LangChain** (Processamento de IA)
-* **PyMuPDF (Fitz)** & **Pillow** (Manipulação de PDF e Imagens)
-* **uv** (Gerenciamento de dependências ultra-rápido)
+
+- **Tecnologias**:
+  - Django
+  - Django REST Framework
+  - JWT Authentication
+  - Services, DTOs e Mappers pattern
+- **Responsabilidades**:
+  - API da aplicação
+  - Persistência de dados
+  - Integração com o pipeline
 
 ### Frontend
-* **React 19** & **Vite**
-* **TypeScript**
-* **Tailwind CSS** & **Shadcn/UI** (Estilização e Componentes)
-* **Axios** & **React Router**
+
+- **Tecnologias**:
+  - React
+  - TypeScript
+  - Vite
+- **Responsabilidades**:
+  - Interface de usuário
+  - Upload de arquivos
+  - Consumo da API
+
+### Integração com Pipeline de IA
+
+O projeto integra-se a um pipeline externo de extração de exames, que utiliza validação estruturada com Pydantic para garantir consistência entre o output do LLM e o schema esperado pelo backend.
+
+- **Tecnologias**:
+  - FastAPI
+  - LangChain
+  - Pydantic
+  - LLMs para parsing de questões
+- **Responsabilidades**:
+  - Diagnóstico do arquivo
+  - Extração e normalização de questões
+  - Estruturação em JSON
+  - Validação com schema
 
 ---
+
+## Fluxo Completo da Aplicação
+
+![Fluxo Completo do Processo de Upload e Extração](docs/img/full_flow.png)
+
+## Documentação de Endpoints
+
+A documentação completa dos endpoints do backend está disponível em:
+
+- [docs/endpoints-backend.md](docs/endpoints-backend.md)
 
 ## Como Rodar o Projeto
 
 ### Pré-requisitos
-* [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado.
-* Uma **API Key do Google Gemini** (para a funcionalidade de extração de questões).
+
+- Python 3.13+
+- Node.js
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado.
+- Uma **API Key do Google Gemini** (para a funcionalidade de extração de questões).
 
 ### 1. Clonar o repositório
 
@@ -58,51 +172,63 @@ git clone https://github.com/luis-otavio-dias/projeto-site-questoes.git
 cd projeto-site-questoes
 ```
 
-### 2. Configurar Varíaveis de Ambiente  
-Crie o arquivo `.env` baseado no exemplo fornecido na pasta `dotenv_files`.
+### 2. Configurar Varíaveis de Ambiente
 
-```bash
-cp dotenv_files/.env-example dotenv_files/.env
-```
+Exemplo disponível em: `dotenv_files/.env.example`.
 
-**Importante**: Edite o arquivo `dotenv_files/.env` e adicione sua chave API do Google:
+Principais variáveis:
+
 ```env
-GOOGLE_API_KEY="SUA_CHAVE_API_DO_GOOGLE_GEMINI_AQUI"
+SECRET_KEY=
+DEBUG=
+DATABASE_URL=
+
+
+
+PIPELINE_API_URL=
+PIPELINE_API_KEY=
 ```
 
-### 3. Executando com Docker (Recomendado)
-O projeto está totalmente configurado com Docker Compose. Para iniciar o backend e preparar o ambiente:
+### 3. Executar o Backend
+
+**Executando com Docker (Recomendado)**
+
 ```bash
 docker compose up --build
 ```
-O comando acima irá:
-  1. Construir a imagem do Backend.
-  2. Instalar as dependências do sistema.
-  3. Rodar as migrações do banco de dados.
-  4. Coletar arquivos estáticos.
-  5. Iniciar o servidor em ```http://localhost:8000```
 
-Agora, pare o servidor com CTRL + C (ou inicie um novo terminal) e execute o comando a seguir para criar um superuser:
+O comando acima irá:
+
+1. Construir a imagem do Backend.
+2. Instalar as dependências do sistema.
+3. Rodar as migrações do banco de dados.
+4. Coletar arquivos estáticos.
+5. Iniciar o servidor em `http://localhost:8000`
+
+Para criar um superuser:
+
 ```bash
 docker compose up -d
 docker compose exec backend python manage.py createsuperuser
 ```
 
+**Executando localmente (sem Docker)**
+
+````bash
+cd backend
+uv sync
+uv run manage.py migrate
+uv run manage.py runserver
+```
+
 ### 4. Executando o Frontend
-Abra um novo terminal, navegue até a pasta do frontend e inicie o servidor de desenvolvimento:
+
 ```bash
 cd frontend
 npm install
 npm run dev
-```
-A aplicação estará acessível em: http://localhost:5173
-
-### Estrutura do Banco de Questões
-Para o upload manual via CSV, o arquivo deve seguir o formato delimitado por `;`:
-```csv
-Ano;Temática;Enunciado;Alternativas;Resposta Correta
-2024;História;Quem descobriu o Brasil?;A) Pedro Álvares Cabral | B) Colombo;A
-```
+````
 
 ## Licença
+
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
