@@ -180,7 +180,7 @@ EXTRACTION_API_KEY = os.getenv("EXTRACTION_API_KEY", "")
 # drf-spectacular settings
 SPECTACULAR_SETTINGS = {
     "TITLE": "Projeto Site Questões API",
-    "DESCRIPTION": "Your project description",
+    "DESCRIPTION": "Endpoints da API do Projeto Site Questões",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
