@@ -17,10 +17,12 @@ class Exam(models.Model):
     variant = models.CharField(max_length=150, blank=True)
     year = models.CharField(max_length=4, blank=True)
     style = models.CharField(max_length=50, blank=True)
-    total_questions = models.IntegerField(default=0)
+    total_questions = models.IntegerField()
+
+    objects = models.Manager()
 
     def __str__(self) -> str:
-        return self.name_base
+        return str(self.name_base)
 
 
 class ExamExtractionTask(models.Model):
@@ -61,8 +63,10 @@ class ExamExtractionTask(models.Model):
 
     raw_json_output = models.JSONField(null=True, blank=True)
 
+    objects = models.Manager()
+
     def __str__(self) -> str:
-        return f"ExamExtractionTask {self.id} - {self.status}"
+        return f"ExamExtractionTask {self.pk} - {self.status}"
 
 
 class Question(models.Model):
@@ -80,7 +84,7 @@ class Question(models.Model):
         default=list,
         help_text="['Source 1', 'Source 2']",
     )
-    has_image = models.BooleanField(default=False, blank=True)
+    has_image = models.BooleanField(blank=True)
     stem = models.TextField()
     correct_answer = models.CharField(max_length=1)
     options = models.JSONField(
@@ -88,8 +92,10 @@ class Question(models.Model):
         help_text="[{'label': 'A', 'text': 'Option A text'}, ...]",
     )
 
+    objects = models.Manager()
+
     def __str__(self) -> str:
-        return self.stem[:60]
+        return str(self.name)
 
     def clean(self) -> None:
         super().clean()
@@ -125,5 +131,7 @@ class QuestionImage(models.Model):
     mime_type = models.CharField(max_length=50, default="image/jpeg")
     created_at = models.DateTimeField(auto_now_add=True)
 
+    objects = models.Manager()
+
     def __str__(self) -> str:
-        return f"{self.filename} (Q{self.question_id})"
+        return f"{self.filename} (Q{self.pk})"

@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
@@ -7,9 +9,7 @@ from apps.user.validators import validate_file_type
 class CustomUserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(
-        self, email: str, password: str, **extra_fields: dict
-    ) -> "User":
+    def _create_user(self, email: str, password: str, **extra_fields: Any) -> "User":
         """
         Creates and saves a User with the given email and password.
         """
@@ -23,15 +23,13 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(
-        self, email: str, password: str, **extra_fields: dict
-    ) -> "User":
+    def create_user(self, email: str, password: str, **extra_fields: Any) -> "User":
         extra_fields.setdefault("is_superuser", False)
         extra_fields.setdefault("is_staff", False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(
-        self, email: str, password: str, **extra_fields: dict
+        self, email: str, password: str, **extra_fields: Any
     ) -> "User":
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_staff", True)
@@ -56,12 +54,8 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS: list = []  # noqa: RUF012
 
-    class Meta:
-        verbose_name = "User"
-        verbose_name_plural = "Users"
-
     def __str__(self) -> str:
-        return self.email
+        return str(self.email)
 
 
 class File(models.Model):
@@ -83,12 +77,15 @@ class File(models.Model):
         null=True,
     )
 
-    def __str__(self) -> str:
-        return self.title or self.file_upload.name
+    objects = models.Manager()
 
-    def save(self, *args: tuple, **kwargs: dict) -> None:
+    def __str__(self) -> str:
+        return str(self.title) or str(self.file_upload.name)
+
+    def save(self, *args: tuple, **kwargs: Any) -> None:
         if self.file_upload:
-            file_extension = self.file_upload.name.split(".")[-1].lower()
+            file_upload_name = self.file_upload.name or ""
+            file_extension = file_upload_name.split(".")[-1].lower()
             if file_extension in ["csv", "pdf"]:
                 self.file_type = file_extension
         super().save(*args, **kwargs)

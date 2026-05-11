@@ -12,8 +12,8 @@ from apps.question.views import (
 app_name = "question"
 
 urlpatterns = [
-    path("", QuestionDetailView.as_view(), name="questions"),
-    path("<int:id>/", QuestionListView.as_view(), name="question_detail"),
+    path("", QuestionListView.as_view({"get": "list"}), name="questions"),
+    path("<int:id>/", QuestionDetailView.as_view(), name="question_detail"),
     path("upload-exam/", UploadExamView.as_view(), name="upload_exam"),
     path(
         "tasks/<int:id>/status/",

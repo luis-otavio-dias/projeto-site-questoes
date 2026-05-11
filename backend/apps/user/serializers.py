@@ -6,16 +6,13 @@ from rest_framework import serializers
 
 from apps.user.models import File, User
 from apps.user.validators import validate_file_type
-from utils.add_questions import add_question_csv
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "email", "password")
-        extra_kwargs: ClassVar[dict[str, dict]] = {
-            "password": {"write_only": True}
-        }
+        extra_kwargs: ClassVar[dict[str, dict]] = {"password": {"write_only": True}}
 
     def create(self, validated_data: dict) -> User:
         return User.objects.create_user(
@@ -29,8 +26,8 @@ class LoginUserSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(write_only=True)
 
-    def validate(self, data: dict) -> User:
-        user = authenticate(**data)
+    def validate(self, attrs: dict) -> User:
+        user = authenticate(**attrs)
 
         if user and user.is_active:
             return user
@@ -57,9 +54,7 @@ class FileUploadSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict) -> File:
         user = self.context["request"].user
-        file_instance = File.objects.create(user=user, **validated_data)
-        add_question_csv(file_instance.file_upload.path, user)
-        return file_instance
+        return File.objects.create(user=user, **validated_data)
 
 
 class UserSerializer(serializers.ModelSerializer):
