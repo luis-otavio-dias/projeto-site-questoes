@@ -1,9 +1,17 @@
-from django.http import HttpRequest
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
+from drf_spectacular.extensions import OpenApiAuthenticationExtension
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import AuthenticationFailed
-from rest_framework_simplejwt.tokens import Token
 
-from apps.user.models import User
+if TYPE_CHECKING:
+    from django.http import HttpRequest
+    from drf_spectacular.openapi import AutoSchema
+    from rest_framework_simplejwt.tokens import Token
+
+    from apps.user.models import User
 
 
 class CookieJWTAuthentication(JWTAuthentication):
@@ -26,3 +34,17 @@ class CookieJWTAuthentication(JWTAuthentication):
             raise AuthenticationFailed(msg) from e
         else:
             return user, validated_token
+
+
+class CookieJWTAuthenticationExtension(OpenApiAuthenticationExtension):
+    target_class = "apps.user.authentication.CookieJWTAuthentication"
+    name = "Cookie JWT Authentication"
+
+    def get_security_definition(
+        self, auto_schema: AutoSchema
+    ) -> dict[str, Any]:
+        return {
+            "type": "apiKey",
+            "in": "cookie",
+            "name": "access_token",
+        }

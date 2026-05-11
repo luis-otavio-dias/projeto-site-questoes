@@ -43,6 +43,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    "drf_spectacular",
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework_simplejwt",
@@ -149,11 +150,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "user.User"
 
+# Django REST Framework settings
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         # "rest_framework_simplejwt.authentication.JWTAuthentication",
         "apps.user.authentication.CookieJWTAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
@@ -172,3 +175,13 @@ CORS_ALLOW_CREDENTIALS = True
 # Extraction Pipeline API (FastAPI microservice)
 EXTRACTION_API_URL = os.getenv("EXTRACTION_API_URL", "http://localhost:8001")
 EXTRACTION_API_KEY = os.getenv("EXTRACTION_API_KEY", "")
+
+
+# drf-spectacular settings
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Projeto Site Questões API",
+    "DESCRIPTION": "Endpoints da API do Projeto Site Questões",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # OTHER SETTINGS
+}

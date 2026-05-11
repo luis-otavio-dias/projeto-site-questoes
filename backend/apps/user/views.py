@@ -1,6 +1,7 @@
 from django.contrib.auth.hashers import make_password
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -41,6 +42,7 @@ class UserInfoView(RetrieveAPIView):
 class LoginView(APIView):
     authentication_classes = ()
 
+    @extend_schema(request=LoginUserSerializer, responses=UserSerializer)
     def post(self, request: HttpRequest) -> Response:
         serializer = LoginUserSerializer(data=request.data)
 
@@ -79,6 +81,13 @@ class LoginView(APIView):
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
+    @extend_schema(
+        responses={
+            "200": "Logout successful",
+            "400": "Error invalidating token",
+            "401": "Refresh token not provided or invalid",
+        },
+    )
     def post(self, request: HttpRequest) -> Response:
         refresh_token = request.COOKIES.get("refresh_token")
 
@@ -151,6 +160,7 @@ class CookieTokenRefreshView(TokenRefreshView):
 class UpdateUserInfoView(APIView):
     permission_classes = (IsAuthenticated,)
 
+    @extend_schema(request=UserSerializer, responses=UserSerializer)
     def put(self, request: HttpRequest) -> Response:
         user = request.user
         serializer = UserSerializer(user)

@@ -1,11 +1,7 @@
 # API Views
 from django.db.models import Count
-from django.http import HttpRequest
-from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
@@ -17,20 +13,21 @@ from apps.question.serializers import (
 )
 
 
-@api_view(["GET"])
-@permission_classes([IsAdminUser])
-def get_questions(request: HttpRequest) -> Response:
-    questions = Question.objects.all()
-    serializer = QuestionSerializer(questions, many=True)
-    return Response(serializer.data)
+class QuestionDetailView(RetrieveAPIView):
+    permission_classes = (IsAdminUser,)
+    serializer_class = QuestionSerializer
+    lookup_field = "id"
+
+    def get_queryset(self) -> Question:
+        return Question.objects.all()
 
 
-@api_view(["GET"])
-@permission_classes([IsAdminUser])
-def get_question(request: HttpRequest, _id: int) -> Response:
-    question = get_object_or_404(Question, id=_id)
-    serializer = QuestionSerializer(question, many=False)
-    return Response(serializer.data)
+class QuestionListView(ReadOnlyModelViewSet):
+    permission_classes = (IsAdminUser,)
+    serializer_class = QuestionSerializer
+
+    def get_queryset(self) -> Question:
+        return Question.objects.all()
 
 
 class UploadExamView(CreateAPIView):
