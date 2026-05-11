@@ -214,7 +214,7 @@ docker compose exec backend python manage.py createsuperuser
 
 **Executando localmente (sem Docker)**
 
-````bash
+```bash
 cd backend
 uv sync
 uv run manage.py migrate
@@ -227,7 +227,7 @@ uv run manage.py runserver
 cd frontend
 npm install
 npm run dev
-````
+```
 
 ## Licença
 
