@@ -25,14 +25,14 @@ fix = true
 show-fixes = true
 indent-width = 4
 exclude = [
-  ".venv", 
+  ".venv",
   "*/migrations/*.py",
 ]
 
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-  "T201",   # Checks for print statements, 
+  "T201",   # Checks for print statements,
   "COM812", # Checks for the absence of trailing commas.
   "INP001", # Checks for packages that are missing an __init__.py file.
   "D",      # All pydocstyle (D)
@@ -51,12 +51,12 @@ indent-style = "space"
 line-ending = "lf"
 
 [tool.ruff.lint.isort]
-known-first-party = ["backend", "core", "user", "classroom"]
+known-first-party = ["backend", "project", "user", "question"]
 
 [tool.pyright]
 typeCheckingMode = "standard"
 pythonVersion = "3.14"
-include = ["src", "tests"]
+include = ["apps"]
 exclude = [
   "**/venv",
   "**/.venv",
