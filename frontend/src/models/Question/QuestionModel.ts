@@ -22,3 +22,9 @@ export type QuestionModel = {
   topic: string;
   images?: Image[]; // Array of image URLs if images are associated
 };
+
+export type ExamModel = {
+  id: string;
+  name: string;
+  questions: QuestionModel[];
+};

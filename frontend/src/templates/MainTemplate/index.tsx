@@ -13,20 +13,18 @@ export function MainTemplate({ children, className }: MainTemplateProps) {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen w-full grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
-      <DefaultMenu />
-      <SideBar onOpenUploadModal={() => setIsUploadModalOpen(true)} />
+    <div className="min-h-screen flex bg-background">
+      <SideBar onImportarProva={() => setIsUploadModalOpen(true)} />
 
       <UploadModal
         isOpen={isUploadModalOpen}
         onClose={() => setIsUploadModalOpen(false)}
       />
 
-      <main className={cn("col-span-5", className)}>
-        <div className="w-full grid grid-cols-[auto_1fr] grid-rows-[90vh]">
-          <div className="col-span-full row-span-full ">{children}</div>
-        </div>
-      </main>
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+        <DefaultMenu />
+        <main className={cn("flex-1", className)}>{children}</main>
+      </div>
     </div>
   );
 }
