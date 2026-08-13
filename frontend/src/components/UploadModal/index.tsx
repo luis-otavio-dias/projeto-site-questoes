@@ -1,13 +1,11 @@
-import { X } from "lucide-react";
-import { useState } from "react";
+import { X, CloudUpload, Check } from "lucide-react";
+import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { cn } from "../../lib/utils";
 import { api } from "../../services/api";
 import { Loader } from "../../components/Loader";
-import { DefaultTextarea } from "../../components/DefaultTextarea";
-import { DefaultInput } from "../DefaultInput";
-import { DefaultForm } from "../DefaultForm";
-import { FileInput } from "../FileInput";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 type UploadModalProps = {
   isOpen: boolean;
@@ -21,83 +19,158 @@ interface TaskResponse {
   status: TaskStatus;
 }
 
+// ─── DropZone ─────────────────────────────────────────────────────────────────
+
+interface DropZoneProps {
+  label: string;
+  file: File | null;
+  accept?: string;
+  onFile: (file: File) => void;
+}
+
+function DropZone({ label, file, accept, onFile }: DropZoneProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+      const dropped = e.dataTransfer.files[0];
+      if (dropped) onFile(dropped);
+    },
+    [onFile],
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (selected) onFile(selected);
+  };
+
+  const hasFile = !!file;
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => inputRef.current?.click()}
+      onKeyDown={(e) => e.key === "Enter" && inputRef.current?.click()}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      className={cn(
+        "flex h-[156px] w-full items-center justify-center rounded-[10px] cursor-pointer transition-all duration-200",
+        isDragging
+          ? "border-2 border-solid border-[#51A2FF] bg-[rgba(43,127,255,0.08)]"
+          : hasFile
+            ? "border-2 border-solid border-[#51A2FF] bg-[#27272A]"
+            : "border-2 border-dashed border-[#3F3F47] bg-[#27272A] hover:border-[#51A2FF] hover:bg-[rgba(43,127,255,0.04)]",
+      )}
+    >
+      <input
+        ref={inputRef}
+        type="file"
+        accept={accept}
+        className="hidden"
+        onChange={handleChange}
+        onClick={(e) => e.stopPropagation()}
+      />
+      <div className="flex flex-col items-center gap-2 px-6 text-center">
+        <CloudUpload
+          className={cn(
+            "w-8 h-8 transition-colors",
+            hasFile || isDragging ? "text-[#51A2FF]" : "text-[#9F9FA9]",
+          )}
+        />
+        <span
+          className={cn(
+            "text-base transition-colors",
+            hasFile ? "text-white" : "text-[#9F9FA9]",
+          )}
+        >
+          {hasFile ? file.name : label}
+        </span>
+        {!hasFile && (
+          <span className="text-xs text-[#71717B]">PDF, JPG ou PNG</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── UploadModal ──────────────────────────────────────────────────────────────
+
 export function UploadModal({ isOpen, onClose }: UploadModalProps) {
-  const [answerKeyFile, setAnswerKeyFile] = useState<File | null>(null);
   const [examFile, setExamFile] = useState<File | null>(null);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [answerKeyFile, setAnswerKeyFile] = useState<File | null>(null);
+  const [autoCorrection, setAutoCorrection] = useState(false);
   const [taskStatus, setTaskStatus] = useState<TaskStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [uploading, setUploading] = useState<boolean>(false);
+  const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
 
-  const maxLength = 500;
   if (!isOpen) return null;
 
   const resetForm = () => {
-    setAnswerKeyFile(null);
     setExamFile(null);
-    setTitle("");
-    setDescription("");
+    setAnswerKeyFile(null);
+    setAutoCorrection(false);
     setTaskStatus(null);
     setError(null);
     setUploading(false);
   };
 
   const handleClose = () => {
+    if (uploading) return;
     resetForm();
     onClose();
-  };
-
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const descriptionContent = e.target.value;
-    if (descriptionContent.length <= maxLength) {
-      setDescription(descriptionContent);
-    }
   };
 
   const checkTaskStatus = async (id: string | number) => {
     try {
       const { data } = await api.get<TaskResponse>(
-        `/questions/tasks/${id}/status/`
+        `/questions/tasks/${id}/status/`,
       );
       setTaskStatus(data.status);
 
       if (data.status === "COMPLETED") {
         setUploading(false);
         handleClose();
-        alert("File processed successfully!");
         navigate(0);
       } else if (data.status === "FAILED") {
         setUploading(false);
-        setError("File processing failed. Please try again.");
+        setError("Falha no processamento. Tente novamente.");
       } else {
         setTimeout(() => checkTaskStatus(id), 2000);
       }
-    } catch (error) {
+    } catch {
       setUploading(false);
       setTaskStatus(null);
-      setError("Error checking task status");
-      console.error("Error checking task status:", error);
+      setError("Erro ao verificar o status do processamento.");
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!examFile || !answerKeyFile) {
-      setError("Please select both files");
+  const handleSubmit = async () => {
+    if (!examFile) {
+      setError("Selecione o arquivo da prova antes de continuar.");
       return;
     }
 
     const formData = new FormData();
-
     formData.append("exam_file", examFile);
-    formData.append("answer_key_file", answerKeyFile);
-
-    if (title) formData.append("title", title);
-
-    if (description) formData.append("description", description);
+    if (answerKeyFile) formData.append("answer_key_file", answerKeyFile);
+    formData.append("auto_correction", String(autoCorrection));
+    // title / description kept for backend compatibility — sent as empty when absent
 
     try {
       setUploading(true);
@@ -105,40 +178,32 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
       const { data } = await api.post<TaskResponse>(
         "/questions/upload-exam/",
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
-
       setTaskStatus(data.status);
       checkTaskStatus(data.id);
-    } catch (error) {
-      setError("Error uploading files");
+    } catch {
+      setError("Erro ao enviar os arquivos. Tente novamente.");
       setUploading(false);
-      console.error("Error uploading files:", error);
     }
   };
 
   const getStatusMessage = () => {
     switch (taskStatus) {
-      case "PENDING": {
-        return "Task is pending...";
-      }
-      case "PROCESSING": {
-        return "Task is being processed...";
-      }
-      case "COMPLETED": {
-        return "Task completed successfully!";
-      }
-      case "FAILED": {
-        return "Task failed. Please try again.";
-      }
+      case "PENDING":
+        return "Aguardando processamento...";
+      case "PROCESSING":
+        return "Processando a prova...";
+      case "COMPLETED":
+        return "Concluído!";
+      case "FAILED":
+        return "Falha no processamento.";
       default:
-        return "";
+        return "Enviando...";
     }
   };
+
+  const canSubmit = !!examFile && !uploading;
 
   return (
     <div
@@ -146,101 +211,119 @@ export function UploadModal({ isOpen, onClose }: UploadModalProps) {
       onClick={handleClose}
     >
       <div
-        className="bg-primary-foreground border-2 w-full max-w-md rounded-xl shadow-2xl p-6 relative animate-fade-in-up"
+        className="relative w-[512px] rounded-[10px] border border-[#27272A] bg-[#18181B] p-6 shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1),0px_4px_6px_-4px_rgba(0,0,0,0.1)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
-            Adicionar Novo Exame
+        {/* Header */}
+        <div className="flex items-start justify-between mb-6">
+          <h2 className="text-2xl font-semibold text-white leading-8">
+            Enviar prova
           </h2>
           <button
             onClick={handleClose}
-            disabled={uploading || taskStatus === "PROCESSING"}
-            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={uploading}
+            className="opacity-70 hover:opacity-100 transition-opacity text-white disabled:cursor-not-allowed mt-0.5 cursor-pointer"
+            aria-label="Fechar"
           >
-            <X size={24} />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {uploading || taskStatus === "PROCESSING" ? (
-          <div className="flex flex-col items-center gap-4 py-10">
+        {/* Loading state */}
+        {uploading ? (
+          <div className="flex flex-col items-center gap-4 py-16">
             <Loader />
-            <p className="text-lg">{getStatusMessage()}</p>
+            <p className="text-base text-[#9F9FA9]">{getStatusMessage()}</p>
           </div>
         ) : (
-          <DefaultForm
-            onSubmit={handleSubmit}
-            buttonText="Enviar"
-            buttonDisabled={!examFile || !answerKeyFile || uploading}
-            cancelButton={true}
-            onClose={handleClose}
-          >
-            {error && <p className="text-red-500">{error}</p>}
-            <DefaultInput
-              id="title"
-              labelText="Título do Exame (opcional)"
-              type="text"
-              name="title"
-              placeholder="Ex: ENEM 2023 - Dia 1"
-              onChange={(e) => setTitle(e.target.value)}
-              className={cn([
-                "w-[260px]",
-                "h-[43px]",
-                "text-3xl",
-                title ? "dark:border-primary border-muted-foreground/60" : "",
-              ])}
+          <div className="flex flex-col">
+            {/* Error */}
+            {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+
+            {/* Exam drop zone */}
+            <DropZone
+              label="Clique ou arraste o arquivo da prova aqui"
+              file={examFile}
+              accept="application/pdf,image/*"
+              onFile={setExamFile}
             />
 
-            <DefaultTextarea
-              id="description"
-              labelText="Descrição (opcional)"
-              name="description"
-              placeholder="Detalhes extras..."
-              onChange={handleTextareaChange}
-              text={description}
-              maxLength={maxLength}
-              className={cn([
-                "w-[260px]",
-                "h-[100px]",
-                "text-2xl",
-                description
-                  ? "dark:border-primary border-muted-foreground/60"
-                  : "",
-              ])}
-            />
+            {/* Answer key section */}
+            <div className="pt-6">
+              <p className="mb-3 text-sm font-medium text-[#9F9FA9]">
+                Enviar gabarito (opcional)
+              </p>
+              <DropZone
+                label="Clique ou arraste o gabarito aqui"
+                file={answerKeyFile}
+                accept="application/pdf,image/*"
+                onFile={setAnswerKeyFile}
+              />
+            </div>
 
-            <FileInput
-              id="examFile"
-              labelText="Arquivo da Prova (PDF)"
-              accept="application/pdf"
-              name="examFile"
-              fileName={examFile ? examFile.name : ""}
-              onChange={(e) =>
-                setExamFile(e.target.files ? e.target.files[0] : null)
-              }
-              className={cn(
-                examFile
-                  ? "border-solid dark:border-primary border-muted-foreground/60"
-                  : ""
-              )}
-            />
-            <FileInput
-              id="answerKeyFile"
-              labelText="Arquivo do Gabarito (PDF)"
-              type="file"
-              accept="application/pdf"
-              name="answerKeyFile"
-              fileName={answerKeyFile ? answerKeyFile.name : ""}
-              onChange={(e) =>
-                setAnswerKeyFile(e.target.files ? e.target.files[0] : null)
-              }
-              className={cn(
-                answerKeyFile
-                  ? "border-solid dark:border-primary border-muted-foreground/60"
-                  : ""
-              )}
-            />
-          </DefaultForm>
+            {/* Auto-correction */}
+            <div className="pt-6">
+              <div className="flex gap-3 rounded-[10px] border border-[#27272A] bg-[rgba(39,39,42,0.5)] p-4">
+                {/* Checkbox */}
+                <div className="pt-0.5 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setAutoCorrection((v) => !v)}
+                    aria-checked={autoCorrection}
+                    role="checkbox"
+                    className={cn(
+                      "w-4 h-4 rounded-[4px] border flex items-center justify-center transition-colors shadow-sm cursor-pointer",
+                      autoCorrection
+                        ? "bg-[#2B7FFF] border-[#2B7FFF]"
+                        : "bg-[#030213] border-[#030213]",
+                    )}
+                  >
+                    {autoCorrection && (
+                      <Check className="w-3 h-3 text-white" strokeWidth={3} />
+                    )}
+                  </button>
+                </div>
+                {/* Text */}
+                <div
+                  className="cursor-pointer"
+                  onClick={() => setAutoCorrection((v) => !v)}
+                >
+                  <p className="text-sm font-medium text-white leading-5">
+                    Correção automática
+                  </p>
+                  <p className="mt-1 text-sm text-[#9F9FA9] leading-[1.625]">
+                    Se marcado, a correção será feita por inferência de um
+                    modelo de IA. A correção está sujeita a erros.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end gap-3 pt-8">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="h-10 w-[100px] rounded-[10px] bg-[#27272A] text-sm font-medium text-white transition-colors hover:bg-[#3F3F47] cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!canSubmit}
+                className={cn(
+                  "h-10 w-[124px] rounded-[10px] text-sm font-medium text-white transition-opacity",
+                  "bg-[linear-gradient(135deg,#2B7FFF_0%,#9810FA_100%)]",
+                  canSubmit
+                    ? "opacity-100 hover:opacity-90 cursor-pointer"
+                    : "opacity-50 cursor-not-allowed",
+                )}
+              >
+                Enviar Prova
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>
