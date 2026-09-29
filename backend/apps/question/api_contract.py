@@ -15,6 +15,7 @@ class QuestionImageContract(BaseModel):
 class QuestionMetadataContract(BaseModel):
     area: str | None = None
     topic: str | None = None
+    language: str | None = None
 
 
 class QuestionContract(BaseModel):

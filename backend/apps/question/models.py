@@ -17,7 +17,6 @@ class Exam(models.Model):
     variant = models.CharField(max_length=150, blank=True)
     year = models.CharField(max_length=4, blank=True)
     style = models.CharField(max_length=50, blank=True)
-    total_questions = models.IntegerField()
 
     objects = models.Manager()
 
@@ -107,7 +106,10 @@ class Question(models.Model):
         labels = []
         for option in self.options:
             if not isinstance(option, dict):
-                msg = "Each option must be a dictionary with 'label' and 'text' keys."
+                msg = (
+                    "Each option must be a dictionary "
+                    "with 'label' and 'text' keys."
+                )
                 raise ValidationError(msg)
             if "label" not in option or "text" not in option:
                 msg = "Each option must contain 'label' and 'text' keys."

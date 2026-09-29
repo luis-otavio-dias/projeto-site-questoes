@@ -22,8 +22,8 @@ def map_exam_contract_to_dto(
             passage_text=question.passage_text,
             correct_answer=question.correct_option,
             has_image=question.image,
-            area=question.metadata.area,
-            topic=question.metadata.topic,
+            area=question.metadata.area or "",
+            topic=question.metadata.topic or "",
             sources=list(question.sources),
             options=[
                 {"label": opt.label, "text": opt.text}

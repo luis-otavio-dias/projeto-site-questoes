@@ -106,7 +106,7 @@ def process_exam_import(task_instance: ExamExtractionTask) -> None:
         if not validated.data:
             print(
                 "[bold red]API response validation failed"
-                f"for task ID {task_instance.id}[/]"
+                f"for task ID {task_instance.pk}[/]"
             )
             task_instance.status = "FAILED"
             task_instance.save(update_fields=["status"])
@@ -115,7 +115,6 @@ def process_exam_import(task_instance: ExamExtractionTask) -> None:
         exam_dto = map_exam_contract_to_dto(validated.data)
 
         with transaction.atomic():
-
             new_exam = Exam.objects.create(
                 user=task_instance.user,
                 name_base=exam_dto.name_base,
@@ -169,7 +168,6 @@ def process_exam_import(task_instance: ExamExtractionTask) -> None:
         ValidationError,
         IntegrityError,
         KeyError,
-        Exception,
     ) as e:
         task_instance.status = "FAILED"
         task_instance.save(update_fields=["status"])
