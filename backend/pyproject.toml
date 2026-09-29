@@ -16,11 +16,22 @@ dependencies = [
     "drf-spectacular>=0.29.0",
     "python-magic>=0.4.27",
     "pydantic>=2.13.1",
-    "ruff>=0.16.2",
+    "mypy>=2.3.1",
+]
+
+[dependency-groups]
+dev = [
+  "mypy>=1.13",
+  "django-stubs>=6.1.1",
+  "djangorestframework-stubs>=3.18.1",
+  "pytest>=9.1.1",
+  "pytest-django>=4.14.0",
+  "pytest-dotenv>=0.5.2",
+  "ruff>=0.16.4",
 ]
 
 [tool.ruff]
-line-length = 88
+line-length = 79
 target-version = "py313"
 fix = true
 show-fixes = true
@@ -41,11 +52,44 @@ ignore = [
   "ERA001", # Checks for commented-out Python code.
   "A004",   # Shadowing Python Builtin
   "ARG001", # Unused function arguments
-  "CPY001"
+  "CPY001",
+  "DJ001",
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["ANN201", "S101"]
+"tests/**/*.py" = [
+    "ANN001",
+    "ANN002",
+    "ANN003",
+    "ANN201",
+    "PLR2004",
+    "S101",
+    "S105",
+    "S106",
+    "SLF001",
+]
+"**/tests*.py" = [
+    "ANN001",
+    "ANN002",
+    "ANN003",
+    "ANN201",
+    "ANN202",
+    "PLR2004",
+    "S101",
+    "S105",
+    "S106",
+    "SLF001",
+    "PLC0415",
+    "EM101",
+    "TRY003"
+]
+"*/migrations/*.py" = ["ALL"]
+"project/settings.py" = [
+    "E501", # Ignore line-length violations for long secret keys or database URLs
+]
+"manage.py" = ["ALL"]
+"**/views.py" = ["ARG002"]
+"__init__.py" = ["F401"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -71,11 +115,22 @@ exclude = [
 venv = ".venv"
 venvPath = "."
 executionEnvironments = [{ root = "." }]
+reportIncompatibleVariableOverride = "none"
+
+[tool.mypy]
+python_version = "3.14"
+plugins = ["mypy_django_plugin.main"]
+exclude = ["migrations/"]
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.django-stubs]
+django_settings_module = "project.settings"
 
 [tool.pytest.ini_options]
 addopts = "-s --color=yes --tb=short"
-testpaths = ["tests"]
-DJANGO_SETTINGS_MODULE = "backend.settings"
+testpaths = ["apps/tests"]
+DJANGO_SETTINGS_MODULE = "project.settings"
 
 [build-system]
 requires = ["setuptools", "wheel"]
