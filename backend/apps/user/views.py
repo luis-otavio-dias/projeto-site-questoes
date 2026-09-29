@@ -1,9 +1,10 @@
-from django.contrib.auth.hashers import make_password
-from django.http import HttpRequest
+from typing import cast
+
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
@@ -12,7 +13,7 @@ from rest_framework.status import (
 )
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import InvalidToken
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, Token
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -22,6 +23,7 @@ from apps.user.serializers import (
     FileUploadSerializer,
     LoginUserSerializer,
     RegisterUserSerializer,
+    UpdateUserSerializer,
     UserSerializer,
 )
 
@@ -36,14 +38,14 @@ class UserInfoView(RetrieveAPIView):
 
     def get_object(self) -> User:
         user = self.request.user
-        return get_object_or_404(User, id=user.id)
+        return get_object_or_404(User, id=user.pk)
 
 
 class LoginView(APIView):
     authentication_classes = ()
 
     @extend_schema(request=LoginUserSerializer, responses=UserSerializer)
-    def post(self, request: HttpRequest) -> Response:
+    def post(self, request: Request) -> Response:
         serializer = LoginUserSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -88,12 +90,13 @@ class LogoutView(APIView):
             "401": "Refresh token not provided or invalid",
         },
     )
-    def post(self, request: HttpRequest) -> Response:
+    def post(self, request: Request) -> Response:
         refresh_token = request.COOKIES.get("refresh_token")
 
         if refresh_token:
             try:
-                refresh = RefreshToken(refresh_token)
+                token = cast("Token", refresh_token)
+                refresh = RefreshToken(token)
                 refresh.blacklist()
 
             except InvalidToken:
@@ -109,7 +112,7 @@ class LogoutView(APIView):
 
 
 class CookieTokenRefreshView(TokenRefreshView):
-    def post(self, request: HttpRequest) -> Response:
+    def post(self, request: Request) -> Response:
         refresh_token = request.COOKIES.get("refresh_token")
 
         if not refresh_token:
@@ -119,7 +122,8 @@ class CookieTokenRefreshView(TokenRefreshView):
             )
 
         try:
-            refresh = RefreshToken(refresh_token)
+            token = cast("Token", refresh_token)
+            refresh = RefreshToken(token)
 
         except InvalidToken:
             print()
@@ -161,19 +165,14 @@ class UpdateUserInfoView(APIView):
     permission_classes = (IsAuthenticated,)
 
     @extend_schema(request=UserSerializer, responses=UserSerializer)
-    def put(self, request: HttpRequest) -> Response:
-        user = request.user
-        serializer = UserSerializer(user)
+    def put(self, request: Request) -> Response:
+        serializer = UpdateUserSerializer(request.user, data=request.data)
 
-        data = request.data
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
 
-        user.email = data["email"]
-        if data["password"] != "":
-            user.password = make_password(data["password"])
-
-        user.save()
-
-        return Response(serializer.data)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 class FileUploadView(CreateAPIView):

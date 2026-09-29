@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, ClassVar
 
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
@@ -6,10 +6,12 @@ from django.db import models
 from apps.user.validators import validate_file_type
 
 
-class CustomUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager["User"]):
     use_in_migrations = True
 
-    def _create_user(self, email: str, password: str, **extra_fields: Any) -> "User":
+    def _create_user(
+        self, email: str, password: str, **extra_fields: Any
+    ) -> "User":
         """
         Creates and saves a User with the given email and password.
         """
@@ -23,7 +25,9 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email: str, password: str, **extra_fields: Any) -> "User":
+    def create_user(
+        self, email: str, password: str, **extra_fields: Any
+    ) -> "User":
         extra_fields.setdefault("is_superuser", False)
         extra_fields.setdefault("is_staff", False)
         return self._create_user(email, password, **extra_fields)
@@ -47,12 +51,12 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    username = None
+    username = None  # type: ignore[assignment]
 
-    objects = CustomUserManager()
+    objects: ClassVar[CustomUserManager] = CustomUserManager()  # type: ignore[assignment]
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS: list = []  # noqa: RUF012
+    REQUIRED_FIELDS: ClassVar[list[str]] = []
 
     def __str__(self) -> str:
         return str(self.email)

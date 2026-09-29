@@ -1,6 +1,7 @@
 from typing import ClassVar
 
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import AbstractBaseUser
 from django.core.files.uploadedfile import UploadedFile
 from rest_framework import serializers
 
@@ -12,7 +13,9 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "email", "password")
-        extra_kwargs: ClassVar[dict[str, dict]] = {"password": {"write_only": True}}
+        extra_kwargs: ClassVar[dict[str, dict]] = {
+            "password": {"write_only": True}
+        }
 
     def create(self, validated_data: dict) -> User:
         return User.objects.create_user(
@@ -26,7 +29,7 @@ class LoginUserSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(write_only=True)
 
-    def validate(self, attrs: dict) -> User:
+    def validate(self, attrs: dict) -> AbstractBaseUser:
         user = authenticate(**attrs)
 
         if user and user.is_active:
@@ -34,6 +37,24 @@ class LoginUserSerializer(serializers.Serializer):
 
         msg = "Invalid credentials"
         raise serializers.ValidationError(msg)
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "email", "password")
+        extra_kwargs: ClassVar[dict[str, dict]] = {
+            "password": {"write_only": True, "required": False}
+        }
+
+    def update(self, instance: User, validated_data: dict) -> User:
+        instance.email = validated_data.get("email", instance.email)
+
+        password = validated_data.get("password")
+        if password:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
 
 class FileSerializer(serializers.ModelSerializer):
