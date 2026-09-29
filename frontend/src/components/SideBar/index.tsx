@@ -40,7 +40,7 @@ export function SideBar({ onImportarProva }: SideBarProps) {
   };
 
   return (
-    <aside className="flex flex-col w-64 shrink-0 min-h-screen bg-sidebar dark:bg-[#18181B] border-r border-border dark:border-[#27272A]">
+    <aside className="flex flex-col w-64 shrink-0 h-screen bg-sidebar dark:bg-[#18181B] border-r border-border dark:border-[#27272A]">
       {/* Logo area */}
       <div className="h-[81px] flex items-center gap-3 px-6 border-b border-border dark:border-[#27272A]">
         <div
@@ -79,7 +79,7 @@ export function SideBar({ onImportarProva }: SideBarProps) {
         {/* Importar Prova */}
         <button
           onClick={onImportarProva}
-          className="flex items-center gap-3 px-4 py-3 rounded-[10px] text-base font-medium transition-colors w-full mt-1 bg-[rgba(43,127,255,0.08)] dark:bg-[rgba(43,127,255,0.08)] text-[#51A2FF] hover:bg-[rgba(43,127,255,0.16)] dark:hover:bg-[rgba(43,127,255,0.16)]"
+          className="flex items-center gap-3 px-4 py-3 rounded-[10px] text-base font-medium transition-colors w-full mt-1 bg-[rgba(43,127,255,0.08)] dark:bg-[rgba(43,127,255,0.08)] text-[#51A2FF] hover:bg-[rgba(43,127,255,0.16)] dark:hover:bg-[rgba(43,127,255,0.16)] cursor-pointer"
         >
           <Upload className="w-5 h-5 shrink-0" />
           Importar Prova
@@ -125,10 +125,10 @@ export function SideBar({ onImportarProva }: SideBarProps) {
           </div>
           <button
             onClick={handleLogout}
-            className="text-[#71717B] hover:text-red-400 transition-colors shrink-0"
+            className="text-[#71717B] hover:text-red-400 transition-colors shrink-0 cursor-pointer"
             aria-label="Sair"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-5 h-5" />
           </button>
         </div>
       </div>

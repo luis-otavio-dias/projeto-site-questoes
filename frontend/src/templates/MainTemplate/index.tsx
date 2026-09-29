@@ -21,7 +21,7 @@ export function MainTemplate({ children, className }: MainTemplateProps) {
         onClose={() => setIsUploadModalOpen(false)}
       />
 
-      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
         <DefaultMenu />
         <main className={cn("flex-1", className)}>{children}</main>
       </div>

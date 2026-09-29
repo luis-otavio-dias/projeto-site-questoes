@@ -11,7 +11,7 @@ export function SideBarUserItem() {
   const userInfo = state.userInfo;
 
   async function handleLogout(
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) {
     e.preventDefault();
     await api.post("/users/logout/");
@@ -33,7 +33,7 @@ export function SideBarUserItem() {
           />
         </Link>
         <Link to="#" onClick={handleLogout}>
-          <LogOutIcon className="h-10 w-8 cursor-pointer hover:text-red-500 transition-colors border" />
+          <LogOutIcon className="h-10 w-8  hover:text-red-500 transition-colors border-2" />
         </Link>
       </div>
     </li>
