@@ -14,6 +14,8 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import dj_database_url
+from dj_database_url import DBConfig
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR.parent / "data" / "web"
 
 # Load .env rightly
-load_dotenv(BASE_DIR.parent / "dotenv_files" / ".env")
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -93,11 +95,14 @@ WSGI_APPLICATION = "project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": os.getenv("DB_ENGINE", "change_me"),
-        "NAME": BASE_DIR / os.getenv("DB_NAME", "change-me"),
-    }
+DATABASE_URL = (
+    os.environ.get("DATABASE_URL")
+    or os.environ.get("POSTGRES_URL")
+    or f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+)
+
+DATABASES: dict[str, DBConfig] = {
+    "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 }
 
 
