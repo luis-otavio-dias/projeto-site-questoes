@@ -1,18 +1,8 @@
-import { ThemeProvider } from "./components/ThemeProvider";
-import { QuestionContextProvider } from "./providers/Question/QuestionProvider";
-import { UserContextProvider } from "./providers/User/UserProvider";
-import { Router } from "./routers/Router";
-
-function App() {
-  return (
-    <ThemeProvider defaultTheme="dark" storageKey="storaged-theme">
-      <UserContextProvider>
-        <QuestionContextProvider>
-          <Router />
-        </QuestionContextProvider>
-      </UserContextProvider>
-    </ThemeProvider>
-  );
+import { createBrowserRouter, RouterProvider } from 'react-router';
+import { SessionProvider } from './features/questio/Providers';
+import { Router } from './routers/Router';
+import { ThemeProvider } from './components/ThemeProvider';
+const router = createBrowserRouter([{ path: '*', element: <Router /> }]);
+export default function App() {
+  return <ThemeProvider><SessionProvider><RouterProvider router={router} /></SessionProvider></ThemeProvider>;
 }
-
-export default App;
