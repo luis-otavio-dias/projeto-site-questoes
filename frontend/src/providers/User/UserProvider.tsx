@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import { isAxiosError } from "axios";
 import { UserContext } from "../../contexts/UserContext/UserContext";
 import { userReducer } from "../../reducers/userReducer";
 import { initialUserState } from "../../contexts/UserContext/initialUserState";
@@ -25,10 +26,10 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
         dispatch({ type: "USER_DETAILS_SUCCESS", payload: data });
         localStorage.setItem("userInfo", JSON.stringify(data));
-      } catch (err: any) {
+      } catch (err) {
         console.error("Failed to fetch user details", err);
 
-        if (err.response && err.response.status === 401) {
+        if (isAxiosError(err) && err.response?.status === 401) {
           try {
             await api.post("/users/refresh/");
 
@@ -36,7 +37,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
             dispatch({ type: "USER_DETAILS_SUCCESS", payload: data });
             localStorage.setItem("userInfo", JSON.stringify(data));
-          } catch (err: any) {
+          } catch (err) {
             console.error("Refresh token error:", err);
 
             // Tentar fazer logout, mas não depender do resultado

@@ -1,5 +1,5 @@
 import { Search, SunIcon, MoonIcon } from "lucide-react";
-import { useTheme } from "../ThemeProvider";
+import { useTheme } from "../ThemeProvider/context";
 
 export function DefaultMenu() {
   const { theme, changeTheme } = useTheme();

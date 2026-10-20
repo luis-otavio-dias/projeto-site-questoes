@@ -13,7 +13,7 @@ import {
   SunIcon,
   MoonIcon,
 } from "lucide-react";
-import { useTheme } from "../ThemeProvider";
+import { useTheme } from "../ThemeProvider/context";
 import { Link, useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext/useUserContext";
 import { UserActionTypes } from "../../actions/userActions";

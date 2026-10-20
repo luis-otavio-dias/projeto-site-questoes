@@ -1,26 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
-
-type Theme = "dark" | "light" | "system";
-
-type ThemeProviderProps = {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
-};
-
-type ThemeProviderState = {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  changeTheme: () => void;
-};
-
-const initialState: ThemeProviderState = {
-  theme: "system",
-  setTheme: () => null,
-  changeTheme: () => null,
-};
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+import { useEffect, useState } from "react";
+import { ThemeProviderContext } from "./context";
+import type { Theme, ThemeProviderProps } from "./context";
 
 export function ThemeProvider({
   children,
@@ -34,20 +14,16 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
-
-    root.classList.remove("light", "dark");
-
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const applyTheme = () => {
+      root.classList.remove("light", "dark");
+      root.classList.add(theme === "system" ? (media.matches ? "dark" : "light") : theme);
+    };
+    applyTheme();
     if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
-
-      root.classList.add(systemTheme);
-      return;
+      media.addEventListener("change", applyTheme);
+      return () => media.removeEventListener("change", applyTheme);
     }
-
-    root.classList.add(theme);
   }, [theme]);
 
   const value = {
@@ -58,7 +34,8 @@ export function ThemeProvider({
     },
     changeTheme: () => {
       setTheme((prevTheme) => {
-        const nextTheme = prevTheme === "dark" ? "light" : "dark";
+        const isDark = prevTheme === "dark" || (prevTheme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        const nextTheme = isDark ? "light" : "dark";
         localStorage.setItem(storageKey, nextTheme);
         return nextTheme;
       });
@@ -71,12 +48,3 @@ export function ThemeProvider({
     </ThemeProviderContext.Provider>
   );
 }
-
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext);
-
-  if (context === undefined)
-    throw new Error("useTheme must be used within a ThemeProvider");
-
-  return context;
-};

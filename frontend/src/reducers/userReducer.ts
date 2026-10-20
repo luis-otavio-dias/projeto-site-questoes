@@ -33,7 +33,7 @@ export function userReducer(
       return { ...state, loading: true, error: null };
     }
     case UserActionTypes.USER_REGISTER_SUCCESS: {
-      return { ...state, loading: false, userInfo: action.payload };
+      return { ...state, loading: false };
     }
     case UserActionTypes.USER_REGISTER_FAIL: {
       return {
