@@ -7,16 +7,14 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./backend:/backend
-      - /backend/.venv
+      - .:/backend
       - ./data/web/static:/data/web/static/
       - ./data/web/media:/data/web/media/
     env_file:
-      - ./dotenv_files/.env
+      - ./.env
     networks:
       - questio-net
-    
+
 networks:
   questio-net:
     external: true
-

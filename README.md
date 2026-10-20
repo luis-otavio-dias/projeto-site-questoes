@@ -79,31 +79,35 @@ Content-Type: multipart/form-data
 
 ```bash
 ├── backend
-│   ├── apps
-│   │   ├── question
-│   │   │   ├── api_contract.py
-│   │   │   ├── dto.py
-│   │   │   └── mapper.py
-│   │   └── user
-│   └── project
-├── dotenv_files
-├── frontend
-│   └── src
-│       ├── actions
-│       ├── components
-│       ├── contexts
-│       ├── models
-│       │   ├── Question
-│       │   └── User
-│       ├── pages
-│       ├── providers
-│       │   ├── Question
-│       │   └── User
-│       ├── reducers
-│       ├── routers
-│       ├── services
-│       └── templates
-└── scripts
+│   ├── apps
+│   │   ├── question
+│   │   │   ├── api_contract.py
+│   │   │   ├── dto.py
+│   │   │   └── mapper.py
+│   │   └── user
+│   ├── project
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── entrypoint.sh
+└── frontend
+    └── src
+        ├── actions
+        ├── components
+        ├── contexts
+        ├── features
+        │   └── questio
+        ├── models
+        │   ├── Question
+        │   └── User
+        ├── pages
+        ├── providers
+        │   ├── Question
+        │   └── User
+        ├── reducers
+        ├── routers
+        ├── services
+        ├── styles
+        └── templates
 ```
 
 ### Backend
@@ -172,9 +176,9 @@ git clone https://github.com/luis-otavio-dias/projeto-site-questoes.git
 cd projeto-site-questoes
 ```
 
-### 2. Configurar Varíaveis de Ambiente
+### 2. Configurar Variáveis de Ambiente
 
-Exemplo disponível em: `dotenv_files/.env.example`.
+Exemplo disponível em: `backend/.env-example` (copie para `backend/.env`).
 
 Principais variáveis:
 
@@ -183,10 +187,8 @@ SECRET_KEY=
 DEBUG=
 DATABASE_URL=
 
-
-
-PIPELINE_API_URL=
-PIPELINE_API_KEY=
+EXTRACTION_API_URL=
+EXTRACTION_API_KEY=
 ```
 
 ### 3. Executar o Backend
@@ -194,6 +196,7 @@ PIPELINE_API_KEY=
 **Executando com Docker (Recomendado)**
 
 ```bash
+cd backend
 docker compose up --build
 ```
 
