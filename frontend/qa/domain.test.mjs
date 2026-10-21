@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { AxiosError } from 'axios';
 import { getMetrics, resultOf } from '../src/features/questio/types.ts';
-import { isSessionFailure } from '../src/services/api.ts';
+import { isHtmlFallbackResponse, isSessionFailure } from '../src/services/api.ts';
 test('aproveitamento do treino exclui respostas sem gabarito e não conferidas', () => {
   const exam = { id: '7', questions: [{ id: '1' }, { id: '2' }, { id: '3' }] };
   const metrics = getMetrics(exam, { '7::1': { checked: true, correct: true }, '7::2': { checked: true, correct: null }, '7::3': { checked: false, correct: null } });
@@ -27,4 +27,9 @@ test('renovação reconhece 401 e 403 de autenticação por cookies', () => {
 test('negação de permissão e erro de rede não são sessão expirada', () => {
   assert.equal(isSessionFailure(new AxiosError('Forbidden', undefined, undefined, undefined, { status: 403, data: { detail: 'You do not have permission to perform this action.' } })), false);
   assert.equal(isSessionFailure(new AxiosError('Network Error')), false);
+});
+test('isHtmlFallbackResponse detecta HTML de fallback SPA quando API não está configurada', () => {
+  assert.equal(isHtmlFallbackResponse({ 'content-type': 'text/html; charset=utf-8' }, '<!DOCTYPE html><html></html>'), true);
+  assert.equal(isHtmlFallbackResponse({}, '<!DOCTYPE html><html></html>'), true);
+  assert.equal(isHtmlFallbackResponse({ 'content-type': 'application/json' }, { id: 1, email: 'estudante@questio.local' }), false);
 });

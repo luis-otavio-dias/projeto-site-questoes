@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router';
+import { Link, Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router';
 import { useSession, useStudy } from './context';
 import { StudyProvider } from './Providers';
 import { Shell } from './Shell';
@@ -14,7 +14,7 @@ function Protected() {
   const { user, loading, error, retry } = useSession();
   const location = useLocation();
   if (loading) return <div className="session-page theme-stitch"><Loading /></div>;
-  if (!user && error) return <div className="session-page theme-stitch"><ErrorNotice retry={retry}>{error}</ErrorNotice><a className="text-action" href="/login">Ir para entrar</a></div>;
+  if (!user && error) return <div className="session-page theme-stitch"><ErrorNotice retry={retry}>{error}</ErrorNotice><Link className="text-action" to="/login">Ir para entrar</Link></div>;
   if (!user) return <Navigate to="/login" state={{ from: location.pathname + location.search }} replace />;
   return <StudyProvider key={user.id}><Outlet /></StudyProvider>;
 }

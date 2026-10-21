@@ -10,7 +10,7 @@ export function errorMessage(error: unknown, fallback = 'Não foi possível conc
   if (!axios.isAxiosError(error)) return fallback;
   if (!error.response) return 'Não foi possível conectar ao servidor. Confira sua conexão e tente novamente.';
   if (isSessionFailure(error)) return 'Sua sessão expirou. Entre novamente para continuar.';
-  if (error.response.status >= 500) return 'O servidor está indisponível. Tente novamente em instantes.';
+  if (error.response.status >= 500 || error.code === 'ERR_BAD_RESPONSE') return 'O servidor está indisponível. Tente novamente em instantes.';
   const data: unknown = error.response.data;
   if (data && typeof data === 'object') {
     const values = Object.values(data).flat().filter(value => typeof value === 'string');
@@ -20,17 +20,23 @@ export function errorMessage(error: unknown, fallback = 'Não foi possível conc
   return fallback;
 }
 export const unauthorized = isSessionFailure;
+export function requireUser(value: unknown): User {
+  if (value && typeof value === 'object' && typeof (value as User).email === 'string' && (typeof (value as User).id === 'number' || typeof (value as User).id === 'string')) {
+    return value as User;
+  }
+  throw new axios.AxiosError('Invalid user payload', 'ERR_BAD_RESPONSE');
+}
 export async function profile(signal?: AbortSignal): Promise<User> {
-  return (await api.get<User>('/users/me/profile/', { signal })).data;
+  return requireUser((await api.get<User>('/users/me/profile/', { signal })).data);
 }
 export async function login(email: string, password: string) {
-  return (await api.post<{ user: User }>('/users/login/', { email, password })).data.user;
+  return requireUser((await api.post<{ user: User }>('/users/login/', { email, password })).data?.user);
 }
 export async function register(email: string, password: string) {
   await api.post('/users/register/', { email, password });
 }
 export async function updateProfile(email: string, password?: string) {
-  return (await api.put<User>('/users/me/profile/update/', { email, ...(password ? { password } : {}) })).data;
+  return requireUser((await api.put<User>('/users/me/profile/update/', { email, ...(password ? { password } : {}) })).data);
 }
 export async function logout() { await api.post('/users/logout/'); }
 export function normalizeQuestion(q: QuestionDTO): Question {
