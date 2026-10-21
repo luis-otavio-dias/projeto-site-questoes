@@ -1,0 +1,260 @@
+{
+  "date": "2026-10-07",
+  "environment": "Orca integrated browser + isolated QA API fixture",
+  "browserChecks": [
+    {
+      "name": "Seis destinos da sidebar na ordem aprovada",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Dados da API mapeados pelo nome do caderno",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Favorito persistido por conta",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Aba de favoritos filtra cadernos",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Texto-base e pergunta separados",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Foco vai ao conteúdo de estudo",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Alternativas sem borda do fieldset",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Conferência correta e alternativa bloqueada",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Anotação salva",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Questão sem gabarito registrada sem pontuar",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Novo gabarito permite conferir novamente",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Resposta antes sem gabarito agora corrigida",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Navegação bloqueada para alterações não salvas",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Editor salva pergunta separada",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Banco usa ajustes do editor",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Seleção do banco transportada ao construtor",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Simulado cria cópia das questões",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Resultado antecipado volta ao player",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Marcação de revisão salva",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Entrega calcula base e acertos",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Tentativa entregue não reabre para alteração",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Revisão mostra respostas e conteúdo",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Correção histórica não muda após edição",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Atalho pré-seleciona o caderno",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Rascunho disponível na lista",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Cronômetro finaliza mesmo fora do player",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Modal limita foco e altura",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Falha de consulta não transforma tarefa em FAILED",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Consulta recuperada encontra tarefa concluída",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Importar preserva caderno de retomada",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Sem ID gerado o resultado abre a biblioteca",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Upload usa multipart e apenas PDFs",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Não consulta endpoints administrativos de questões",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "ID inválido não mostra caderno ativo",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Rota inexistente mostra estado próprio",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Desempenho reúne treino e simulados",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Histórico tem conferências individuais",
+      "passed": true,
+      "source": "browser-validation.js"
+    },
+    {
+      "name": "Perfil atualizado via endpoint por e-mail",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Senha removida do formulário após salvar",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Catálogo global indisponível sem dados inventados",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Sair encerra sessão e mostra acesso",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Rota protegida exige autenticação",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Login retorna à tela solicitada",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Recuperação não promete envio sem endpoint",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Redefinição informa link não validável",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Cadastro valida confirmação de senha",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Cadastro usa registro seguido de login",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    },
+    {
+      "name": "Perfil usa PUT no endpoint existente",
+      "passed": true,
+      "source": "browser-access-validation.js"
+    }
+  ],
+  "domainTestsPassed": 5,
+  "viewportInspectionCount": 26,
+  "viewports": [
+    [
+      1440,
+      1000
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "backendPipelineTested": false,
+  "captureLimit": "Later Page.captureScreenshot calls timed out; only initial dashboard screenshots are included."
+}
